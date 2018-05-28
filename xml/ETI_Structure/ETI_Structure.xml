@@ -1,0 +1,886 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Messages>
+  <Message Name="EHeader" Number = "50" Type="Request">
+    <Items Name = "SlotNo" Type ="int32_t" Source="M" Value="SlotNo" Length="4"/>
+    <Items Name = "BodyLength" Type ="uint32_t" Source="M" Value="BodyLength" Length="4"/>
+    <Items Name = "MessageType" Type ="uint32_t" Source="M" Value="MessageType" Length="4"/>
+  </Message>
+  <!--Slot number can be negative-->
+  <Message Name="EUserRegistrationRequest" Number = "7" Type="Request">
+    <Items Name = "SlotNo" Type ="int32_t" Source="M" Value="SlotNo" Length="4"/>
+    <Items Name = "MemberID" Type ="uint32_t" Source="M" Value="MemberID" Length="4"/>
+    <Items Name = "TraderID" Type ="uint32_t" Source="M" Value="TraderID" Length="4"/>
+  </Message>
+  <!--Slot number can be negative-->
+  <Message Name="EUserRegistrationReply" Number = "7" Type="Reply">
+    <Items Name = "SlotNo" Type ="int32_t" Source="M" Value="SlotNo" Length="4" Position="12"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Length="4" Position="16"/>
+    <Items Name = "ErrorCode" Type ="uint32_t" Source="M" Value="ErrorCode" Length="4" Position="20"/>
+    <Items Name = "ErrorText" Type ="char" Source="M" Value="ErrorText" Length="80" Position="24"/>
+  </Message>
+  <Message Name="EQUERYPCASMKTINFOREQ" Number = "2111" Type="Request">
+    <Items Name = "NoOfScrips_s" Type ="int32_t" Source="M" Value="NoOfScrips_s" Position="12" Length="4"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+    <Items Name = "ScripCodes_la" Type ="int32_t" Source="M" Value="ScripCodes_la" Position="20" Length="4"/>
+  </Message>
+  <Message Name="EPCASQUERYMKTINFOREPLY" Number = "2111" Type="Reply">
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="12" Length="4"/>
+    <Items Name = "ReplyCode_s" Type ="int16_t" Source="M" Value="ReplyCode_s" Position="16" Length="2"/>
+    <Items Name = "NoOfRecs_s" Type ="int16_t" Source="M" Value="NoOfRecs_s" Position="18" Length="2"/>
+    <Items Name = "ScripCode_l" Type ="int32_t" Source="M" Value="ScripCode_l" Position="20" Length="4"/>
+    <Items Name = "OpenRate_l" Type ="int32_t" Source="M" Value="OpenRate_l" Position="24" Length="4"/>
+    <Items Name = "CloseRate_l" Type ="int32_t" Source="M" Value="CloseRate_l" Position="28" Length="4"/>
+    <Items Name = "HighRate_l" Type ="int32_t" Source="M" Value="HighRate_l" Position="32" Length="4"/>
+    <Items Name = "LowRate_l" Type ="int32_t" Source="M" Value="LowRate_l" Position="36" Length="4"/>
+    <Items Name = "NoOfTrades_l" Type ="int32_t" Source="M" Value="NoOfTrades_l" Position="40" Length="4"/>
+    <Items Name = "TradedVolume_l" Type ="int32_t" Source="M" Value="TradedVolume_l" Position="44" Length="4"/>
+    <Items Name = "TradedValue_l" Type ="int32_t" Source="M" Value="TradedValue_l" Position="48" Length="4"/>
+    <Items Name = "LtradeQty_l" Type ="int32_t" Source="M" Value="LtradeQty_l" Position="52" Length="4"/>
+    <Items Name = "LtradeRate_l" Type ="int32_t" Source="M" Value="LtradeRate_l" Position="56" Length="4"/>
+    <Items Name = "YTM_l" Type ="int32_t" Source="M" Value="YTM_l" Position="60" Length="4"/>
+    <Items Name = "YTC_l" Type ="int32_t" Source="M" Value="YTC_l" Position="64" Length="4"/>
+    <Items Name = "YTP_l" Type ="int32_t" Source="M" Value="YTP_l" Position="68" Length="4"/>
+    <Items Name = "TodayClose_l" Type ="int32_t" Source="M" Value="TodayClose_l" Position="72" Length="4"/>
+    <Items Name = "BlockDealRefRate_l" Type ="int32_t" Source="M" Value="BlockDealRefRate_l" Position="76" Length="4"/>
+    <Items Name = "IndicativeEPrice_l" Type ="int32_t" Source="M" Value="IndicativeEPrice_l" Position="80" Length="4"/>
+    <Items Name = "IndicativeEQty_l" Type ="int32_t" Source="M" Value="IndicativeEQty_l" Position="84" Length="4"/>
+    <Items Name = "DataGenerationTime_ll" Type ="int64_t" Source="M" Value="DataGenerationTime_ll" Position="88" Length="8"/>
+    <Items Name = "TotBuyQty_l" Type ="int32_t" Source="M" Value="TotBuyQty_l" Position="96" Length="4"/>
+    <Items Name = "TotSellQty_l" Type ="int32_t" Source="M" Value="TotSellQty_l" Position="100" Length="4"/>
+    <Items Name = "Unit_c" Type ="char" Source="M" Value="Unit_c" Position="104" Length="1"/>
+    <Items Name = "Trend_c" Type ="char" Source="M" Value="Trend_c" Position="105" Length="1"/>
+    <Items Name = "SunFlag_c" Type ="char" Source="M" Value="SunFlag_c" Position="106" Length="1"/>
+    <Items Name = "AlNnFlag_c" Type ="char" Source="M" Value="AlNnFlag_c" Position="107" Length="1"/>
+    <Items Name = "LowerCktLimit_l" Type ="int32_t" Source="M" Value="LowerCktLimit_l" Position="108" Length="4"/>
+    <Items Name = "UpperCktLimit_l" Type ="int32_t" Source="M" Value="UpperCktLimit_l" Position="112" Length="4"/>
+    <Items Name = "WeightedAvg_l" Type ="int32_t" Source="M" Value="WeightedAvg_l" Position="116" Length="4"/>
+    <Items Name = "MarketType_s" Type ="int16_t" Source="M" Value="MarketType_s" Position="120" Length="2"/>
+    <Items Name = "SessionNo_s" Type ="int16_t" Source="M" Value="SessionNo_s" Position="122" Length="2"/>
+    <Items Name = "LTPHour_c" Type ="char" Source="M" Value="LTPHour_c" Position="124" Length="1"/>
+    <Items Name = "LTPMinute_c" Type ="char" Source="M" Value="LTPMinute_c" Position="125" Length="1"/>
+    <Items Name = "LTPSecond_c" Type ="char" Source="M" Value="LTPSecond_c" Position="126" Length="1"/>
+    <Items Name = "LTPMilliSecond_ca" Type ="char" Source="M" Value="LTPMilliSecond_ca" Position="127" Length="3"/>
+    <Items Name = "ReservedField4_ca" Type ="char" Source="M" Value="ReservedField4_ca" Position="130" Length="2"/>
+    <Items Name = "ReservedField5_s" Type ="int16_t" Source="M" Value="ReservedField5_s" Position="132" Length="2"/>
+    <Items Name = "NoOfPricePoint_s" Type ="int16_t" Source="M" Value="NoOfPricePoint_s" Position="134" Length="2"/>
+    <Items Name = "EPCASBESTRATESOLD" Type ="cEPCASBESTRATESOLD" Source="REPLYQ" Value="EPCASBESTRATESOLD" Position="136" Length="0"  DependencyProperty="NoOfPricePoint_s" MappedProperty="lstPCASBESTRATESOLDGrp"/>
+  </Message>
+  <Message Name="cEPCASBESTRATESOLD" Number = "2111" Type="Repeat" >
+    <Items Name = "BuyRate_l" Type ="int32_t" Source="M" Value="BuyRate_l" Position="12" Length="4"/>
+    <Items Name = "BuyYTM_l" Type ="int32_t" Source="M" Value="BuyYTM_l" Position="16" Length="4"/>
+    <Items Name = "BuyYTC_l" Type ="int32_t" Source="M" Value="BuyYTC_l" Position="20" Length="4"/>
+    <Items Name = "BuyYTP_l" Type ="int32_t" Source="M" Value="BuyYTP_l" Position="24" Length="4"/>
+    <Items Name = "BuyQty_l" Type ="int32_t" Source="M" Value="BuyQty_l" Position="28" Length="4"/>
+    <Items Name = "NoOfBidBuy_l" Type ="int32_t" Source="M" Value="NoOfBidBuy_l" Position="32" Length="4"/>
+    <Items Name = "SellRate_l" Type ="int32_t" Source="M" Value="SellRate_l" Position="36" Length="4"/>
+    <Items Name = "SellYTM_l" Type ="int32_t" Source="M" Value="SellYTM_l" Position="40" Length="4"/>
+    <Items Name = "SellYTC_l" Type ="int32_t" Source="M" Value="SellYTC_l" Position="44" Length="4"/>
+    <Items Name = "SellYTP_l" Type ="int32_t" Source="M" Value="SellYTP_l" Position="48" Length="4"/>
+    <Items Name = "SellQty_l" Type ="int32_t" Source="M" Value="SellQty_l" Position="52" Length="4"/>
+    <Items Name = "NoOfBidSell_l" Type ="int32_t" Source="M" Value="NoOfBidSell_l" Position="56" Length="4"/>
+
+  </Message>
+  <Message Name="ELogonRequest" Number = "1131" Type="Request">
+    <Items Name = "Password" Type ="char" Source="M" Value="Password" Length="11"/>
+    <Items Name = "Filler_c" Type ="char" Source="M" Value="Filler_c" Length="1"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Length="4"/>
+  </Message>
+  <Message Name="ELogonReply" Number = "1131" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "TLQueryInterval" Type ="uint16_t" Source="M" Value="TLQueryInterval" Position="14" Length="2"/>
+    <Items Name = "Session" Type ="uint32_t" Source="M" Value="Session" Position="16" Length="4"/>
+    <Items Name = "TxPermitted" Type ="uint32_t" Source="M" Value="TxPermitted" Position="20" Length="4"/>
+    <Items Name = "ReplyMsg" Type ="char" Source="M" Value="ReplyMsg" Position="24" Length="40"/>
+    <Items Name = "MessageOftheDay" Type ="char" Source="M" Value="MessageOftheDay" Position="64" Length="400"/>
+    <Items Name = "Cent" Type ="char" Source="M" Value="Cent" Position="464" Length="1"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year" Position="465" Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month" Position="466" Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day" Position="467" Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="468" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Position="469" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Position="470" Length="1"/>
+    <Items Name = "LastLogonYear" Type ="char" Source="M" Value="LastLogonYear" Position="471" Length="1"/>
+    <Items Name = "LastLogonMonth" Type ="char" Source="M" Value="LastLogonMonth" Position="472" Length="1"/>
+    <Items Name = "LastLogonDay" Type ="char" Source="M" Value="LastLogonDay" Position="473" Length="1"/>
+    <Items Name = "LastLogonHour" Type ="char" Source="M" Value="LastLogonHour" Position="474" Length="1"/>
+    <Items Name = "LastLogonMinute" Type ="char" Source="M" Value="LastLogonMinute" Position="475" Length="1"/>
+    <Items Name = "LastLogonSecond" Type ="char" Source="M" Value="LastLogonSecond" Position="476" Length="1"/>
+    <Items Name = "TWSCurVersion" Type ="char" Source="M" Value="TWSCurVersion" Position="477" Length="1"/>
+    <Items Name = "TWSCurRelease" Type ="char" Source="M" Value="TWSCurRelease" Position="478" Length="1"/>
+    <Items Name = "ScripMasterVersion" Type ="char" Source="M" Value="ScripMasterVersion" Position="479" Length="1"/>
+    <Items Name = "ScripMasterRelease" Type ="char" Source="M" Value="ScripMasterRelease" Position="480" Length="1"/>
+    <Items Name = "BCastIndexId" Type ="char" Source="M" Value="BCastIndexId" Position="481" Length="7"/>
+    <Items Name = "IndexValue" Type ="uint32_t" Source="M" Value="IndexValue" Position="488" Length="4"/>
+    <Items Name = "FailureCount" Type ="uint16_t" Source="M" Value="FailureCount" Position="492" Length="2"/>
+    <Items Name = "DeptId" Type ="uint16_t" Source="M" Value="DeptId" Position="494" Length="2"/>
+    <Items Name = "PrimaryIpAdd" Type ="char" Source="M" Value="PrimaryIpAdd" Position="496" Length="16"/>
+    <Items Name = "SecondaryIpAdd" Type ="char" Source="M" Value="SecondaryIpAdd" Position="512" Length="16"/>
+    <Items Name = "MulticastIpAdd" Type ="char" Source="M" Value="MulticastIpAdd" Position="528" Length="16"/>
+    <Items Name = "EquityHFLFFlag" Type ="uint16_t" Source="M" Value="Port1" Position="544" Length="2"/>
+    <Items Name = "DerHFLFFlag" Type ="uint16_t" Source="M" Value="Port2" Position="546" Length="2"/>
+    <Items Name = "Port3" Type ="uint16_t" Source="M" Value="Port3" Position="548" Length="2"/>
+    <Items Name = "CurrHFLFFlag" Type ="uint16_t" Source="M" Value="FillerA" Position="550" Length="2"/>
+    <Items Name = "NormSettNo" Type ="uint16_t" Source="M" Value="NormSettNo" Position="552" Length="2"/>
+    <Items Name = "RollSettNo" Type ="uint16_t" Source="M" Value="RollSettNo" Position="554" Length="2"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="556" Length="4"/>
+  </Message>
+  <Message Name="TimeSyncUMS" Number = "5555" Type="UMS">
+    <Items Name = "MilliSecs" Type ="uint32_t" Source="M" Value="MilliSecs" Position="12" Length="4"/>
+  </Message>
+  <Message Name="OrderRateMsg" Number = "9051" Type="UMS">
+    <Items Name = "OrderRate" Type ="uint32_t" Source="M" Value="OrderRate" Position="12" Length="4"/>
+    <Items Name = "Maxslots" Type ="uint32_t" Source="M" Value="Maxslots" Position="16" Length="4"/>
+    <Items Name = "DisconnectLimit" Type ="uint32_t" Source="M" Value="DisconnectLimit" Position="20" Length="4"/>
+    <Items Name = "LeanStd" Type ="uint16_t" Source="M" Value="LeanStd" Position="24" Length="2"/>
+    <Items Name = "MktSegment" Type ="uint16_t" Source="M" Value="MktSegment" Position="26" Length="2"/>
+  </Message>
+  <Message Name="ELogOffRequest" Number = "1132" Type="Request">
+    <Items Name = "Password" Type ="char" Source="M" Value="Password" Length="11"/>
+    <Items Name = "Filler_c" Type ="char" Source="M" Value="Filler_c" Length="1"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Length="4"/>
+  </Message>
+  <Message Name="ELogOffReply" Number = "1132" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "Filler" Type ="int16_t" Source="M" Value="Filler" Position="14" Length="2"/>
+    <Items Name = "Filler1" Type ="int32_t" Source="M" Value="Filler1" Position="16" Length="4"/>
+    <Items Name = "ReplyMsg" Type ="char" Source="M" Value="ReplyMsg" Position="20" Length="40"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="60" Length="4"/>
+  </Message>
+  <Message Name="ELogOffUMS" Number = "1132" Type="UMS">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "CurrentSession" Type ="int32_t" Source="M" Value="CurrentSession" Position="14" Length="4"/>
+    <Items Name = "ReplyMsg" Type ="char" Source="M" Value="ReplyMsg" Position="18" Length="40"/>
+  </Message>
+  <Message Name="EChangePwdRequest" Number = "1134" Type="Request">
+    <Items Name = "OldPassword" Type ="char" Source="M" Value="OldPassword" Length="11"/>
+    <Items Name = "NewPassword" Type ="char" Source="M" Value="NewPassword" Length="11"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Length="4"/>
+  </Message>
+  <Message Name="EChangePwdReply" Number = "1134" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "ReplyMsg" Type ="char" Source="M" Value="ReplyMsg" Position="14" Length="40"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="54" Length="4"/>
+  </Message>
+  <Message Name="ETraderPwdResetRequest" Number = "1135" Type="Request">
+    <Items Name = "ReqTraderId" Type ="uint32_t" Source="M" Value="ReqTraderId" Length="4"/>
+    <Items Name = "Password" Type ="char" Source="M" Value="Password" Length="11"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Length="4"/>
+  </Message>
+  <Message Name="ETraderPwdResetReply" Number = "1135" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <!--<Items Name = "Filler" Type ="int16_t" Source="M" Value="Filler" Position="14" Length="2"/>-->
+    <Items Name = "ReplyMsg" Type ="char" Source="M" Value="ReplyMsg" Position="14" Length="40"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="54" Length="4"/>
+  </Message>
+  <Message Name="EAdminTradeRequest" Number = "50004" Type="Request">
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Length="4"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Length="1"/>
+  </Message>
+  <Message Name="EAdminTradeReply" Number = "50004" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "Filler" Type ="int16_t" Source="M" Value="Filler" Position="14" Length="2"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+    <Items Name = "ReplyMsg" Type ="char" Source="M" Value="ReplyMsg" Position="20" Length="40"/>
+  </Message>
+  <Message Name="EAdminTradeUMS" Number = "50004" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="uint32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+    <Items Name = "EAdminTradeDetailUMSGrp" Type ="EAdminTradeDetailUMSGrp" Source="UMSQ" Position="20" Value="EAdminTradeDetailUMSGrp" Length="0" DependencyProperty="NoOfRecords" MappedProperty="lstEAdminTradeDetailUMSGrp"/>
+  </Message>
+  <Message Name="EAdminTradeDetailUMSGrp" Number = "50004" Type="Repeat" >
+    <Items Name = "SettlementNo" Type ="uint16_t" Source="M" Value="SettlementNo"  Length="2"/>
+    <Items Name = "Filler1" Type ="uint16_t" Source="M" Value="Filler1"  Length="2"/>
+    <Items Name = "TraderId" Type ="int32_t" Source="M" Value="TraderId"  Length="4"/>
+    <Items Name = "ScripCode" Type ="uint32_t" Source="M" Value="ScripCode"  Length="4"/>
+    <Items Name = "TradeId" Type ="uint32_t" Source="M" Value="TradeId"  Length="4"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate"  Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty"  Length="4"/>
+    <Items Name = "OppMemberId" Type ="int32_t" Source="M" Value="OppMemberId"  Length="4"/>
+    <Items Name = "OppTraderId" Type ="int32_t" Source="M" Value="OppTraderId"  Length="4"/>
+    <Items Name = "TimeStamp" Type ="char" Source="M" Value="TimeStamp"  Length="20"/>
+    <Items Name = "OrderTimeStamp" Type ="char" Source="M" Value="OrderTimeStamp"  Length="20"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId"  Length="12"/>
+    <Items Name = "TransactionType" Type ="char" Source="M" Value="TransactionType"  Length="1"/>
+    <Items Name = "Filler2" Type ="char" Source="M" Value="Filler2"  Length="3"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell"  Length="1"/>
+    <Items Name = "Filler3" Type ="char" Source="M" Value="Filler3"  Length="3"/>
+    <Items Name = "TransactionId" Type ="uint64_t" Source="M" Value="TransactionId"  Length="8"/>
+    <Items Name = "TransactionTag" Type ="uint32_t" Source="M" Value="TransactionTag"  Length="4"/>
+    <Items Name = "Custodian" Type ="uint32_t" Source="M" Value="Custodian"  Length="4"/>
+    <Items Name = "CAClass" Type ="uint16_t" Source="M" Value="CAClass"  Length="2"/>
+    <Items Name = "Filler4" Type ="int16_t" Source="M" Value="Filler4"  Length="2"/>
+    <Items Name = "LocationId" Type ="int64_t" Source="M" Value="LocationId"  Length="8"/>
+    <Items Name = "Yield" Type ="int32_t" Source="M" Value="Yield"  Length="4"/>
+    <Items Name = "DirtyPrice" Type ="int64_t" Source="M" Value="DirtyPrice"  Length="8"/>
+  </Message>
+  <Message Name="EAdminEndOfDownload" Number = "50005" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="int32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+  </Message>
+  <!--<Message Name="EAdminTradeDetailUMSGrp" Number = "50010" Type="Repeat" >
+    <Items Name = "SettlementNo" Type ="uint16_t" Source="M" Value="SettlementNo"  Length="2"/>
+    <Items Name = "Filler1" Type ="uint16_t" Source="M" Value="Filler1"  Length="2"/>
+    <Items Name = "TraderId" Type ="uint32_t" Source="M" Value="TraderId"  Length="4"/>
+    <Items Name = "ScripCode" Type ="uint32_t" Source="M" Value="ScripCode"  Length="4"/>
+    <Items Name = "TradeId" Type ="uint32_t" Source="M" Value="TradeId"  Length="4"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate"  Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty"  Length="4"/>
+    <Items Name = "MemberId" Type ="int32_t" Source="M" Value="MemberId"  Length="4"/>
+    <Items Name = "TraderId" Type ="int32_t" Source="M" Value="TraderId"  Length="4"/>
+    <Items Name = "TimeStamp" Type ="char" Source="M" Value="TimeStamp"  Length="20"/>
+    <Items Name = "OrderTimeStamp" Type ="char" Source="M" Value="OrderTimeStamp"  Length="20"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId"  Length="12"/>
+    <Items Name = "TransactionType" Type ="char" Source="M" Value="TransactionType"  Length="1"/>
+    <Items Name = "Filler2" Type ="char" Source="M" Value="Filler2"  Length="3"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell"  Length="1"/>
+    <Items Name = "Filler3" Type ="char" Source="M" Value="Filler3"  Length="3"/>
+    <Items Name = "TransactionId" Type ="uint64_t" Source="M" Value="TransactionId"  Length="8"/>
+    <Items Name = "TransactionTag" Type ="uint32_t" Source="M" Value="TransactionTag"  Length="4"/>
+    <Items Name = "Custodian" Type ="uint32_t" Source="M" Value="Custodian"  Length="4"/>
+    <Items Name = "CAClass" Type ="uint16_t" Source="M" Value="CAClass"  Length="2"/>
+    <Items Name = "Filler4" Type ="int16_t" Source="M" Value="Filler4"  Length="2"/>
+    <Items Name = "LocationId" Type ="uint64_t" Source="M" Value="LocationId"  Length="8"/>
+    <Items Name = "Yield" Type ="uint32_t" Source="M" Value="Yield"  Length="4"/>
+    <Items Name = "DirtyPrice" Type ="uint64_t" Source="M" Value="DirtyPrice"  Length="8"/>
+  </Message>-->
+  <Message Name="EAdminTradeOnlineUMS" Number = "50010" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="uint32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+    <Items Name = "EAdminTradeDetailOnlineUMSGrp" Type ="EAdminTradeDetailOnlineUMSGrp" Source="UMSQ" Position="20" Value="EAdminTradeDetailOnlineUMSGrp" Length="0" DependencyProperty="NoOfRecords" MappedProperty="lstEAdminTradeDetailOnlineUMSGrp"/>
+  </Message>
+  <Message Name="EAdminTradeDetailOnlineUMSGrp" Number = "50010" Type="Repeat" >
+    <Items Name = "SettlementNo" Type ="uint16_t" Source="M" Value="SettlementNo"  Length="2"/>
+    <Items Name = "Filler1" Type ="uint16_t" Source="M" Value="Filler1"  Length="2"/>
+    <Items Name = "TraderId" Type ="int32_t" Source="M" Value="TraderId"  Length="4"/>
+    <Items Name = "ScripCode" Type ="uint32_t" Source="M" Value="ScripCode"  Length="4"/>
+    <Items Name = "TradeId" Type ="uint32_t" Source="M" Value="TradeId"  Length="4"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate"  Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty"  Length="4"/>
+    <Items Name = "OppMemberId" Type ="int32_t" Source="M" Value="OppMemberId"  Length="4"/>
+    <Items Name = "OppTraderId" Type ="int32_t" Source="M" Value="OppTraderId"  Length="4"/>
+    <Items Name = "TimeStamp" Type ="char" Source="M" Value="TimeStamp"  Length="20"/>
+    <Items Name = "OrderTimeStamp" Type ="char" Source="M" Value="OrderTimeStamp"  Length="20"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId"  Length="12"/>
+    <Items Name = "TransactionType" Type ="char" Source="M" Value="TransactionType"  Length="1"/>
+    <Items Name = "Filler2" Type ="char" Source="M" Value="Filler2"  Length="3"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell"  Length="1"/>
+    <Items Name = "Filler3" Type ="char" Source="M" Value="Filler3"  Length="3"/>
+    <Items Name = "TransactionId" Type ="uint64_t" Source="M" Value="TransactionId"  Length="8"/>
+    <Items Name = "TransactionTag" Type ="uint32_t" Source="M" Value="TransactionTag"  Length="4"/>
+    <Items Name = "Custodian" Type ="uint32_t" Source="M" Value="Custodian"  Length="4"/>
+    <Items Name = "CAClass" Type ="uint16_t" Source="M" Value="CAClass"  Length="2"/>
+    <Items Name = "Filler4" Type ="int16_t" Source="M" Value="Filler4"  Length="2"/>
+    <Items Name = "LocationId" Type ="int64_t" Source="M" Value="LocationId"  Length="8"/>
+    <Items Name = "Yield" Type ="int32_t" Source="M" Value="Yield"  Length="4"/>
+    <Items Name = "DirtyPrice" Type ="int64_t" Source="M" Value="DirtyPrice"  Length="8"/>
+  </Message>
+  <Message Name="ETraderTradeRequest" Number = "1095" Type="Request">
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="12" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Position="13" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Position="14" Length="1"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Position="15" Length="1"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+  </Message>
+  <Message Name="ETraderTradeReply" Number = "1095" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="14" Length="4"/>
+  </Message>
+  <Message Name="ETraderEndOfDownload" Number = "1520" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="int32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+  </Message>
+  <Message Name="ETraderTradeUMS" Number = "1095" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="uint32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "ETraderTradeUMSGrp" Type ="ETraderTradeUMSGrp" Source="UMSQ" Position="16" Value="ETraderTradeUMSGrp" Length="0" DependencyProperty="NoOfRecords" MappedProperty="lstETraderTradeUMSGrp"/>
+  </Message>
+  <Message Name="ETraderTradeUMSGrp" Number = "1095" Type="Repeat" >
+    <Items Name = "ScripCode" Type ="uint32_t" Source="M" Value="ScripCode"  Length="4"/>
+    <Items Name = "TradeId" Type ="uint32_t" Source="M" Value="TradeId"  Length="4"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate"  Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty"  Length="4"/>
+    <Items Name = "OppMemberId" Type ="int32_t" Source="M" Value="OppMemberId"  Length="4"/>
+    <Items Name = "OppTraderId" Type ="int32_t" Source="M" Value="OppTraderId"  Length="4"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year"  Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month"  Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day"  Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour"  Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute"  Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second"  Length="1"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId"  Length="12"/>
+    <Items Name = "TransactionType" Type ="char" Source="M" Value="TransactionType"  Length="1"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell"  Length="1"/>
+    <Items Name = "OrderTimeStamp" Type ="char" Source="M" Value="OrderTimeStamp"  Length="20"/>
+    <Items Name = "TransactionId" Type ="uint64_t" Source="M" Value="TransactionId"  Length="8"/>
+    <Items Name = "TransactionTag" Type ="uint32_t" Source="M" Value="TransactionTag"  Length="4"/>
+    <Items Name = "CustCode" Type ="uint32_t" Source="M" Value="CustCode"  Length="4"/>
+    <Items Name = "CAClass" Type ="uint16_t" Source="M" Value="CAClass"  Length="2"/>
+    <Items Name = "Yield" Type ="uint32_t" Source="M" Value="Yield"  Length="4"/>
+    <Items Name = "DirtyPrice" Type ="uint64_t" Source="M" Value="DirtyPrice"  Length="8"/>
+  </Message>
+  <Message Name="ETraderTradeOnlineUMS" Number = "1521" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="uint32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "ETraderTradeOnlineUMSGrp" Type ="ETraderTradeOnlineUMSGrp" Source="UMSQ" Position="16" Value="ETraderTradeOnlineUMSGrp" Length="0" DependencyProperty="NoOfRecords" MappedProperty="lstETraderTradeOnlineUMSGrp"/>
+  </Message>
+  <Message Name="ETraderTradeOnlineUMSGrp" Number = "1521" Type="Repeat" >
+    <Items Name = "ScripCode" Type ="uint32_t" Source="M" Value="ScripCode"  Length="4"/>
+    <Items Name = "TradeId" Type ="uint32_t" Source="M" Value="TradeId"  Length="4"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate"  Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty"  Length="4"/>
+    <Items Name = "OppMemberId" Type ="int32_t" Source="M" Value="OppMemberId"  Length="4"/>
+    <Items Name = "OppTraderId" Type ="int32_t" Source="M" Value="OppTraderId"  Length="4"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year"  Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month"  Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day"  Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour"  Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute"  Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second"  Length="1"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId"  Length="12"/>
+    <Items Name = "TransactionType" Type ="char" Source="M" Value="TransactionType"  Length="1"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell"  Length="1"/>
+    <Items Name = "OrderTimeStamp" Type ="char" Source="M" Value="OrderTimeStamp"  Length="20"/>
+    <Items Name = "TransactionId" Type ="uint64_t" Source="M" Value="TransactionId"  Length="8"/>
+    <Items Name = "TransactionTag" Type ="uint32_t" Source="M" Value="TransactionTag"  Length="4"/>
+    <Items Name = "CustCode" Type ="uint32_t" Source="M" Value="CustCode"  Length="4"/>
+    <Items Name = "CAClass" Type ="uint16_t" Source="M" Value="CAClass"  Length="2"/>
+    <Items Name = "Yield" Type ="uint32_t" Source="M" Value="Yield"  Length="4"/>
+    <Items Name = "DirtyPrice" Type ="uint64_t" Source="M" Value="DirtyPrice"  Length="8"/>
+  </Message>
+  <Message Name="EOrderNomralRequest" Number = "1092" Type="Request">
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="12" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Position="13" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Position="14" Length="1"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Position="15" Length="1"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+  </Message>
+  <Message Name="EOrderNomralReply" Number = "1092" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="14" Length="4"/>
+  </Message>
+  <Message Name="EOrderNomralUMS" Number = "1092" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="uint32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "EOrderNomralUMSGrp" Type ="EOrderNomralUMSGrp" Source="UMSQ" Position="16" Value="EOrderNomralUMSGrp" Length="0" DependencyProperty="NoOfRecords" MappedProperty="lstEOrderNomralUMSGrp"/>
+  </Message>
+  <Message Name="EOrderNomralUMSGrp" Number = "1092" Type="Repeat">
+    <Items Name = "ScripCode" Type ="uint32_t" Source="M" Value="ScripCode"  Length="4"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId"  Length="8"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate"  Length="4"/>
+    <Items Name = "RevealQty" Type ="int32_t" Source="M" Value="RevealQty"  Length="4"/>
+    <Items Name = "PendQty" Type ="int32_t" Source="M" Value="PendQty"  Length="4"/>
+    <Items Name = "Retention" Type ="int32_t" Source="M" Value="Retention"  Length="4"/>
+    <Items Name = "OrderTag" Type ="int32_t" Source="M" Value="OrderTag"  Length="4"/>
+    <Items Name = "TriggerRate" Type ="int32_t" Source="M" Value="TriggerRate"  Length="4"/>
+    <Items Name = "Type_c" Type ="char" Source="M" Value="Type_c"  Length="1"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell"  Length="1"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year"  Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month"  Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day"  Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour"  Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute"  Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second"  Length="1"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId"  Length="12"/>
+    <Items Name = "CustCode" Type ="int32_t" Source="M" Value="CustCode"  Length="4"/>
+    <Items Name = "CAClass" Type ="uint16_t" Source="M" Value="CAClass"  Length="2"/>
+    <Items Name = "MinQty" Type ="int32_t" Source="M" Value="MinQty"  Length="4"/>
+    <Items Name = "LocationId" Type ="uint64_t" Source="M" Value="LocationId"  Length="8"/>
+    <Items Name = "Cpcode" Type ="char" Source="M" Value="Cpcode"  Length="13"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler"  Length="1"/>
+    <Items Name = "Yield" Type ="int32_t" Source="M" Value="Yield"  Length="4"/>
+    <Items Name = "DirtyPrice" Type ="int64_t" Source="M" Value="DirtyPrice"  Length="8"/>
+  </Message>
+  <Message Name="EOrderRetRequest" Number = "1170" Type="Request">
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="12" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Position="13" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Position="14" Length="1"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Position="15" Length="1"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+  </Message>
+  <Message Name="EOrderRetReply" Number = "1170" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="14" Length="4"/>
+  </Message>
+  <Message Name="EOrderRetUMS" Number = "1170" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="uint32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "EOrderRetUMSGrp" Type ="EOrderRetUMSGrp" Source="UMSQ" Position="16" Value="EOrderRetUMSGrp" Length="0" DependencyProperty="NoOfRecords" MappedProperty="lstEOrderNomralUMSGrp"/>
+  </Message>
+  <Message Name="EOrderRetUMSGrp" Number = "1170" Type="Repeat" >
+    <Items Name = "ScripCode" Type ="uint32_t" Source="M" Value="ScripCode"  Length="4"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId"  Length="8"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate"  Length="4"/>
+    <Items Name = "RevealQty" Type ="int32_t" Source="M" Value="RevealQty"  Length="4"/>
+    <Items Name = "PendQty" Type ="int32_t" Source="M" Value="PendQty"  Length="4"/>
+    <Items Name = "Retention" Type ="int32_t" Source="M" Value="Retention"  Length="4"/>
+    <Items Name = "OrderTag" Type ="int32_t" Source="M" Value="OrderTag"  Length="4"/>
+    <Items Name = "TriggerRate" Type ="int32_t" Source="M" Value="TriggerRate"  Length="4"/>
+    <Items Name = "Type_c" Type ="char" Source="M" Value="Type_c"  Length="1"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell"  Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Year"  Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month"  Length="1"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year"  Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour"  Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute"  Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second"  Length="1"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId"  Length="12"/>
+    <Items Name = "CustCode" Type ="int32_t" Source="M" Value="CustCode"  Length="4"/>
+    <Items Name = "CAClass" Type ="uint16_t" Source="M" Value="CAClass"  Length="2"/>
+    <Items Name = "MinQty" Type ="int32_t" Source="M" Value="MinQty"  Length="4"/>
+    <Items Name = "LocationId" Type ="uint64_t" Source="M" Value="LocationId"  Length="8"/>
+    <Items Name = "Cpcode" Type ="char" Source="M" Value="Cpcode"  Length="13"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler"  Length="1"/>
+    <Items Name = "Yield" Type ="int32_t" Source="M" Value="Yield"  Length="4"/>
+    <Items Name = "DirtyPrice" Type ="int64_t" Source="M" Value="DirtyPrice"  Length="8"/>
+  </Message>
+
+  <Message Name="EOrderStopLossRequest" Number = "1097" Type="Request">
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="12" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Position="13" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Position="14" Length="1"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Position="15" Length="1"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+  </Message>
+  <Message Name="EOrderStopLossReply" Number = "1097" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="14" Length="4"/>
+  </Message>
+  <Message Name="EOrderStopLossUMS" Number = "1097" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="uint32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "EOrderStopLossUMSGrp" Type ="EOrderStopLossUMSGrp" Source="UMSQ" Position="16" Value="EOrderStopLossUMSGrp" Length="0" DependencyProperty="NoOfRecords" MappedProperty="lstEOrderNomralUMSGrp"/>
+  </Message>
+  <Message Name="EOrderStopLossUMSGrp" Number = "1097" Type="Repeat" >
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Length="4"/>
+    <Items Name = "SLOrderId" Type ="int64_t" Source="M" Value="SLOrderId" Length="8"/>
+    <Items Name = "TrgRate" Type ="int32_t" Source="M" Value="TrgRate" Length="4"/>
+    <Items Name = "LmtRate" Type ="int32_t" Source="M" Value="LmtRate" Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty" Length="4"/>
+    <Items Name = "RevealQty" Type ="int32_t" Source="M" Value="RevealQty" Length="4"/>
+    <Items Name = "Retention" Type ="int32_t" Source="M" Value="Retention" Length="4"/>
+    <Items Name = "OrderTag" Type ="int32_t" Source="M" Value="OrderTag" Length="4"/>
+    <Items Name = "Type" Type ="char" Source="M" Value="Type" Length="1"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell" Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day" Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month" Length="1"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year" Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Length="1"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId" Length="12"/>
+    <Items Name = "CustodianCode" Type ="int32_t" Source="M" Value="CustodianCode" Length="4"/>
+    <Items Name = "CAClass" Type ="int16_t" Source="M" Value="CAClass" Length="2"/>
+    <Items Name = "LocationId" Type ="int64_t" Source="M" Value="LocationId" Length="8"/>
+    <Items Name = "Cpcode" Type ="char" Source="M" Value="Cpcode" Length="13"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Length="1"/>
+  </Message>
+
+  <Message Name="EOrderRetStopLossRequest" Number = "1173" Type="Request">
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="12" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Position="13" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Position="14" Length="1"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Position="15" Length="1"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+  </Message>
+  <Message Name="EOrderRetStopLossReply" Number = "1173" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="14" Length="4"/>
+  </Message>
+  <Message Name="EOrderRetStopLossUMS" Number = "1173" Type="UMS">
+    <Items Name = "NoOfRecords" Type ="uint32_t" Source="M" Value="NoOfRecords" Position="12" Length="4"/>
+    <Items Name = "EOrderRetStopLossUMSGrp" Type ="EOrderRetStopLossUMSGrp" Source="UMSQ" Position="16" Value="EOrderRetStopLossUMSGrp" Length="0" DependencyProperty="NoOfRecords" MappedProperty="lstEOrderNomralUMSGrp"/>
+  </Message>
+  <Message Name="EOrderRetStopLossUMSGrp" Number = "1173" Type="Repeat" >
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Length="4"/>
+    <Items Name = "SLOrderId" Type ="int64_t" Source="M" Value="SLOrderId" Length="8"/>
+    <Items Name = "TrgRate" Type ="int32_t" Source="M" Value="TrgRate" Length="4"/>
+    <Items Name = "LmtRate" Type ="int32_t" Source="M" Value="LmtRate" Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty" Length="4"/>
+    <Items Name = "RevealQty" Type ="int32_t" Source="M" Value="RevealQty" Length="4"/>
+    <Items Name = "Retention" Type ="int32_t" Source="M" Value="Retention" Length="4"/>
+    <Items Name = "OrderTag" Type ="int32_t" Source="M" Value="OrderTag" Length="4"/>
+    <Items Name = "Type" Type ="char" Source="M" Value="Type" Length="1"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell" Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day" Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month" Length="1"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year" Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Length="1"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId" Length="12"/>
+    <Items Name = "CustodianCode" Type ="int32_t" Source="M" Value="CustodianCode" Length="4"/>
+    <Items Name = "CAClass" Type ="int16_t" Source="M" Value="CAClass" Length="2"/>
+    <Items Name = "LocationId" Type ="int64_t" Source="M" Value="LocationId" Length="8"/>
+    <!--<Items Name = "Cpcode" Type ="char" Source="M" Value="Cpcode" Length="13"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Length="1"/>-->
+  </Message>
+
+  <Message Name="ETradeLimitRequest" Number = "22002" Type="Request">
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="Hour" Position="12" Length="4"/>
+  </Message>
+  <Message Name="ETradeLimitReply" Number = "22002" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "MsgTag" Type ="uint32_t" Source="M" Value="MsgTag" Position="14" Length="4"/>
+    <Items Name = "ReplyTxt" Type ="char" Source="M" Value="ReplyTxt" Position="18" Length="40"/>
+    <Items Name = "TraderId" Type ="int32_t" Source="M" Value="TraderId" Position="58" Length="4"/>
+    <Items Name = "Alias" Type ="char" Source="M" Value="Alias" Position="62" Length="12"/>
+    <Items Name = "NXActionId" Type ="int32_t" Source="M" Value="NXActionId" Position="74" Length="4"/>
+    <Items Name = "BXActionId" Type ="int32_t" Source="M" Value="BXActionId" Position="78" Length="4"/>
+    <Items Name = "GrossLimitBuy" Type ="int32_t" Source="M" Value="GrossLimitBuy" Position="82" Length="4"/>
+    <Items Name = "GrossLimitSell" Type ="int32_t" Source="M" Value="GrossLimitSell" Position="86" Length="4"/>
+    <Items Name = "NetValue" Type ="int32_t" Source="M" Value="NetValue" Position="90" Length="4"/>
+    <Items Name = "DefaultBuy" Type ="int32_t" Source="M" Value="DefaultBuy" Position="94" Length="4"/>
+    <Items Name = "DefaultSell" Type ="int32_t" Source="M" Value="DefaultSell" Position="98" Length="4"/>
+    <Items Name = "MaxQuantity" Type ="int32_t" Source="M" Value="MaxQuantity" Position="102" Length="4"/>
+    <Items Name = "MaxValue" Type ="int32_t" Source="M" Value="MaxValue" Position="106" Length="4"/>
+  </Message>
+
+  <Message Name="ETradeGWLimitRequest" Number = "22012" Type="Request">
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="Hour" Position="12" Length="4"/>
+    <Items Name = "TraderId" Type ="uint32_t" Source="M" Value="Hour" Position="16" Length="4"/>
+  </Message>
+
+  <Message Name="ETradeGWLimitReply" Number = "22012" Type="Reply">
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="12" Length="2"/>
+    <Items Name = "MsgTag" Type ="uint32_t" Source="M" Value="MsgTag" Position="14" Length="4"/>
+    <Items Name = "ReplyTxt" Type ="char" Source="M" Value="ReplyTxt" Position="18" Length="40"/>
+    <Items Name = "NoOfRecs" Type ="int32_t" Source="M" Value="NoOfRecs" Position="58" Length="4"/>
+    <Items Name = "EGroupWiseLimitDet" Type ="EGroupWiseLimitDet" Source="REPLYQ" Position="62" Value="EGroupWiseLimitDet" Length="0" DependencyProperty="NoOfRecs" MappedProperty="lstTraderGwLimitGrp"/>
+  </Message>
+  <Message Name="EGroupWiseLimitDet" Number = "22012" Type="Repeat">
+    <Items Name = "GroupName" Type ="char" Source="M" Value="GroupName" Length="3"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Length="1"/>
+    <Items Name = "BuyValue" Type ="int64_t" Source="M" Value="BuyValue" Length="8"/>
+    <Items Name = "SellValue" Type ="int64_t" Source="M" Value="SellValue" Length="8"/>
+  </Message>
+
+  <Message Name="ETradeLimitOnlineUMS" Number = "22001" Type="UMS">
+    <Items Name = "MsgTag" Type ="uint32_t" Source="M" Value="Hour" Position="12" Length="4"/>
+    <Items Name = "Alias" Type ="char" Source="M" Value="Minute" Position="16" Length="12"/>
+    <Items Name = "NXActionId" Type ="int32_t" Source="M" Value="Second" Position="28" Length="4"/>
+    <Items Name = "BXActionId" Type ="int32_t" Source="M" Value="Filler" Position="32" Length="4"/>
+    <Items Name = "GrossLimitBuy" Type ="int32_t" Source="M" Value="MessageTag" Position="36" Length="4"/>
+    <Items Name = "GrossLimitSell" Type ="int32_t" Source="M" Value="Instrument Code" Position="40" Length="4"/>
+    <Items Name = "NetValue" Type ="int32_t" Source="M" Value="Open Rate" Position="44" Length="4"/>
+    <Items Name = "DefaultBuy" Type ="int32_t" Source="M" Value="Previous Close Rate" Position="48" Length="4"/>
+    <Items Name = "DefaultSell" Type ="int32_t" Source="M" Value="High Rate" Position="52" Length="4"/>
+    <Items Name = "MaxQuantity" Type ="int32_t" Source="M" Value="Low Rate" Position="56" Length="4"/>
+    <Items Name = "MaxValue" Type ="int32_t" Source="M" Value="No of Trades" Position="60" Length="4"/>
+  </Message>
+
+  <Message Name="ETradeGWLimitOnlineUMS" Number = "22016" Type="UMS">
+    <Items Name = "MsgTag" Type ="uint32_t" Source="M" Value="MsgTag" Position="12" Length="4"/>
+    <Items Name = "NoOfRecs" Type ="int32_t" Source="M" Value="NoOfRecs" Position="16" Length="4"/>
+    <Items Name = "EGroupWiseLimitOnlineDet" Type ="EGroupWiseLimitOnlineDet" Source="UMSQ" Position="20" Value="EGroupWiseLimitOnlineDet" Length="0" DependencyProperty="NoOfRecs" MappedProperty="lstTraderGwLimitGrp"/>
+  </Message>
+
+  <Message Name="EGroupWiseLimitOnlineDet" Number = "22016" Type="Repeat">
+    <Items Name = "GroupName" Type ="char" Source="M" Value="GroupName" Length="3"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Length="1"/>
+    <Items Name = "BuyValue" Type ="int64_t" Source="M" Value="BuyValue" Length="8"/>
+    <Items Name = "SellValue" Type ="int64_t" Source="M" Value="SellValue" Length="8"/>
+  </Message>
+
+
+  <Message Name="EOrderRequest" Number = "1025" Type="Request">
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Position="12" Length="4"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="16" Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty" Position="20" Length="4"/>
+    <Items Name = "RevealQty" Type ="int32_t" Source="M" Value="RevealQty" Position="24" Length="4"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate" Position="28" Length="4"/>
+    <Items Name = "TriggeredRate" Type ="int32_t" Source="M" Value="TriggeredRate" Position="32" Length="4"/>
+    <Items Name = "MinQty" Type ="int32_t" Source="M" Value="MinQty" Position="36" Length="4"/>
+    <Items Name = "CustCode" Type ="int32_t" Source="M" Value="CustCode" Position="40" Length="4"/>
+    <Items Name = "Filler" Type ="int32_t" Source="M" Value="Filler" Position="44" Length="4"/>
+    <Items Name = "FillerA1" Type ="int32_t" Source="M" Value="FillerA1" Position="48" Length="4"/>
+    <Items Name = "MsgTag3" Type ="int32_t" Source="M" Value="MsgTag3" Position="52" Length="4"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId" Position="56" Length="8"/>
+    <Items Name = "LocationId" Type ="int64_t" Source="M" Value="LocationId" Position="64" Length="8"/>
+    <Items Name = "FillerA3" Type ="int32_t" Source="M" Value="FillerA3" Position="72" Length="4"/>
+    <Items Name = "FillerB1" Type ="int16_t" Source="M" Value="FillerB1" Position="76" Length="2"/>
+    <Items Name = "FillerB2" Type ="int16_t" Source="M" Value="FillerB2" Position="78" Length="2"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId" Position="80" Length="12"/>
+    <Items Name = "CPcode" Type ="char" Source="M" Value="CPcode" Position="92" Length="13"/>
+    <Items Name = "MsgTag2" Type ="char" Source="M" Value="MsgTag2" Position="105" Length="15"/>
+    <Items Name = "Filler" Type ="char" Source="M" Value="Filler" Position="120" Length="4"/>
+    <Items Name = "AUDCode" Type ="char" Source="M" Value="AUDCode" Position="124" Length="1"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell" Position="125" Length="1"/>
+    <Items Name = "OrdType" Type ="char" Source="M" Value="OrdType" Position="126" Length="1"/>
+    <Items Name = "FillerA5" Type ="char" Source="M" Value="FillerA5" Position="127" Length="1"/>
+    <Items Name = "CAClass" Type ="int16_t" Source="M" Value="CAClass" Position="128" Length="2"/>
+    <Items Name = "MktProtection" Type ="int16_t" Source="M" Value="MktProtection" Position="130" Length="2"/>
+    <Items Name = "Retention" Type ="int16_t" Source="M" Value="Retention" Position="132" Length="2"/>
+    <Items Name = "FillerA" Type ="int16_t" Source="M" Value="FillerA" Position="134" Length="2"/>
+  </Message>
+  <Message Name="EOrderReply" Number = "1025" Type="Reply">
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="12" Length="4"/>
+    <Items Name = "ReplyCode" Type ="int16_t" Source="M" Value="ReplyCode" Position="16" Length="2"/>
+    <Items Name = "FillerA" Type ="int16_t" Source="M" Value="FillerA" Position="18" Length="2"/>
+    <Items Name = "CancelledQty" Type ="int32_t" Source="M" Value="CancelledQty" Position="20" Length="4"/>
+    <Items Name = "TransactionId" Type ="int64_t" Source="M" Value="TransactionId" Position="24" Length="8"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day" Position="32" Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month" Position="33" Length="1"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year" Position="34" Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="35" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Position="36" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Position="37" Length="1"/>
+    <Items Name = "MilliSecond" Type ="char" Source="M" Value="MilliSecond" Position="38" Length="4"/>
+    <Items Name = "AUDCode" Type ="char" Source="M" Value="AUDCode" Position="42" Length="1"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell" Position="43" Length="1"/>
+    <Items Name = "OrderType" Type ="char" Source="M" Value="OrderType" Position="44" Length="1"/>
+    <Items Name = "FillerB" Type ="char" Source="M" Value="FillerB" Position="45" Length="3"/>
+    <Items Name = "ReplyTxt" Type ="char" Source="M" Value="ReplyTxt" Position="48" Length="50"/>
+    <Items Name = "FillerC" Type ="char" Source="M" Value="FillerC" Position="98" Length="2"/>
+    <Items Name = "Cpcode" Type ="char" Source="M" Value="Cpcode" Position="100" Length="13"/>
+    <Items Name = "MsgTag2" Type ="char" Source="M" Value="MsgTag2" Position="113" Length="15"/>
+    <Items Name = "MsgTag3" Type ="int32_t" Source="M" Value="MsgTag3" Position="128" Length="4"/>
+    <Items Name = "PendingQty" Type ="int32_t" Source="M" Value="PendingQty" Position="132" Length="4"/>
+    <Items Name = "TotalTradedQty" Type ="int32_t" Source="M" Value="TotalTradedQty" Position="136" Length="4"/>
+    <Items Name = "FillerB1" Type ="int16_t" Source="M" Value="FillerB1" Position="140" Length="2"/>
+    <Items Name = "FillerB2" Type ="int16_t" Source="M" Value="FillerB2" Position="142" Length="2"/>
+  </Message>
+  <Message Name="EMarketOrderUMS" Number = "1530" Type="UMS">
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Position="12" Length="4"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId" Position="16" Length="8"/>
+    <Items Name = "OrderTag " Type ="int32_t" Source="M" Value="OrderTag " Position="24" Length="4"/>
+    <Items Name = "CnvtdRate" Type ="int32_t" Source="M" Value="CnvtdRate" Position="28" Length="4"/>
+    <Items Name = "Yield" Type ="int32_t" Source="M" Value="Yield" Position="32" Length="4"/>
+    <Items Name = "DirtyPrice" Type ="int64_t" Source="M" Value="DirtyPrice" Position="36" Length="8"/>
+  </Message>
+  <Message Name="EIOCCancelOrderUMS" Number = "1531" Type="UMS">
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Position="12" Length="4"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId" Position="16" Length="8"/>
+    <Items Name = "KilledQty" Type ="int32_t" Source="M" Value="KilledQty" Position="24" Length="4"/>
+    <Items Name = "LTId" Type ="int32_t" Source="M" Value="LTId" Position="28" Length="4"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Position="32" Length="4"/>
+  </Message>
+  <Message Name="ESLTriggerUMS" Number = "2507" Type="UMS">
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Position="12" Length="4"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId" Position="16" Length="8"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate" Position="24" Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty" Position="28" Length="4"/>
+    <Items Name = "RevealQty" Type ="int32_t" Source="M" Value="RevealQty" Position="32" Length="4"/>
+    <Items Name = "OrderTag" Type ="int32_t" Source="M" Value="OrderTag" Position="36" Length="4"/>
+    <Items Name = "Type" Type ="char" Source="M" Value="Type" Position="40" Length="1"/>
+    <Items Name = "BuyOrSell" Type ="char" Source="M" Value="BuyOrSell" Position="41" Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day" Position="42" Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month" Position="43" Length="1"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year" Position="44" Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="45" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Position="46" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Position="47" Length="1"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId" Position="48" Length="12"/>
+    <Items Name = "Custodian" Type ="int32_t" Source="M" Value="Custodian" Position="60" Length="4"/>
+    <Items Name = "CAClass" Type ="int16_t" Source="M" Value="CAClass" Position="64" Length="2"/>
+    <Items Name = "Retention" Type ="int16_t" Source="M" Value="Retention" Position="66" Length="2"/>
+    <Items Name = "LocationId" Type ="int64_t" Source="M" Value="LocationId" Position="68" Length="8"/>
+  </Message>
+  <Message Name="ECancelledOrderUMS" Number = "3233" Type="UMS">
+    <Items Name = "NoOfRecs" Type ="int32_t" Source="M" Value="NoOfRecs" Position="12" Length="4"/>
+    <Items Name = "ECancelledOrderInfoUMSGrp" Type ="ECancelledOrderInfoUMSGrp" Source="UMSQ" Position="16" Value="ECancelledOrderInfoUMSGrp" Length="0" DependencyProperty="NoOfRecs" MappedProperty="lstECancelledOrderInfoUMSGrp"/>
+  </Message>
+  <Message Name="ECancelledOrderInfoUMSGrp" Number = "3233" Type="Repeat">
+    <Items Name = "InstrmntCode" Type ="int32_t" Source="M" Value="InstrmntCode" Length="4"/>
+    <Items Name = "MessageTag" Type ="uint32_t" Source="M" Value="MessageTag" Length="4"/>
+    <Items Name = "Quantity" Type ="int32_t" Source="M" Value="Quantity"  Length="4"/>
+    <Items Name = "Reason" Type ="int32_t" Source="M" Value="Reason"  Length="4"/>
+    <Items Name = "Filler1" Type ="int32_t" Source="M" Value="Filler1"  Length="4"/>
+    <Items Name = "Filler2" Type ="int32_t" Source="M" Value="Filler2" Length="4"/>
+    <Items Name = "Filler3" Type ="int32_t" Source="M" Value="Filler3"  Length="4"/>
+    <Items Name = "Filler4" Type ="int32_t" Source="M" Value="Filler4"  Length="4"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId"  Length="8"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year"  Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month"  Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day"  Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour"  Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute"  Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second"  Length="1"/>
+    <Items Name = "Filler5" Type ="char" Source="M" Value="Filler5"  Length="1"/>
+    <Items Name = "Filler6" Type ="char" Source="M" Value="Filler6"  Length="1"/>
+    <Items Name = "Filler7" Type ="char" Source="M" Value="Filler7"  Length="1"/>
+    <Items Name = "Filler8" Type ="char" Source="M" Value="Filler8"  Length="15"/>
+  </Message>
+  <Message Name="EMassCancelUMS" Number = "1927" Type="UMS">
+    <Items Name = "LastFragment" Type ="char" Source="M" Value="LastFragment" Position="12" Length="1"/>
+    <Items Name = "MassActionReason" Type ="char" Source="M" Value="MassActionReason" Position="13" Length="1"/>
+    <Items Name = "MassActionReportID" Type ="char" Source="M" Value="MassActionReportID" Position="14" Length="20"/>
+    <Items Name = "Pad2" Type ="char" Source="M" Value="Pad2" Position="34" Length="2"/>
+    <Items Name = "SecurityID" Type ="int64_t" Source="M" Value="SecurityID" Position="36" Length="8"/>
+    <Items Name = "MarketSegmentID" Type ="int32_t" Source="M" Value="MarketSegmentID" Position="44" Length="4"/>
+    <Items Name = "Fillerl1" Type ="int32_t" Source="M" Value="Fillerl1" Position="48" Length="4"/>
+    <Items Name = "Fillerl2" Type ="int32_t" Source="M" Value="Fillerl2" Position="52" Length="4"/>
+    <Items Name = "Fillerl3" Type ="int32_t" Source="M" Value="Fillerl3" Position="56" Length="4"/>
+    <Items Name = "PartitionID" Type ="int16_t" Source="M" Value="PartitionID" Position="60" Length="2"/>
+    <Items Name = "NoOFNotAffectedOrders" Type ="int16_t" Source="M" Value="NoOFNotAffectedOrders" Position="62" Length="2"/>
+    <Items Name = "ENoOFNotAffectedOrdersUMSGrp" Type ="ENoOFNotAffectedOrdersUMSGrp" Source="UMSQ" Position="64" Value="ENoOFNotAffectedOrdersUMSGrp" Length="0" DependencyProperty="NoOFNotAffectedOrders" MappedProperty="lstNoOFNotAffectedOrdersUMSGrp"/>
+  </Message>
+  <Message Name="ENoOFNotAffectedOrdersUMSGrp" Number = "1927" Type="Repeat" >
+    <Items Name = "NotAffectedOrderID" Type ="int64_t" Source="M" Value="NotAffectedOrderID" Length="8"/>
+    <Items Name = "NotAffOrigClOrdID" Type ="int64_t" Source="M" Value="NotAffOrigClOrdID" Length="8"/>
+  </Message>
+
+  <Message Name="EOnlineReturnOrder" Number = "1853" Type="UMS">
+    <Items Name = "NoOfRecs" Type ="int16_t" Source="M" Value="Hour" Position="12" Length="2"/>
+    <Items Name = "EOnlineReturnOrderUMS" Type ="EOnlineReturnOrderUMS" Source="UMSQ" Position="14" Value="EOnlineReturnOrderUMS" Length="0" DependencyProperty="NoOfRecs" MappedProperty="lstOnlineReturnOrders"/>
+  </Message>
+  <Message Name="EOnlineReturnOrderUMS" Number = "1853" Type="Repeat">
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Length="4"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId" Length="8"/>
+    <Items Name = "PendQty" Type ="int32_t" Source="M" Value="PendQty" Length="4"/>
+    <Items Name = "ReplenishQty" Type ="int32_t" Source="M" Value="ReplenishQty" Length="4"/>
+    <Items Name = "LTID" Type ="int32_t" Source="M" Value="LTID" Length="4"/>
+    <Items Name = "OrderTag" Type ="int32_t" Source="M" Value="OrderTag" Length="4"/>
+    <Items Name = "CustCode" Type ="int32_t" Source="M" Value="CustCode" Length="4"/>
+    <Items Name = "CAClass" Type ="int16_t" Source="M" Value="CAClass" Length="2"/>
+  </Message>
+
+  <Message Name="EOnlineBlockReturnOrder" Number = "1856" Type="UMS">
+    <Items Name = "NoOfRecs" Type ="int16_t" Source="M" Value="Hour" Position="12" Length="2"/>
+    <Items Name = "EOnlineBlockReturnOrderUMS" Type ="EOnlineBlockReturnOrderUMS" Source="UMSQ" Position="14" Value="EOnlineBlockReturnOrderUMS" Length="0" DependencyProperty="NoOfRecs" MappedProperty="lstOnlineReturnOrders"/>
+  </Message>
+
+  <Message Name="EOnlineBlockReturnOrderUMS" Number = "1856" Type="Repeat">
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Length="4"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId" Length="8"/>
+    <Items Name = "PendQty" Type ="int32_t" Source="M" Value="PendQty" Length="4"/>
+    <Items Name = "ReplenishQty" Type ="int32_t" Source="M" Value="ReplenishQty" Length="4"/>
+    <Items Name = "LTID" Type ="int32_t" Source="M" Value="LTID" Length="4"/>
+    <Items Name = "OrderTag" Type ="int32_t" Source="M" Value="OrderTag" Length="4"/>
+    <Items Name = "CustCode" Type ="int32_t" Source="M" Value="CustCode" Length="4"/>
+    <Items Name = "CAClass" Type ="int16_t" Source="M" Value="CAClass" Length="2"/>
+  </Message>
+  <Message Name="ERRMUMS" Number = "1920" Type="UMS">
+    <Items Name = "NoOfRecs" Type ="int16_t" Source="M" Value="NoOfRecs" Position="12" Length="2"/>
+    <Items Name = "Dummy" Type ="int16_t" Source="M" Value="Dummy" Position="14" Length="2"/>
+    <Items Name = "ERRMDetailUMSGrp" Type ="ERRMDetailUMSGrp" Source="UMSQ" Position="16" Value="ERRMDetailUMSGrp" Length="0" DependencyProperty="NoOfRecs" MappedProperty="lstRRMDetailUMSGrp"/>
+  </Message>
+  <Message Name="ERRMDetailUMSGrp" Number = "1920" Type="Repeat">
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Length="4"/>
+    <Items Name = "Rate" Type ="int32_t" Source="M" Value="Rate" Length="4"/>
+    <Items Name = "Qty" Type ="int32_t" Source="M" Value="Qty" Length="4"/>
+    <Items Name = "AvailableQty" Type ="int32_t" Source="M" Value="AvailableQty" Length="4"/>
+    <Items Name = "OrderTag" Type ="int32_t" Source="M" Value="OrderTag"  Length="4"/>
+    <Items Name = "TermId" Type ="int32_t" Source="M" Value="TermId"  Length="4"/>
+    <Items Name = "MktType" Type ="int32_t" Source="M" Value="MktType"  Length="4"/>
+    <Items Name = "Filler1" Type ="int32_t" Source="M" Value="Filler1"  Length="4"/>
+    <Items Name = "Event" Type ="int16_t" Source="M" Value="Event"  Length="2"/>
+    <Items Name = "Errorcode" Type ="int16_t" Source="M" Value="Errorcode"  Length="2"/>
+    <Items Name = "Retention" Type ="int16_t" Source="M" Value="Retention"  Length="2"/>
+    <Items Name = "Filler2" Type ="int16_t" Source="M" Value="Filler2"  Length="2"/>
+    <Items Name = "OrderId" Type ="int64_t" Source="M" Value="OrderId"  Length="8"/>
+    <Items Name = "Value" Type ="int64_t" Source="M" Value="Value"  Length="8"/>
+    <Items Name = "ValueUtilized" Type ="int64_t" Source="M" Value="ValueUtilized"  Length="8"/>
+    <Items Name = "RRMValue" Type ="int64_t" Source="M" Value="RRMValue"  Length="8"/>
+    <Items Name = "Filler3" Type ="int64_t" Source="M" Value="Filler3"  Length="8"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year"  Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month"  Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day"  Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour"  Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute"  Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second"  Length="1"/>
+    <Items Name = "filler4" Type ="char" Source="M" Value="filler4"  Length="2"/>
+    <Items Name = "filler5" Type ="char" Source="M" Value="filler5"  Length="2"/>
+    <Items Name = "Type" Type ="char" Source="M" Value="Type"  Length="2"/>
+    <Items Name = "Message" Type ="char" Source="M" Value="Message"  Length="40"/>
+    <Items Name = "Cpcode" Type ="char" Source="M" Value="Cpcode"  Length="13"/>
+    <Items Name = "filler6" Type ="char" Source="M" Value="filler6"  Length="3"/>
+    <Items Name = "Client" Type ="char" Source="M" Value="Client"  Length="12"/>
+  </Message>
+  <Message Name="ECapitalInfoUMS" Number = "1922" Type="UMS">
+    <Items Name = "MsgTag" Type ="uint32_t" Source="M" Value="Hour" Position="12" Length="4"/>
+    <Items Name = "NoOfRecs" Type ="int16_t" Source="M" Value="Minute" Position="16" Length="2"/>
+    <Items Name = "QueryType" Type ="int16_t" Source="M" Value="Second" Position="18" Length="2"/>
+    <Items Name = "AlertType" Type ="int16_t" Source="M" Value="Filler" Position="20" Length="2"/>
+    <Items Name = "Filler" Type ="int16_t" Source="M" Value="MessageTag" Position="22" Length="2"/>
+    <Items Name = "ECapitalInfoUMSDet" Type ="ECapitalInfoUMSDet" Source="UMSQ" Position="24" Value="ECapitalInfoUMSDet" Length="0" DependencyProperty="NoOfRecs" MappedProperty="lstCapitalInfoUMSDet"/>
+  </Message>
+
+  <Message Name="ECapitalInfoUMSDet" Number = "1922" Type="Repeat">
+    <Items Name = "TMCode" Type ="int32_t" Source="M" Value="TMCode" Position="12" Length="4"/>
+    <Items Name = "InstCode" Type ="int32_t" Source="M" Value="InstCode" Position="16" Length="4"/>
+    <Items Name = "Filler0" Type ="int32_t" Source="M" Value="Filler0" Position="20" Length="4"/>
+    <Items Name = "Percentage" Type ="int32_t" Source="M" Value="Percentage" Position="24" Length="4"/>
+    <Items Name = "TotalCollateral" Type ="int64_t" Source="M" Value="TotalCollateral" Position="28" Length="8"/>
+    <Items Name = "UtilizedCollateral" Type ="int64_t" Source="M" Value="UtilizedCollateral" Position="36" Length="8"/>
+    <Items Name = "UnutilizedCollateral" Type ="int64_t" Source="M" Value="UnutilizedCollateral" Position="44" Length="8"/>
+    <Items Name = "Filler" Type ="int64_t" Source="M" Value="Filler" Position="52" Length="8"/>
+    <Items Name = "Filler1" Type ="int16_t" Source="M" Value="Filler1" Position="60" Length="2"/>
+    <Items Name = "Capitalstatus" Type ="int16_t" Source="M" Value="Capitalstatus" Position="62" Length="2"/>
+    <Items Name = "CapitalStatusNew" Type ="int16_t" Source="M" Value="CapitalStatusNew" Position="64" Length="2"/>
+    <Items Name = "ClientType" Type ="int16_t" Source="M" Value="ClientType" Position="66" Length="2"/>
+    <Items Name = "Filler3" Type ="int16_t" Source="M" Value="Filler3" Position="68" Length="2"/>
+    <Items Name = "Filler4" Type ="int16_t" Source="M" Value="Filler4" Position="70" Length="2"/>
+    <Items Name = "Filler5" Type ="int16_t" Source="M" Value="Filler5" Position="72" Length="2"/>
+    <Items Name = "Filler6" Type ="int16_t" Source="M" Value="Filler6" Position="74" Length="2"/>
+    <Items Name = "SegmentType" Type ="char" Source="M" Value="SegmentType" Position="76" Length="1"/>
+    <Items Name = "RRMStatus" Type ="char" Source="M" Value="RRMStatus" Position="77" Length="1"/>
+    <Items Name = "Status" Type ="char" Source="M" Value="Status" Position="78" Length="1"/>
+    <Items Name = "Flag" Type ="char" Source="M" Value="Flag" Position="79" Length="1"/>
+    <Items Name = "ProductType" Type ="char" Source="M" Value="ProductType" Position="80" Length="1"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year" Position="81" Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month" Position="82" Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day" Position="83" Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="84" Length="1"/>
+    <Items Name = "Min" Type ="char" Source="M" Value="Min" Position="85" Length="1"/>
+    <Items Name = "Sec" Type ="char" Source="M" Value="Sec" Position="86" Length="1"/>
+    <Items Name = "Filler7" Type ="char" Source="M" Value="Filler7" Position="87" Length="1"/>
+    <Items Name = "Message" Type ="char" Source="M" Value="Message" Position="88" Length="40"/>
+    <Items Name = "CPCode" Type ="char" Source="M" Value="CPCode" Position="128" Length="13"/>
+    <Items Name = "ClientID" Type ="char" Source="M" Value="ClientID" Position="141" Length="12"/>
+    <Items Name = "Filler8" Type ="char" Source="M" Value="Filler8" Position="153" Length="3"/>
+  </Message>
+
+  <Message Name="EBrokerSuspension" Number = "24004" Type="UMS">
+    <Items Name = "Filler" Type ="int32_t" Source="M" Value="Day" Position="12" Length="4"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day" Position="16" Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month" Position="17" Length="1"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year" Position="18" Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour" Position="19" Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Position="20" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Position="21" Length="1"/>
+    <Items Name = "Reason" Type ="char" Source="M" Value="Reason" Position="22" Length="80"/>
+    <Items Name = "FillerA" Type ="char" Source="M" Value="FillerA" Position="100" Length="2"/>
+  </Message>
+  <Message Name="EBrokerReactivation" Number ="1528" Type="UMS">
+    <Items Name = "Filler1" Type ="int32_t" Source="M" Value="Filler1" Position="12" Length="4"/>
+    <Items Name = "Message" Type ="char" Source="M" Value="Message" Position="16" Length="80"/>
+    <Items Name = "TraderId" Type ="int32_t" Source="M" Value="TraderId" Position="96" Length="4"/>
+    <Items Name = "Filler2" Type ="int32_t" Source="M" Value="Filler2" Position="100" Length="4"/>
+  </Message>
+
+  <Message Name="EMemLevelPosUMS" Number = "1921" Type="UMS">
+    <Items Name = "NoOfRecs" Type ="int16_t" Source="M" Value="NoOfRecs" Position="12" Length="2"/>
+    <Items Name = "ReservedField" Type ="int16_t" Source="M" Value="ReservedField" Position="14" Length="2"/>
+    <Items Name = "EMemLevelPosDetailUMSGrp" Type ="EMemLevelPosDetailUMSGrp" Source="UMSQ" Position="16" Value="EMemLevelPosDetailUMSGrp" Length="0" DependencyProperty="NoOfRecs" MappedProperty="lstMemLevelPosDetailUMSGrp"/>
+  </Message>
+  <Message Name="EMemLevelPosDetailUMSGrp" Number = "1921" Type="Repeat">
+    <Items Name = "ScripCode" Type ="int32_t" Source="M" Value="ScripCode" Length="4"/>
+    <Items Name = "AlertType" Type ="int32_t" Source="M" Value="AlertType" Length="4"/>
+    <Items Name = "Percentage" Type ="int32_t" Source="M" Value="Percentage"  Length="4"/>
+    <Items Name = "Filler1" Type ="int32_t" Source="M" Value="Filler1"  Length="4"/>
+    <Items Name = "Filler2" Type ="int32_t" Source="M" Value="Filler2"  Length="4"/>
+    <Items Name = "ReservedField" Type ="int32_t" Source="M" Value="ReservedField"  Length="4"/>
+    <Items Name = "SegType" Type ="int32_t" Source="M" Value="SegType" Length="4"/>
+    <Items Name = "Filler3" Type ="int32_t" Source="M" Value="Filler3"  Length="4"/>
+    <Items Name = "ProdType" Type ="int16_t" Source="M" Value="ProdType" Length="2"/>
+    <Items Name = "Filler4" Type ="int16_t" Source="M" Value="Filler4" Length="2"/>
+    <Items Name = "Filler5" Type ="int16_t" Source="M" Value="Filler5" Length="2"/>
+    <Items Name = "ClientType" Type ="int16_t" Source="M" Value="ClientType"  Length="2"/>
+    <Items Name = "Filler7" Type ="int64_t" Source="M" Value="Filler7"  Length="8"/>
+    <Items Name = "Filler8" Type ="int64_t" Source="M" Value="Filler8"  Length="8"/>
+    <Items Name = "Filler9" Type ="int64_t" Source="M" Value="Filler9"  Length="8"/>
+    <Items Name = "chMemberId" Type ="char" Source="M" Value="chMemberId"  Length="6"/>
+    <Items Name = "Filler10" Type ="int16_t" Source="M" Value="Filler10"  Length="2"/>
+    <Items Name = "Filler11" Type ="int64_t" Source="M" Value="Filler11"  Length="8"/>
+    <Items Name = "Year" Type ="char" Source="M" Value="Year"  Length="1"/>
+    <Items Name = "Month" Type ="char" Source="M" Value="Month"  Length="1"/>
+    <Items Name = "Day" Type ="char" Source="M" Value="Day"  Length="1"/>
+    <Items Name = "Hour" Type ="char" Source="M" Value="Hour"  Length="1"/>
+    <Items Name = "Minute" Type ="char" Source="M" Value="Minute" Length="1"/>
+    <Items Name = "Second" Type ="char" Source="M" Value="Second" Length="1"/>
+    <Items Name = "Filler12" Type ="char" Source="M" Value="Filler12" Length="2"/>
+    <Items Name = "Filler13" Type ="char" Source="M" Value="Filler13"  Length="2"/>
+    <Items Name = "Filler14" Type ="char" Source="M" Value="Filler14"  Length="2"/>
+    <Items Name = "Message" Type ="char" Source="M" Value="Message"  Length="40"/>
+    <Items Name = "Cpcode" Type ="char" Source="M" Value="Cpcode"  Length="13"/>
+    <Items Name = "Filler15" Type ="char" Source="M" Value="Filler15" Length="3"/>
+    <Items Name = "ClientId" Type ="char" Source="M" Value="ClientId" Length="12"/>
+  </Message>
+</Messages>

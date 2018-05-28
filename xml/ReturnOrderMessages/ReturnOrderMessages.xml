@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ReturnedOrderMessages>
+  <MessageFilters>
+    <Filter Type = "OTHER">
+      <Code ReplyCode="2">
+        <Items MessageType = "1170" Message ="Scrip Suspended"/>
+        <Items MessageType = "1172" Message ="Scrip Suspended"/>
+        <Items MessageType = "3233" Message ="Scrip Suspended"/>
+      </Code>
+      <Code ReplyCode="3">
+        <Items MessageType = "1170" Message ="Admin Delete"/>
+      </Code>
+      <Code ReplyCode="20">
+        <Items MessageType = "1170" Message ="Insufficient Collateral"/>
+        <Items MessageType = "1172" Message ="Insufficient Collateral"/>
+        <Items MessageType = "3233" Message ="Insufficient Collateral"/>
+      </Code>
+      <Code ReplyCode="31">
+        <Items MessageType = "1170" Message ="Rete worst than Close Price"/>
+        <Items MessageType = "3233" Message ="Rete worst than Close Price"/>
+      </Code>
+      <Code ReplyCode="149">
+        <Items MessageType = "1170" Message ="Mem/Trd suspended"/>
+        <Items MessageType = "3233" Message ="Mem/Trd suspended"/>
+      </Code>
+      <Code ReplyCode="150">
+        <Items MessageType = "1170" Message ="Product Halt"/>
+        <Items MessageType = "1172" Message ="Product Halt"/>
+        <Items MessageType = "3233" Message ="Product Halt"/>
+      </Code>
+      <Code ReplyCode="151">
+        <Items MessageType = "1170" Message ="RRM Collateral Exhaustion"/>
+        <Items MessageType = "1172" Message ="RRM Collateral Exhaustion"/>
+        <Items MessageType = "3233" Message ="RRM Collateral Exhaustion"/>
+      </Code>
+      <Code ReplyCode="152">
+        <Items MessageType = "1170" Message ="Trader Suspended"/>
+        <Items MessageType = "1172" Message ="Trader Suspended"/>
+        <Items MessageType = "3233" Message ="Trader Suspended"/>
+      </Code>
+      <Code ReplyCode="199">
+        <Items MessageType = "3233" Message ="Pending Cancel"/>
+      </Code>
+      <Code ReplyCode="240">
+        <Items MessageType = "3233" Message ="Member Suspended"/>
+      </Code>
+      <Code ReplyCode="246">
+        <Items MessageType = "1170" Message ="Same Client Contra Order"/>
+        <Items MessageType = "3233" Message ="Same Client Contra Order"/>
+        <Items MessageType = "2027" Message ="Same Client Contra Order"/>
+      </Code>
+      <Code ReplyCode="247">
+        <Items MessageType = "1170" Message ="Reverse Trade PreventionCheck"/>
+        <Items MessageType = "3233" Message ="Reverse Trade PreventionCheck"/>
+        <Items MessageType = "2027" Message ="Reverse Trade PreventionCheck"/>
+      </Code>
+      <Code ReplyCode="262">
+        <Items MessageType = "1170" Message ="Invalid Rate"/>
+        <Items MessageType = "3233" Message ="Invalid Rate"/>
+      </Code>
+      <Code ReplyCode="423">
+        <Items MessageType = "1170" Message ="Call Auction Failure"/>
+        <Items MessageType = "3233" Message ="Call Auction Failure"/>
+      </Code>
+      <Code ReplyCode="767">
+        <Items MessageType = "1170" Message ="Invalid Mem(BUYBACK)"/>
+      </Code>
+      <Code ReplyCode="888">
+        <Items MessageType = "1170" Message ="Insufficient Capital"/>
+      </Code>
+      <Code ReplyCode="999">
+        <Items MessageType = "1170" Message ="Equity Derivative"/>
+        <Items MessageType = "3233" Message ="Equity Derivative"/>
+      </Code>
+     
+      <Code ReplyCode="0">
+        <Items MessageType = "1172" Message ="Block Deal"/>
+      </Code>
+      <Code ReplyCode="1000">
+        <Items MessageType = "1853" Message ="Admin Delete/Capital"/>
+      </Code>
+      <Code ReplyCode="1001">
+        <Items MessageType = "1522" Message ="Scrip Suspended"/>
+      </Code>
+      <Code ReplyCode="1002">
+        <Items MessageType = "1856" Message ="Block Deal"/>
+      </Code>
+    </Filter>
+    
+    <Filter Type = "SPOS">
+      <Code ReplyCode="18">
+        <Items MessageType = "1170" Message ="Unmatched SPOS orders"/>
+        <Items MessageType = "1172" Message ="Unmatched SPOS orders"/>
+        <Items MessageType = "3233" Message ="Unmatched SPOS orders"/>
+      </Code>
+      <Code ReplyCode="19">
+        <Items MessageType = "1170" Message ="Out of price band"/>
+        <Items MessageType = "1172" Message ="Out of price band"/>
+        <Items MessageType = "3233" Message ="Out of price band"/>
+      </Code>
+    </Filter>
+
+    <Filter Type = "RRM">
+      <Code ReplyCode="21">
+        <Items MessageType = "1170" Message ="Position Limit Exceed"/>
+        <Items MessageType = "1172" Message ="Position Limit Exceed"/>
+        <Items MessageType = "3233" Message ="Position Limit Exceed"/>
+      </Code>
+      <Code ReplyCode="22">
+        <Items MessageType = "1170" Message ="MWPL RRM -Client"/>
+        <Items MessageType = "1172" Message ="MWPL RRM -Client"/>
+        <Items MessageType = "3233" Message ="MWPL RRM -Client"/>
+      </Code>
+      <Code ReplyCode="23">
+        <Items MessageType = "1170" Message ="MWPL Admin RRM"/>
+        <Items MessageType = "1172" Message ="MWPL Admin RRM"/>
+        <Items MessageType = "3233" Message ="MWPL Admin RRM"/>
+      </Code>
+      <Code ReplyCode="24">
+        <Items MessageType = "1170" Message ="MWPL Admin RRM -Client"/>
+        <Items MessageType = "1172" Message ="MWPL Admin RRM -Client"/>
+        <Items MessageType = "3233" Message ="MWPL Admin RRM -Client"/>
+      </Code>
+      <Code ReplyCode="25">
+        <Items MessageType = "1170" Message ="MWPL Capital RRM"/>
+        <Items MessageType = "1172" Message ="MWPL Capital RRM"/>
+        <Items MessageType = "3233" Message ="MWPL Capital RRM"/>
+      </Code>
+      <Code ReplyCode="26">
+        <Items MessageType = "1170" Message ="MWPL Capital RRM -Client"/>
+        <Items MessageType = "1172" Message ="MWPL Capital RRM -Client"/>
+        <Items MessageType = "3233" Message ="MWPL Capital RRM -Client"/>
+      </Code>
+      <Code ReplyCode="27">
+        <Items MessageType = "1170" Message ="MWPL Exchange RRM"/>
+        <Items MessageType = "1172" Message ="MWPL Exchange RRM"/>
+        <Items MessageType = "3233" Message ="MWPL Exchange RRM"/>
+      </Code>
+      <Code ReplyCode="28">
+        <Items MessageType = "1170" Message ="MWPL Exchange RRM -Client"/>
+        <Items MessageType = "1172" Message ="MWPL Exchange RRM -Client"/>
+        <Items MessageType = "3233" Message ="MWPL Exchange RRM -Client"/>
+      </Code>
+      <Code ReplyCode="29">
+        <Items MessageType = "1170" Message ="MWPL RRM"/>
+        <Items MessageType = "1172" Message ="MWPL RRM"/>
+        <Items MessageType = "3233" Message ="MWPL RRM"/>
+      </Code>
+      <Code ReplyCode="30">
+        <Items MessageType = "1170" Message ="MWPL RRM -Client"/>
+        <Items MessageType = "1172" Message ="MWPL RRM -Client"/>
+        <Items MessageType = "3233" Message ="MWPL RRM -Client"/>
+      </Code>
+      
+      <Code ReplyCode="101">
+        <Items MessageType = "1170" Message ="Session Expired in RRM"/>
+      </Code>
+      <Code ReplyCode="241">
+        <Items MessageType = "3233" Message ="RRM Regulatory"/>
+      </Code>
+      <Code ReplyCode="285">
+        <Items MessageType = "1170" Message ="Only IOC ord RRM"/>
+      </Code>
+      <Code ReplyCode="595">
+        <Items MessageType = "1170" Message ="Multiple RRM Order"/>
+      </Code>
+      <Code ReplyCode="599">
+        <Items MessageType = "1170" Message ="RRM Order"/>
+      </Code>
+      <Code ReplyCode="986">
+        <Items MessageType = "1170" Message ="Error in MWPL"/>
+      </Code>
+      <Code ReplyCode="987">
+        <Items MessageType = "1170" Message ="Multilple RRM order"/>
+      </Code>
+      <Code ReplyCode="990">
+        <Items MessageType = "1170" Message ="Insuffiicient collateral"/>
+      </Code>
+      <Code ReplyCode="991">
+        <Items MessageType = "1170" Message ="Non margined"/>
+      </Code>
+      <Code ReplyCode="992">
+        <Items MessageType = "1170" Message ="Invalid Order"/>
+      </Code>
+      <Code ReplyCode="1003">
+        <Items MessageType = "24004" Message ="RRM/Mem Suspended"/>
+      </Code>
+      <Code ReplyCode="1004">
+        <Items MessageType = "1920" Message ="Cancel RRM Order"/>
+      </Code>
+    </Filter>
+
+    <Filter Type ="EOSSESS">
+      <Code ReplyCode="420">
+        <Items MessageType = "1170" Message ="End of Session"/>
+        <Items MessageType = "3233" Message ="End of Session"/>
+      </Code>
+      <Code ReplyCode="425">
+        <Items MessageType = "1170" Message ="End of Session"/>
+        <Items MessageType = "3233" Message ="End of Session"/>
+      </Code>
+      <Code ReplyCode="620">
+        <Items MessageType = "1170" Message ="End of Session"/>
+        <Items MessageType = "3233" Message ="End of Session"/>
+      </Code>
+      <Code ReplyCode="625">
+        <Items MessageType = "1170" Message ="End of Session"/>
+        <Items MessageType = "3233" Message ="End of Session"/>
+      </Code>
+      <Code ReplyCode="422">
+        <Items MessageType = "1170" Message ="End of Day"/>
+        <Items MessageType = "3233" Message ="End of Day"/>
+      </Code>
+      <Code ReplyCode="426">
+        <Items MessageType = "1170" Message ="End of Day"/>
+        <Items MessageType = "3233" Message ="End of Day"/>
+      </Code>
+      <Code ReplyCode="622">
+        <Items MessageType = "1170" Message ="End of Day"/>
+        <Items MessageType = "3233" Message ="End of Day"/>
+      </Code>
+      <Code ReplyCode="626">
+        <Items MessageType = "1170" Message ="End of Day"/>
+        <Items MessageType = "3233" Message ="End of Day"/>
+      </Code>
+      <Code ReplyCode="1005">
+        <Items MessageType = "1" Message ="End of Session"/>
+      </Code>
+      <Code ReplyCode="1006">
+        <Items MessageType = "1854" Message ="End of Day"/>
+      </Code>
+    </Filter>
+
+    <Filter Type ="MASSCANCELL">
+      <Code ReplyCode="0">
+        <Items MessageType = "1927" Message ="No Special Reason"/>
+      </Code>
+      <Code ReplyCode="1">
+        <Items MessageType = "1927" Message ="Stop Trading"/>
+      </Code>
+      <Code ReplyCode="2">
+        <Items MessageType = "1927" Message ="Emergency"/>
+      </Code>
+      <Code ReplyCode="3">
+        <Items MessageType = "1927" Message ="Market Maker Protection"/>
+      </Code>
+      <Code ReplyCode="4">
+        <Items MessageType = "1927" Message ="Stop Button Activated"/>
+      </Code>
+      <Code ReplyCode="5">
+        <Items MessageType = "1927" Message ="Business Unit Suspended"/>
+      </Code>
+      <Code ReplyCode="6">
+        <Items MessageType = "1927" Message ="Session Loss"/>
+      </Code>
+      <Code ReplyCode="7">
+        <Items MessageType = "1927" Message ="RRM Collateral Exhaustion"/>
+      </Code>
+      <Code ReplyCode="8">
+        <Items MessageType = "1927" Message ="RRM Regulatory"/>
+      </Code>
+      <Code ReplyCode="9">
+        <Items MessageType = "1927" Message ="RRM MWPL"/>
+      </Code>
+      <Code ReplyCode="10">
+        <Items MessageType = "1927" Message ="End of Session"/>
+      </Code>
+      <Code ReplyCode="11">
+        <Items MessageType = "1927" Message ="End of Day"/>
+      </Code>
+      <Code ReplyCode="105">
+        <Items MessageType = "1927" Message ="Product Halt"/>
+      </Code>
+    </Filter>
+  </MessageFilters>
+</ReturnedOrderMessages>
