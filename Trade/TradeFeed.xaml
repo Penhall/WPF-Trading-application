@@ -1,0 +1,70 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.Trade.TradeFeed"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="TradeFeedWindow"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"
+         xmlns:control="clr-namespace:CommonFrontEnd.View.UserControls"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Title="Online Trade Feed" Height="240" Width="450"  ShowInTaskbar="False" Background="White" Foreground="White" ResizeMode="NoResize">
+    
+    <Common:TitleBarHelperClass.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding btnCloseClick}" CommandParameter="{Binding ElementName=TradeFeedWindow}"/>
+    </Common:TitleBarHelperClass.InputBindings>
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" >
+            <i:InvokeCommandAction Command="{Binding Window_Loaded}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid  Margin="1,1,2,-3" Height="212" VerticalAlignment="Top">
+        <Label Content=" Receiver's  &#xD;&#xA; IP Address :" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Margin="0,2,0,0"/>
+        <!--<TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="86,11,0,0" Text="{Binding txtIpAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>-->
+        <control:IpAddressControl HorizontalAlignment="Left"  VerticalAlignment="Top" Width="178"  x:Name="txtIpAddress" Height="23"  Margin="86,11,0,0" FontSize="14"/>
+        <Label Content="Port Number :" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Margin="274,12,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Margin="362,12,0,0" Text="{Binding txtIpPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MaxLength="5">
+            <i:Interaction.Behaviors>
+                <Common:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+        </TextBox>
+        <!--<RadioButton Content="New Format" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Margin="11,50,0,0"/>-->
+        <Label Content="HH" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,58,0,0"/>
+        <Label Content="MM" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="112,58,0,0"/>
+        <Label Content="SS" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,58,0,0"/>
+        <!--<Label Content="Segments:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-1,59,0,0"/>-->
+        <Label Content="Start Time :" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Margin="4,76,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Width="25" VerticalAlignment="Top"  Margin="81,80,0,0" Text="{Binding txtHour}"  MaxLength="2">
+            <i:Interaction.Behaviors>
+                <Common:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+        </TextBox>
+        <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="104,76,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="25" Margin="115,80,0,0" Text="{Binding txtMinute}" MaxLength="2">
+            <i:Interaction.Behaviors>
+                <Common:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+        </TextBox>
+        <TextBox HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="25" Margin="150,80,0,0" Text="{Binding txtSeconds}" MaxLength="2">
+            <i:Interaction.Behaviors>
+                <Common:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+        </TextBox>
+        <!--<CheckBox Content="Equity and Debt" HorizontalAlignment="Left" VerticalAlignment="Top" Height="27" Width="120" Margin="66,64,0,0"/>-->
+        <!--<CheckBox Content="Derivative Trades" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="178,74,0,0" Width="120" Height="27"/>-->
+        <!--<CheckBox Content="Currency Trades" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="297,74,-8,0" Height="21"/>-->
+        <Label Content="Reply :" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,165,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{Binding ReplyText,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" VerticalAlignment="Top" Width="340" Margin="57,168,0,0" IsReadOnly="True" Foreground="Red"/>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="23" Width="75" Margin="84,125,0,0" Command="{Binding SocketConnection}">
+            <AccessText>_Start Feed</AccessText>
+        </Button>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="199,125,0,0" Height="23" Command="{Binding AbortSocketConnection}">
+            <AccessText>S_top Feed</AccessText>
+        </Button>
+        <!--<Label Content="(with Clean Price of that Scripts)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="101,44,0,0"/>-->
+        <Label Content=":" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="139,76,0,0"/>
+
+    </Grid>
+
+
+
+</Common:TitleBarHelperClass>

@@ -1,0 +1,153 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.Trade.NetPositionClientWiseDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"
+        ResizeMode="CanResizeWithGrip"
+        Width="900" 
+        Height="314"
+        Top="{Binding TopPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Left="{Binding LeftPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Title="{Binding NetPositionClientWiseScripWiseDetail}" 
+        Background="White" Style="{DynamicResource DefaultFont}" Foreground="White" ShowInTaskbar="False" x:Name="NPClientScripwiseWindow">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="LocationChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SizeChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding NetPositionCWSWWindowClosing}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <CollectionViewSource x:Key="MyItemsViewSource" Source="{Binding NetPositionCWSWDataCollectionWindow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="ScripID" Direction="Ascending"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Common:TitleBarHelperClass.MenuItems>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcel}" Header="Save as CSV" Id="100"/>
+    </Common:TitleBarHelperClass.MenuItems>
+
+    <Common:TitleBarHelperClass.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=NPClientScripwiseWindow}"/>
+    </Common:TitleBarHelperClass.InputBindings>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="319*"/>
+            <ColumnDefinition Width="61*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="AUTO"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="0"></ColumnDefinition>
+                <ColumnDefinition Width="0"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Height="Auto" Content="Total &#xD;&#xA;Real P/L" HorizontalAlignment="Left" Margin="0,-12,0,0" VerticalAlignment="Top" />
+            <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding TotalNetRealPLCWSW,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" IsReadOnly="True"/>
+            <Label Grid.Row="1" Grid.Column="5" Grid.RowSpan="2" Height="Auto" Content="Total &#xD;&#xA;Unreal P/L" HorizontalAlignment="Left" Margin="0,-12,0,0" VerticalAlignment="Top"/>
+            <TextBox Grid.Row="1" Grid.Column="7"  Text="{Binding TotalNetUnRealPLCWSW,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" IsReadOnly="True"/>
+            <Label Grid.Row="1" Grid.Column="9" Height="26" Content="Net P/L" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
+            <TextBox Grid.Row="1" Grid.Column="11" Text="{Binding TotalNetPLCWSW,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" IsReadOnly="True"/>
+
+            <Button Grid.Row="1" Grid.Column="15" Height="25" HorizontalAlignment="Left" Content="Square off" Command="{Binding btnSquareOff}" Margin="0,0,0,0" VerticalAlignment="Top" Width="77" />
+            <Button Grid.Row="1" Grid.Column="17" Height="25" HorizontalAlignment="Left" Content="SqOff Batch Save" Command="{Binding btnSquareOffList}" VerticalAlignment="Top" Width="115" />
+            <CheckBox x:Name="ratein4decimal" Width="100" Grid.Column="17" HorizontalAlignment="Left" Margin="138,5,-20,0" Grid.Row="1" VerticalAlignment="Top" Common:MultiWindowCheckBoxCheckExtension.IsChecked="{Binding Ratein4decimalChecked,Mode=TwoWay}" IsChecked="{Binding Ratein4decimalChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <AccessText TextWrapping="Wrap">Rate in 4-decimal</AccessText>
+            </CheckBox>
+        </Grid>
+
+        <Common:CustomDataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" SelectionUnit="FullRow" AutoGenerateColumns="False" AlternationCount="2" GridLinesVisibility="All"
+                      SelectionMode="Extended" SelectedItem="{Binding selectEntireRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                               CanUserResizeRows="False" ItemsSource="{Binding Source={StaticResource MyItemsViewSource}}" AlternatingRowBackground="#f7f7f7" SelectedItemsList="{Binding selectEntireRowList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling" IsReadOnly="True" ScrollViewer.IsDeferredScrollingEnabled="True" EnableRowVirtualization="True" EnableColumnVirtualization="True" Margin="10,0,10,10">
+            <DataGrid.Resources>
+                <Common:BindingProxy x:Key="proxy" Data="{Binding}"/>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ScripID, UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Scrip" MinWidth="60"   Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding BuyQty, UpdateSourceTrigger=PropertyChanged}" Header="BQty" MinWidth="60"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding AvgBuyRateString, UpdateSourceTrigger=PropertyChanged}" Header="BAvRate" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}" Visibility="{Binding Data.isAvgBuyRateString2decimalVisible,Source={StaticResource proxy}}"/>
+                <DataGridTextColumn Binding="{Binding AvgBuyRateString4DecimalCheck, UpdateSourceTrigger=PropertyChanged}" Header="BAvRate" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}" Visibility="{Binding Data.isAvgBuyRateString4decimalVisible,Source={StaticResource proxy}}"/>
+                <DataGridTextColumn Binding="{Binding SellQty, UpdateSourceTrigger=PropertyChanged}" Header="SQty" MinWidth="60"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding AvgSellRateString, UpdateSourceTrigger=PropertyChanged}" Header="SAvRate" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}" Visibility="{Binding Data.isAvgSellRateString2decimalVisible,Source={StaticResource proxy}}"/>
+                <DataGridTextColumn Binding="{Binding AvgSellRateString4DecimalCheck, UpdateSourceTrigger=PropertyChanged}" Header="SAvRate" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}" Visibility="{Binding Data.isAvgSellRateString4decimalVisible,Source={StaticResource proxy}}"/>
+                <DataGridTextColumn Binding="{Binding NetQty, UpdateSourceTrigger=PropertyChanged}" Header="NetQty" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding NetValue, UpdateSourceTrigger=PropertyChanged}" Header="NetValue" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding BEP, UpdateSourceTrigger=PropertyChanged}" Header="BEP" MinWidth="60"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding RealPL, UpdateSourceTrigger=PropertyChanged}" Header="Real P/L" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding UnRealPL, UpdateSourceTrigger=PropertyChanged}" Header="Unreal P/L" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding NetPL, UpdateSourceTrigger=PropertyChanged}" Header="Net P/L" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding ISINNum, UpdateSourceTrigger=PropertyChanged}" Header="ISIN No." MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>
+            </DataGrid.Columns>
+
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Export as CSV" Command="{Binding ExportExcel}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </Common:CustomDataGrid>
+        <!--<Grid Grid.Row="4" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            --><!--<TextBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding txtReply,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="25" Margin="0,0,0,0" TextWrapping="NoWrap"  VerticalAlignment="Top" Width="364" IsReadOnly="True"/>--><!--
+
+        </Grid>-->
+
+    </Grid>
+</Common:TitleBarHelperClass>

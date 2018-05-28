@@ -1,0 +1,1126 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.Touchline.MarketWatch"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:CommonFrontEnd.ViewModel.Touchline"
+        xmlns:uc="clr-namespace:CommonFrontEnd.View"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"  
+        xmlns:local="clr-namespace:CommonFrontEnd.ViewModel.Touchline"
+        xmlns:s="clr-namespace:System;assembly=mscorlib"
+        x:Name="myWindow"
+        Width="{Binding ClassicWidth,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+        Height="{Binding ClassicHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Top="{Binding TopPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Left="{Binding LeftPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"      
+       xmlns:helpers="clr-namespace:CommonFrontEnd.DataGridHelperClasses"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"       
+        xmlns:usercontrol="clr-namespace:CommonFrontEnd.View.UserControls"
+         Background="{DynamicResource WindowBackgroundBrush}" 
+        Title="{Binding TitleTouchLine,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+        ShowInTaskbar="False" Icon="../../Images/touchline01.png" 
+        ResizeMode="CanResizeWithGrip" Style="{DynamicResource DefaultFont}">
+
+    <Common:TitleBarHelperClass.MenuItems>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcel}" Header="Export To CSV" Id="100"/>
+        <!--<Common:SystemMenuItem  Header="Save as default profile" Id="101"/>-->
+        <!--<vm:SystemMenuItem Command="{Binding GridLines_visible}" Header="{Binding GridLinesVisibility}"/>
+        <vm:SystemMenuItem Command="{Binding Path=ExportAsImage}" Header="Export To Image" Id="101"/>-->
+    </Common:TitleBarHelperClass.MenuItems>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Insert" Command="{Binding ShortCut_EnterScrips}" CommandParameter="{x:Type usercontrol:ScripInsertUC}"/>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=myWindow}"/>
+        <!--<KeyBinding Key="Delete" Modifiers="Shift" Command="{Binding Delete_Scrips}"/>
+        <KeyBinding Key="Enter" Modifiers="Alt" Command="{Binding ShortCut_Enter}"/>-->
+        <KeyBinding Key="H" Modifiers="Alt" Command="{Binding HideShowFilter}" CommandParameter="{Binding ElementName=FilterToggleBtn}"/>
+        <KeyBinding Key="S" Modifiers="Alt" Command="{Binding ShowFilter}" CommandParameter="{Binding ElementName=FilterToggleBtn}"/>
+        <KeyBinding Key="C" Modifiers="Alt" Command="{Binding ClearFilterButton}"/>
+        <KeyBinding Key="F" Modifiers="Alt" Command="{Binding FontSelect}" CommandParameter="{Binding ElementName=dataGridView1}"/>
+    </Window.InputBindings>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing" >
+            <cmd:EventToCommand Command="{Binding Window_Closing}"/>
+        </i:EventTrigger>
+
+        <!--<i:EventTrigger EventName="LocationChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SizeChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>-->
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <Common:ValueConvertor x:Key="ValueConvertor"/>
+            <vm:MarketWatchVM x:Key="ClassicVM"/>
+
+            <ControlTemplate TargetType="TextBoxBase" x:Key="txt">
+                <Border CornerRadius="5" BorderThickness="1" BorderBrush="Black" x:Name="Bd" >
+                    <ScrollViewer Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="UIElement.IsEnabled">
+                        <Setter Property="Panel.Background" TargetName="Bd">
+                            <Setter.Value>
+                                <DynamicResource ResourceKey="{x:Static SystemColors.ControlBrushKey}" />
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="TextElement.Foreground">
+                            <Setter.Value>
+                                <DynamicResource ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
+                            </Setter.Value>
+                        </Setter>
+                        <Trigger.Value>
+                            <s:Boolean>False</s:Boolean>
+                        </Trigger.Value>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <Style x:Key="HoldOrResumeButton" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
+                <Setter Property="Background" Value="#e8eaed"/>
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="0.5 0.5 2 2" />
+                <Setter Property="Content">
+                    <Setter.Value>
+                        <TextBlock>
+                    <Underline>H</Underline>ide Filter
+                        </TextBlock>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Mode=Self}}" Value="True">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <TextBlock>
+                    <Underline>S</Underline>how Filter
+                                </TextBlock>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+
+            </Style>
+
+            <Style x:Key="TwitterTextBoxStyle" TargetType="{x:Type TextBox}">
+                <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="AllowDrop" Value="true" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Setter Property="FontFamily" Value="Trebuchet MS" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="UseLayoutRounding" Value="True"/>
+                <Setter Property="Padding" Value="4" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="BorderBrush" Value="#FFAAAAAA" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <ControlTemplate.Resources>
+                                <Storyboard x:Key="FocusedOn">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="FocusedOff">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="DisabledOn">
+                                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="DisabledOff">
+                                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Collapsed}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </ControlTemplate.Resources>
+                            <Grid>
+                                <Border Margin="3" x:Name="BorderBase" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" />
+                                <Border Margin="0" Background="#FFECF5FD" x:Name="FocusVisualElement" BorderBrush="#FFECF5FD" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="7" IsHitTestVisible="False" Opacity="0" >
+                                    <Border Background="#FFE3F1FC" x:Name="InnerFocusVisualElement" BorderBrush="#FFE3F1FC" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" IsHitTestVisible="False" Opacity="1" >
+                                        <Border Background="#FFD9ECFA" x:Name="InnerFocusVisualElement2" BorderBrush="#FFD9ECFA" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Opacity="1" >
+                                            <Border Background="{TemplateBinding Background}" x:Name="InnerFocusVisualElement3" BorderBrush="#FF7DBEF1" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Opacity="1" >
+                                            </Border>
+                                        </Border>
+                                    </Border>
+                                </Border>
+                                <Label Foreground="DimGray"  Grid.Column="1" Margin="3" x:Name="TextPrompt" Content="{TemplateBinding Tag}" Visibility="Collapsed" Focusable="False"></Label>
+                                <ScrollViewer Margin="3" x:Name="PART_ContentHost" Foreground="{TemplateBinding Foreground}" />
+                                <Label Margin="3" x:Name="WaterMarkLabel" Content="{TemplateBinding Tag}" VerticalAlignment="Center"
+                               Visibility="Collapsed" Foreground="Black" FontFamily="Arial"/>
+                                <Border Margin="3" x:Name="DisabledVisualElement" Background="#A5FFFFFF" BorderBrush="#59C0C0C0" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Visibility="Collapsed" />
+                                <Border Margin="3" x:Name="ReadOnlyVisualElement" Background="#66FFFFFF" CornerRadius="2.75" Visibility="Collapsed" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsFocused" Value="False"></Condition>
+                                        <Condition Property="Text" Value=""></Condition>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Visibility" TargetName="TextPrompt" Value="Visible"></Setter>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource FocusedOff}" x:Name="FocusedOff_BeginStoryboard" />
+                                    </Trigger.ExitActions>
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource FocusedOn}" x:Name="FocusedOn_BeginStoryboard" />
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource DisabledOn}" x:Name="DisabledOn_BeginStoryboard" />
+                                    </Trigger.EnterActions>
+
+                                    <Setter Property="Foreground" Value="Silver" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource DisabledOff}" />
+                                    </Trigger.EnterActions>
+
+                                    <Setter Property="Foreground" Value="#FF000000" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Visibility" TargetName="WaterMarkLabel" Value="Hidden"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <DockPanel FocusManager.FocusedElement="{Binding ElementName=UserDefCsv}" KeyboardNavigation.TabNavigation="Continue">
+        <ToolBar DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="Continue">
+            <StackPanel Margin="5" Orientation="Vertical">
+                <ToggleButton Command="{Binding BtnHideShowFilter}" Style="{StaticResource HoldOrResumeButton}" Height="23" Width="100" x:Name="FilterToggleBtn">
+                </ToggleButton>
+            </StackPanel>
+
+            <Separator/>
+
+            <StackPanel Margin="5" Orientation="Vertical">
+                <Button Command="{Binding ClearFilterButton}" Height="23" Width="100">
+                    <TextBlock>
+                    <Underline>C</Underline>lear Filter
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+
+            <Separator/>
+            <ComboBox ItemsSource="{Binding MarketsCombo}" SelectedItem="{Binding MarketsComboSelectedItem}" Margin="0,0,0,7" VerticalAlignment="Bottom">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectionChanged}">
+                            <i:InvokeCommandAction.CommandParameter>
+                                <MultiBinding Converter="{StaticResource ValueConvertor}">
+                                    <Binding ElementName="dataGridView1"/>
+                                    <Binding ElementName="SnPSensexTab"/>
+                                </MultiBinding>
+                            </i:InvokeCommandAction.CommandParameter>
+                        </i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Separator/>
+
+
+            <!--<ComboBox ItemsSource="{Binding MarketMoversCombo}" SelectedItem="{Binding MarketMoversComboSelecteditem}" Width="100"/>
+            <Separator/>-->
+
+
+            <!--<ComboBox ItemsSource="{Binding GroupCombo}" SelectedItem="{Binding GroupComboSelectedItem}" Width="100"></ComboBox>
+            <Separator/>-->
+
+            <ComboBox ItemsSource="{Binding ScripProfilingCombo}" SelectedItem="{Binding ScripProfComboSelectedItem}" Name="UserDefCsv">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectionChanged_UserDefined}">
+                            <i:InvokeCommandAction.CommandParameter>
+                                <MultiBinding Converter="{StaticResource ValueConvertor}">
+                                    <Binding ElementName="dataGridView1"/>
+                                    <Binding ElementName="SnPSensexTab"/>
+                                </MultiBinding>
+                            </i:InvokeCommandAction.CommandParameter>
+                        </i:InvokeCommandAction>
+
+                    </i:EventTrigger>
+
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Separator/>
+            <StackPanel Margin="5" Orientation="Vertical">
+                <Button Command="{Binding FontSelect}" CommandParameter="{Binding ElementName=dataGridView1}" Height="23" Width="100">
+                    <TextBlock>
+                    Change <Underline>F</Underline>ont
+                    </TextBlock>
+                </Button>
+            </StackPanel>
+
+        </ToolBar>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="83*"/>
+                <ColumnDefinition Width="297*"/>
+            </Grid.ColumnDefinitions>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction Command="{Binding OnMouseLeftButtonUp}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseMove">
+                    <i:InvokeCommandAction Command="{Binding OnMouseMove}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <DockPanel Grid.ColumnSpan="2">
+                <TabControl DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="SnPSensexTab" FocusManager.IsFocusScope="False" Height="Auto" Grid.ColumnSpan="2">
+                    <TabControl.InputBindings>
+                        <KeyBinding Key="Delete" Command="{Binding DeleteTabItems}" CommandParameter="{Binding ElementName=SnPSensexTab}"/>
+                    </TabControl.InputBindings>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding TabSelectionChanged_Event}">
+                                <i:InvokeCommandAction.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource ValueConvertor}">
+                                        <Binding ElementName="dataGridView1"/>
+                                        <Binding ElementName="SnPSensexTab"/>
+                                    </MultiBinding>
+                                </i:InvokeCommandAction.CommandParameter>
+                            </i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TabItem Header="Default" IsSelected="True"/>
+                </TabControl>
+
+                <WrapPanel DockPanel.Dock="Top" Orientation="Horizontal" Visibility="{Binding FilterVisibility}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                    <TextBox Height="30" Text="{Binding Path=DataContext.txtScripID, 
+                    RelativeSource={RelativeSource AncestorType={x:Type Grid}} ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" 
+                         Width="80" HorizontalAlignment="Left"
+                             Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Scrip ID"/>
+                    <TextBox Height="30" Text="{Binding Path=DataContext.txtScripCode, 
+                    RelativeSource={RelativeSource AncestorType={x:Type Grid}} ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="Visible"  Margin="0,0,0,0"
+                         Width="80" HorizontalAlignment="Left" 
+                        Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Scrip Code"/>
+                </WrapPanel>
+
+                <DataGrid DockPanel.Dock="Top" VerticalAlignment="Top" Name="dataGridView1" SelectionUnit="FullRow" Grid.Row="0"
+                  AutoGenerateColumns="False" AlternationCount="2" GridLinesVisibility="{Binding GrdlineVisible}"  AlternatingRowBackground="#f7f7f7"
+                   Tag="{Binding ElementName=myWindow}" SelectionMode="Extended" ScrollViewer.IsDeferredScrollingEnabled="False" EnableRowVirtualization="True"
+                  ItemsSource="{Binding  ObjTouchlineDataCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                  VirtualizingStackPanel.VirtualizationMode="Recycling" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" IsReadOnly="True"
+                  VirtualizingStackPanel.IsVirtualizing="True" 
+                  MouseMove="DataGrid_MouseMove" DragEnter="DataGrid_DragEnter" DragLeave="DataGrid_DragLeave" DragOver="DataGrid_DragOver" 
+                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2" AllowDrop="True"  helpers:RowDoubleClickHandler.MethodName="DataGrid_DoubleClick">
+                    <!--Common:VisualHelper.EnableRowsMove="True"-->
+
+
+                    <i:Interaction.Triggers>
+                        <!--<i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding DataGridDoubleClick}"/>
+                    </i:EventTrigger>-->
+                        <i:EventTrigger EventName="Loaded">
+                            <i:InvokeCommandAction Command="{Binding ScrollCommand}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="PreviewKeyDown">
+                            <cmd:EventToCommand Command="{Binding KeyDown_Event}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+
+                        <i:EventTrigger EventName="MouseRightButtonDown">
+                            <i:InvokeCommandAction Command="{Binding AddMenuColProfile}"/>
+                        </i:EventTrigger>
+
+                        <i:EventTrigger EventName="KeyUp">
+                            <cmd:EventToCommand Command="{Binding KeyUp}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+
+                        <i:EventTrigger EventName="Drop">
+                            <cmd:EventToCommand Command="{Binding Drop}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+
+                    </i:Interaction.Triggers>
+
+                    <DataGrid.InputBindings>
+                        <KeyBinding Key="Delete" Command="{Binding Delete_Scrips}"/>
+                        <KeyBinding Key="Enter" Command="{Binding ShortCut_Enter}"/>
+                        <!--<KeyBinding Key="Add" Command="{Binding Open_OrderEntry}" CommandParameter="BUY"/>
+                    <KeyBinding Key="Subtract" Command="{Binding Open_OrderEntry}" CommandParameter="SELL"/>-->
+                    </DataGrid.InputBindings>
+
+                    <DataGrid.ContextMenu >
+                        <ContextMenu>
+
+                            <!--<MenuItem Header="Menu item 1">-->
+                            <MenuItem Header="Export to CSV" Command="{Binding ExportExcel}"></MenuItem>
+                            <!--<MenuItem Header="Colour Profiling"  Command="{Binding Path=PlacementTarget.Tag.ChangeColor, RelativeSource={RelativeSource Mode=FindAncestor,                                                                                         
+                                                                           AncestorType=ContextMenu}}"></MenuItem>-->
+                            <MenuItem Header="Add Scrips"  Command="{Binding ShortCut_EnterScrips}" CommandParameter="{x:Type usercontrol:ScripInsertUC}"></MenuItem>
+
+                            <MenuItem Command="{Binding GridLines_visible}" Header="{Binding GridLinesVisibility}"/>
+                            <MenuItem Command="{Binding Insert_Blank}" Header="Insert Blank Row"/>
+                            <MenuItem Command="{Binding Delete_Scrips}" Header="Delete Row"/>
+                            <MenuItem Command="{Binding Open_Col_Profile}" CommandParameter="Touchline" Header="Create New Column Profile"/>
+                            <MenuItem  Header="Change Column Profile" ItemsSource="{Binding AddSubMenuProfiles}"   >
+                                <!--<MenuItem ItemsSource="{Binding AddSubMenuProfiles}"></MenuItem>-->
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click" >
+                                        <cmd:EventToCommand Command="{Binding Path=OnClickOfProfile}" PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </MenuItem>
+                            <MenuItem  Header="Export to Text" Command="{Binding exportText}"/>
+                            <MenuItem  Header="Scrip Profile" Command="{Binding scripProfile}"/>
+                            <MenuItem  Header="Color Profile" Command="{Binding colorProfile}"/>
+                            <MenuItem  Header="Default Profile" Command="{Binding defaultTab}"/>
+                            <MenuItem  Header="Save Profile" ItemsSource="{Binding SaveProfile}"   >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click" >
+                                        <cmd:EventToCommand Command="{Binding Path=OnClickOfSaveProfile}" PassEventArgsToCommand="True" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </MenuItem>
+                            <!--</MenuItem>-->
+                            <!--<MenuItem Header="Menu item 2" />-->
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Index}" Header="Index" Width="SizeToCells" Visibility="Hidden" ElementStyle="{StaticResource CellRightAlign}">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding ScriptId1}" Header="Scrip ID" Width="SizeToCells" MinWidth="60" Visibility="Hidden" x:Name="ScripIDColumn" ElementStyle="{StaticResource CellLeftAlign}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Foreground" Value="{Binding PrevLTPScripId}"></Setter>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+
+                        <DataGridTemplateColumn Header="Scrip Code" Width="SizeToCells"  MinWidth="60" Visibility="Hidden" x:Name="ScripCodeColumn" SortMemberPath="Scriptcode1" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Scriptcode1,StringFormat='{}{0:#}', Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CellLeftAlign}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--<DataGridTextColumn Binding="{Binding Scriptcode1,StringFormat='{}{0:#}'}" Header="Scrip Code" Width="Auto" MinWidth="80" Visibility="Visible" x:Name="ScripCodeColumn">
+                    </DataGridTextColumn>-->
+
+                        <DataGridTemplateColumn Header="BQty" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="BuyQualtity1" >
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="{Binding PrevBuyQualtity1}"></Setter>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BuyQualtity1, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  
+                                       
+                                       Foreground="{Binding ForegroundColorBuyQuantity}" Name="Buy_Qty" Style="{StaticResource CellRightAlign}"  TextWrapping="NoWrap"/>
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn  Header="BRate" Width="SizeToCells" MinWidth="70" Visibility="Hidden" CanUserSort="False" SortMemberPath="BuyRate1"  >
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="{Binding PrevBuyRate1}"></Setter>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BuyRate1,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      
+                                           Foreground="{Binding ForegroundBuyRate}"   TextWrapping="NoWrap"  Style="{StaticResource CellRightAlign}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn  Header="ORate" Width="SizeToCells" MinWidth="70" Visibility="Hidden" CanUserSort="False" SortMemberPath="SellRate1" >
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="{Binding PrevSellRate1}"></Setter>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SellRate1,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}"
+                                        Foreground="{Binding ForegroundSellR}" TextWrapping="NoWrap"  Style="{StaticResource CellRightAlign}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn  Header="OQty" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="SellQuantity1" >
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="{Binding PrevSellQuantity1}"></Setter>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SellQuantity1,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"
+                                       
+                                         Foreground="{Binding ForegroundSellQ}"  Style="{StaticResource CellRightAlign}"  TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn  Header="Open" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="True" SortMemberPath="OpenRateL" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding OpenRateL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}" 
+                                           Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn  Header="Close" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="True" SortMemberPath="CloseRateL" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CloseRateL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn   Header="LTP" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="True" SortMemberPath="LTP1" >
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="{Binding PrevLTP1}"></Setter>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LTP1,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}" 
+                                       Foreground="{Binding ForegroundLTP}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="U/D" MinWidth="32" Visibility="Hidden" >
+                            <DataGridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <Image Grid.Column="11" Stretch="None">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Setter Property="Source" Value="{x:Null}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Value="Blue" Binding="{Binding PrevLTP1}">
+                                                        <Setter Property="Source" Value="../../Images/UpTrend.png"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Value="OrangeRed" Binding="{Binding PrevLTP1}">
+                                                        <Setter Property="Source" Value="../../Images/DownTrend.png"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="High" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="True" SortMemberPath="HighRateL" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding HighRateL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Low" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="True" SortMemberPath="LowRateL" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LowRateL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="52Wk High" Width="Auto" MinWidth="70" Visibility="Hidden" CanUserSort="True" SortMemberPath="FiftyTwoHigh" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FiftyTwoHigh,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}"
+                                           Background="{Binding FiftyTwoHighBColor}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn  Header="52Wk Low" Width="Auto" MinWidth="70" Visibility="Hidden" CanUserSort="True" SortMemberPath="FiftyTwoLow" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FiftyTwoLow,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}"
+                                           Background="{Binding FiftyTwoLowBColor}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Corp. Action" Width="Auto" MinWidth="70" Visibility="Hidden" CanUserSort="False" SortMemberPath="CorpActionValue" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellLeftAlign}" Text="{Binding CorpActionValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn  Header="C.T.Vol" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="CtVolume" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding CtVolume,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Prem/Disc" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="Prem/Disc">
+                            <DataGridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding PremDisc,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn  Header="% Chg" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="ChangePercentage" >
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Foreground" Value="{Binding PrevLTPScripId}"></Setter>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding ChangePercentage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="LTQ" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="LTQ1">
+                            <DataGridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding LTQ1,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="O.I Qty" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="OI" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding OI, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="OI Value" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="OI">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding OIValue, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="OI Chg" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="OI">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding OIChange, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="IndPrice" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="IndPrice">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="IndQty" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="IndQty">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding IndEqQty, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <!--<DataGridTemplateColumn Header="Stk Price" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="IndPrice">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+
+                        <!--Expiry Date (Expiry)-->
+
+                        <DataGridTemplateColumn  Header="LC" Width="Auto" MinWidth="40" Visibility="Hidden" CanUserSort="False" SortMemberPath="LowerCtLmt">
+                            <DataGridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding LowerCtLmt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=0.00;0.00;#}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="UC" Width="Auto" MinWidth="40" Visibility="Hidden" CanUserSort="False" SortMemberPath="UpperCtLmt">
+                            <DataGridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding UpperCtLmt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=0.00;0.00;#}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Trades" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="Trades">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding NoOfTrds, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--<DataGridTemplateColumn Header="TTV" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="TTV">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+                        <DataGridTemplateColumn  Header="WAP" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="WtAvgRateL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding WtAvgRateL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=.00;.00;#}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="LTT" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="LTT">
+                            <DataGridTemplateColumn.CellTemplate >
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LastTradeTime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CellRightAlign}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--Ltp_ClosePrice-->
+                        <!--<DataGridTemplateColumn Header="Chg" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="Chg">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+                        <!--<DataGridTemplateColumn Header="LYTM" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="LYTM">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="LYTC" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="LYTC">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="LYTP" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="LYTP">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="LTPY" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="LTPY">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+
+                        <!--<DataGridTemplateColumn Header="BYTM" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="BYTM">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="BYTC" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="BYTC">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="BYTP" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="BYTP">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="SYTM" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="SYTM">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="SYTC" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="SYTC">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="SYTP" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="SYTP">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="BDRate" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="BDRate">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="SDRate" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="SDRate">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="AI" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="AI">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="BRP" Width="Auto" MinWidth="55" Visibility="Hidden" CanUserSort="False" SortMemberPath="BRP">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndEqPrice, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding ScriptId1}" Header="Asset" Width="Auto" MinWidth="85" Visibility="Hidden" x:Name="Asset">
+                    </DataGridTextColumn>-->
+
+
+                        <DataGridTemplateColumn  Header="TBQ" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="TotBuyQtyL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock  Text="{Binding TotBuyQtyL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="TSQ" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="TotSellQtyL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TotSellQtyL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--<DataGridTextColumn Binding="{Binding ScriptId1}" Header="EXN" Width="Auto" MinWidth="85" Visibility="Hidden" x:Name="EXN">
+                    </DataGridTextColumn>
+                    
+                    <DataGridTemplateColumn  Header="CT VAL" Width="Auto" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="CtValue">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CtValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='.00;.00;#'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+                        <!--Aanshumi-->
+                        <DataGridTemplateColumn  Header="Stk Price" Width="SizeToCells" MinWidth="70" Visibility="Hidden" CanUserSort="False" SortMemberPath="StrikePriceL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StrikePriceL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Expiry" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="ExpiryDateL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ExpiryDateL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="TTV" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="TotTradedValL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TotTradedValL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Chg" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="ChangeL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ChangeL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="LYTM" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="LYTML">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LYTML,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="LYTC" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="LYTCL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LYTCL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="LYTP" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="LYTPL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LYTPL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="LTPY" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="LTPYL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LTPYLL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="BYTM" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="BYTML">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BYTML,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="BYTC" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="BYTCL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BYTCL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="BYTP" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="BYTPL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BYTPL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="SYTM" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="SYTML">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SYTML,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="SYTC" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="SYTCL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SYTCL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="SYTP" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="SYTPL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SYTPL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="BDRate" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="BDRateL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BDRateL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="SDRateL" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="SDRateL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SDRateL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="AI" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="AIL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding AIL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="BRP" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="BRPL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BRPL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Asset" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="AssetL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding AssetL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="EXN" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="EXNL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding EXNL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="BSEGrp" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="BSEGrpL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BSEGrpL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="ChngInd" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="ChngIndL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ChngIndL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="CPN" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="CPNL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CPNL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="DTExp" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="DTExpL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DTExpL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellCenterAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="InsTyp" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="InsTypL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding InsTypL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellLeftAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="LstUpdtTime" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="LstUpdtTimeL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LstUpdtTimeL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}"  Style="{StaticResource CellCenterAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Mkt" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="MktL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding MktL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="MktLot" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="MktLotL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding MktLotL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="MulPlr" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="MulPlrL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding MulPlrL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="NoOfTrades" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="NoOfTradesL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding NoOfTradesL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="OType" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="OTypeL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding OTypeL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellLeftAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="PFactor" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="PFactorL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PFactorL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="SPD" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="SPDL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding SPDL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellLeftAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="TTrdQty" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="TTQL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TTQL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Tunit" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="TUnitL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TUnitL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="UAsset" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="UAssetL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding UAssetL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="ULTP" Width="SizeToCells" MinWidth="60" Visibility="Hidden" CanUserSort="False" SortMemberPath="ULTPL">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ULTPL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+
+
+
+
+
+
+
+
+
+
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+        </Grid>
+    </DockPanel>
+</Common:TitleBarHelperClass>

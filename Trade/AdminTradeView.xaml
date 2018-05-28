@@ -1,0 +1,229 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.Trade.Saudas_Admin"
+                     x:Name="Saudas_Adm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:ScrollEvnt="clr-namespace:CommonFrontEnd.ViewModel.Trade"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"                    
+                     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        Title="{Binding Title}" ResizeMode="CanResizeWithGrip" 
+        Width="778" 
+        Height="450"
+        Top="{Binding TopPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Left="{Binding LeftPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ShowInTaskbar="False" Icon="/Images/Saudas.bmp"
+                   Background="White" Foreground="White" Style="{DynamicResource DefaultFont}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="LocationChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding AdminWindow_Loaded}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SizeChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding AdminTradeWindowClosing}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Window.Resources>
+      
+
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <CollectionViewSource x:Key="MyItemsViewSource" Source="{Binding TradeViewDataCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="TimeOnly" Direction="Descending"/>
+                <scm:SortDescription PropertyName="DateTime" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!--<KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=Saudas_Admin}"/>-->
+
+    <Common:TitleBarHelperClass.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding ShortCut_Escape}"/>
+    </Common:TitleBarHelperClass.InputBindings>
+
+    <Common:TitleBarHelperClass.MenuItems>
+        <Common:SystemMenuItem Command="{Binding Path=ExportToExcelEquityDebt}" Header="Save Equity and Debt Trades" Id="1"/>
+        <!--<Common:SystemMenuItem Command="{Binding Path=ExportExcelOddLots}" Header="Save OddLot Trades" Id="4" />-->
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcelDerivative}" Header="Save Derivative Trades" Id="2"/>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcelCurrency}" Header="Save Currency Trades" Id="3"/>
+    </Common:TitleBarHelperClass.MenuItems>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="759*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Row="1" Name="dataGridView1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" SelectionUnit="FullRow" AutoGenerateColumns="False" AlternationCount="2" GridLinesVisibility="All"
+                      SelectionMode="Extended" CanUserResizeRows="False" ItemsSource="{Binding Source={StaticResource MyItemsViewSource}}" VirtualizingStackPanel.IsVirtualizing="True" AlternatingRowBackground="#f7f7f7"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling" IsReadOnly="True" ScrollViewer.IsDeferredScrollingEnabled="True" EnableRowVirtualization="True" 
+                      EnableColumnVirtualization="True" Margin="10,0,10,10" Grid.ColumnSpan="2" >
+            <!--<DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Margin" Value="20"/>
+                </Style>
+            </DataGrid.CellStyle>-->
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BSFlag}" Value="B">
+                            <Setter Property="Foreground" Value="#0937ef"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BSFlag}" Value="S">
+                            <Setter Property="Foreground" Value="#f40000"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <!--<DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BSFlag}" Value="B">
+                            <Setter Property="Foreground" Value="DarkBlue"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BSFlag}" Value="S">
+                            <Setter Property="Foreground" Value="DarkRed"/>
+                        </DataTrigger>
+                        <Trigger Property="IsSelected" Value="true">
+                            --><!--<Setter Property="Background" Value="#FF555280" />
+                            <Setter Property="BorderThickness" Value="2"></Setter>
+                            <Setter Property="BorderBrush" Value="#FFFFFFFF"></Setter>
+                            <Setter Property="Foreground" Value="White"></Setter>--><!--
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>-->
+
+            <!--<DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DataGridBgColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BSFlag}" Value="B">
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.BuyForegroundColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BSFlag}" Value="S">
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.SellForegroundColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.CellStyle>-->
+            <!--<ScrollEvnt:AdminTradeViewVM.ScrollChangedCommand="{Binding ScrollCommand}"/>-->
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="ScrollViewer.ScrollChanged">
+                    <i:InvokeCommandAction Command="{Binding ScrollCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+            <!--<i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding ScrollCommand}"/>
+            </i:EventTrigger>-->
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding TraderId,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="TraderID" MinWidth="60"   Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding BSFlag,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="B/S"  MinWidth="32" Width="SizeToCells" ElementStyle="{StaticResource CellCenterAlign}">
+                    <!--ElementStyle="{StaticResource CellLeftAlign}"-->
+                    <!--<DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="B">
+                                    <Setter Property="Foreground" Value="Blue"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="S">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>-->
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding ScripID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Scrip" MinWidth="60"  Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding ScripCode,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="SCode" MinWidth="60"  Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding LastQty,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Qty" MinWidth="60"  Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding RateInRupeesString,UpdateSourceTrigger=PropertyChanged}" Header="Rate"  MinWidth="70"  Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding Client,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Client"  MinWidth="60"  Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding TimeOnly,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Time"  MinWidth="60" Width="SizeToCells"  ElementStyle="{StaticResource CellCenterAlign}"/>
+                <DataGridTextColumn Binding="{Binding DateTime,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="DateTime"  MinWidth="75" Width="SizeToCells"  ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Header="Ord Id" MinWidth="120"  Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0}{1}">
+                            <Binding Path="OrderID" UpdateSourceTrigger="PropertyChanged"/>
+                            <Binding Path="OrderType" UpdateSourceTrigger="PropertyChanged" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn Binding="{Binding OrderID,UpdateSourceTrigger=PropertyChanged}" Header="Ord Id"    MinWidth="100"  Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding OrderType,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Ord Type"  MinWidth="70"    Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>-->
+                <DataGridTextColumn Binding="{Binding TradeID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="TrdID"   MinWidth="60"   Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding ClientType,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="CltType"  MinWidth="60"    Width="SizeToCells" ElementStyle="{StaticResource CellCenterAlign}"/>
+                <DataGridTextColumn Binding="{Binding SenderLocationID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="LocationID"   MinWidth="100"   Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}" Visibility="{Binding LocationIDVisibility,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                <DataGridTextColumn Binding="{Binding OppTraderId,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Deal Code"  MinWidth="75"    Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding CPCode,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="CP Code"   MinWidth="65"   Width="SizeToCells" CanUserSort="False" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding FreeText3,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Status"  MinWidth="60"    Width="SizeToCells" CanUserSort="False" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding Yield1,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Yield"   MinWidth="60"   Width="SizeToCells" CanUserSort="False" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding UnderlyingDirtyPrice1,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Dirty Price" MinWidth="65"  Width="SizeToCells" CanUserSort="False" ElementStyle="{StaticResource CellRightAlign}"/>
+                <!--<DataGridTextColumn Binding="{Binding ElaspedTime,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Elasped time" Width="SizeToCells"/>-->
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Save Trades in CSV format" Command="{Binding ExportExcel}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+
+            <!--<Label Content="{Binding ElapsedTime}"  HorizontalAlignment="Left" Margin="180,199,0,0" VerticalAlignment="Top"/>
+        <Label Content="{Binding TotalElapsedTime}" HorizontalAlignment="Right" Margin="0,272,404,0" VerticalAlignment="Top"/>-->
+            <Label Height="26" Content="Trades Count" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="100" />
+            <TextBox Height="25" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" RenderTransformOrigin="-0.2,-0.304" Text="{Binding Path=TradeCount,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsReadOnly="True"/>
+            <Button Height="26" HorizontalAlignment="Left" Margin="251,0,0,0" VerticalAlignment="Top" Width="81" RenderTransformOrigin="-0.427,1.182" Command="{Binding DisplayTradeFeed}" Visibility="{Binding TradeFeedBtnVisibilty}">
+                <!--<TextBlock><Underline>T</Underline>rade Feed</TextBlock>-->
+                <AccessText >_Trade Feed</AccessText>
+            </Button>
+            <!--<Button Height="22" Content="Auction/OddLot Trades" HorizontalAlignment="Left" Margin="272,8,0,0" VerticalAlignment="Top" Width="141"/>-->
+            <!--<CheckBox Height="16" Content="AD2TR New Format" HorizontalAlignment="Left" Margin="549,11,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>-->
+            <Button Height="26" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Top" Width="82" Command="{Binding DisplayOption}" Visibility="{Binding SaveTradeBtnVisibility}">
+                <!--<TextBlock><Underline>S</Underline>ave Trades</TextBlock>-->
+                <AccessText >_Save Trades</AccessText>
+            </Button>
+            <!--Command="{Binding PipeSeparated}"-->
+        </StackPanel>
+    </Grid>
+
+</Common:TitleBarHelperClass>

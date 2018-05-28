@@ -1,0 +1,86 @@
+﻿<Window x:Class="CommonFrontEnd.View.Session.SessionBroadcast"
+        x:Name="SessionBrd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.Session" ShowInTaskbar="False"
+        mc:Ignorable="d"
+        Title="Session" Height="300" Width="500">
+    
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=SessionBrd}"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1">
+            <ComboBox Width="90" HorizontalAlignment="Left" SelectedItem="{Binding SelectedExchange,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding ExchangeList,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></ComboBox>
+        </StackPanel>
+        <DataGrid HorizontalAlignment="Left" Grid.Row="3" Name="DataGridBroadcastBSE" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjSessionBroadCastCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True"
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityBSESessionBroadcast}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Msg Type" IsReadOnly="True" x:Name="MsgType" CanUserSort="True" MinWidth="75" SortMemberPath="MsgType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MsgType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Time" IsReadOnly="True" x:Name="Time" CanUserSort="True" MinWidth="75" SortMemberPath="Time">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Time,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Product Id" IsReadOnly="True" x:Name="ProductId" CanUserSort="True" MinWidth="75" SortMemberPath="ProductId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductId,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="SessionNo" IsReadOnly="True" x:Name="SessionNo" CanUserSort="True" MinWidth="75" SortMemberPath="ProductId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SessionNo,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Market Type" IsReadOnly="True" x:Name="MarketType" CanUserSort="True" MinWidth="75" SortMemberPath="MarketType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MarketType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Session Type" IsReadOnly="True" x:Name="SessionType" CanUserSort="True" MinWidth="75" SortMemberPath="SessionType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SessionType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Start / End Flag" IsReadOnly="True" x:Name="StartEndFlag" CanUserSort="True" MinWidth="100" SortMemberPath="StartEndFlag">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StartEndFlag,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

@@ -1,0 +1,100 @@
+﻿<Window x:Class="CommonFrontEnd.View.Settings.ProfileSettings"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Profiling" SizeToContent="WidthAndHeight"
+        xmlns:VM="clr-namespace:CommonFrontEnd.ViewModel.Settings"
+        xmlns:UserControl="clr-namespace:CommonFrontEnd.View.Profiling"
+        xmlns:UserTabControl="clr-namespace:CommonFrontEnd.View.Profiling"
+        xmlns:UserControlSetting="clr-namespace:CommonFrontEnd.View.Settings"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        ResizeMode="CanResize" Background="{DynamicResource WindowBackgroundBrush}"
+        x:Name="Settings"
+        Top="{Binding TopPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Left="{Binding LeftPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ShowInTaskbar="False" Icon="../../Images/Login/Setting.png">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="LocationChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SizeChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding SettingClosing}"/>
+        </i:EventTrigger>
+
+    </i:Interaction.Triggers>
+
+
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=Settings}"/>
+    </Window.InputBindings>
+    <Grid>
+        <TabControl Name="MainTabControl" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding TabSelectionChanged}" CommandParameter="{Binding ElementName= MainTabControl}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <TabItem Header="Scrips">
+                <UserControl:ScripProfiling/>
+            </TabItem>
+            <!--<TabItem Header="Columns" Visibility="Collapsed" HorizontalAlignment="Left">
+                <UserControl:ColumnProfiling></UserControl:ColumnProfiling>
+            </TabItem>-->
+            <TabItem Header="Color" Height="23" VerticalAlignment="Top" Name="ColourProfiling">
+                <!--<UserTabControl:ColourProfiling/>-->
+            </TabItem>
+            <TabItem Header="Alerts" Visibility="Collapsed"></TabItem>
+            <!--<TabItem Header="Clients" Visibility="Collapsed">
+                <UserTabControl:ClientMaster/>
+            </TabItem>-->
+            <TabItem Header="BoltSettings" Height="23" Visibility="{Binding TwsTabVisibility}" VerticalAlignment="Top" Name="BoltSettingWindow" HorizontalAlignment="Left" Width="80">
+                <!--<UserControlSetting:BoltSettings Margin="0,-3,0,0" VerticalAlignment="Top"/>-->
+            </TabItem>
+            <!--<TabItem Header="BowSettings"  Height="23" Visibility="{Binding BowTabVisibility}" VerticalAlignment="Top" Name="BowSettingWindow">
+                <UserControlSetting:BowSettings Margin="0,-3,0,0" VerticalAlignment="Top"/>
+            </TabItem>-->
+
+            <TabItem Header="Orders"  Height="23" VerticalAlignment="Top" Name="OrderProfiling">
+                <!--<UserControl:OrderProfiling Margin="0,5,0,0" VerticalAlignment="Top"/>-->
+            </TabItem>
+            <TabItem Header="Column"  Height="23" VerticalAlignment="Top" Name="ColumnProfiling">
+                <!--<UserControl:ColumnProfiling Margin="0,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="602" Width="830"/>-->
+            </TabItem>
+            <TabItem Header="Clients" Height="23" VerticalAlignment="Top" Name="ClientProfiling" >
+                <!--<UserControl:ClientProfiling Margin="0,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="602" Width="830"/>-->
+            </TabItem>
+            <TabItem Header="EmailProfiling" Height="23" VerticalAlignment="Top" Name="EmailProfiling" >
+                <!--<UserControl:EmailProfiling Margin="0,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="602"/>-->
+            </TabItem>
+            <TabItem Header="FunctionKeys" Height="23" VerticalAlignment="Top" Name="FunctionKeys" >
+                <!--<UserControl:FunctionKeys Margin="0,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="670" Width="830"/>-->
+            </TabItem>
+            <!--<TabItem Header="Email" Visibility="Collapsed">
+                <UserTabControl:Email/>
+            </TabItem>-->
+
+            <!--<TabItem Header="Client Profiling"  Height="23" VerticalAlignment="Top" Name="ClientProfiling">
+                <UserControl:ClientProfiling  Margin="0,5,0,0" VerticalAlignment="Top"/>
+            </TabItem>-->
+            <TabItem Header="Themes">
+                <!--<UserTabControl:ThemeColor1/>-->
+            </TabItem>
+           
+        </TabControl>
+
+        <!--<StackPanel VerticalAlignment="Center">
+            <Button Grid.Row="0" Grid.Column="0" TabIndex="1" Margin="40,2" Content="Scrips"></Button>
+            <Button Grid.Row="1" Grid.Column="0" TabIndex="2" Margin="40,2">Columns</Button>
+            <Button Grid.Row="2" Grid.Column="0" TabIndex="3" Margin="40,2">Color</Button>
+            <Button Grid.Row="3" Grid.Column="0" TabIndex="4" Margin="40,2">Alerts</Button>
+            <Button Grid.Row="4" Grid.Column="0" TabIndex="5" Margin="40,2">Clients</Button>
+            <Button Grid.Row="5" Grid.Column="0" TabIndex="6" Margin="40,2" Command="{Binding BoltSettings}">Settings</Button>
+            <Button Grid.Row="6" Grid.Column="0" TabIndex="7" Margin="40,2">Orders</Button>
+            <Button Grid.Row="7" Grid.Column="0" TabIndex="8" Margin="40,2">Function Keys</Button>
+            <Button Grid.Row="8" Grid.Column="0" TabIndex="9" Margin="40,2">Email</Button>
+        </StackPanel>-->
+
+    </Grid>
+
+</Window>

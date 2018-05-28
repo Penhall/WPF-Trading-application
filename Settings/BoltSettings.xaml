@@ -1,0 +1,370 @@
+﻿<UserControl x:Class="CommonFrontEnd.View.Settings.BoltSettings"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="{DynamicResource WindowBackgroundBrush}" HorizontalAlignment="Left" Height="630" Width="635"
+             xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+             xmlns:s="clr-namespace:CommonFrontEnd.Common"
+             xmlns:control="clr-namespace:CommonFrontEnd.View.UserControls"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"  FontSize="12">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding SettingScreenLoaded}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding BoltSettingClosing}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <!--Title="Configuration Settings"-->
+    <!--SizeToContent="WidthAndHeight">-->
+    <Grid HorizontalAlignment="Left" Margin="0,20,0,-20" Height="630">
+
+
+        <TabControl HorizontalAlignment="Left" Width="632" Height="630" ScrollViewer.VerticalScrollBarVisibility="Visible" Background="LightGray" Margin="2,-22,-2,20" >
+            <TabItem Header="IP Settings"  Height="29" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="76">
+                <Grid   HorizontalAlignment="Left" Width="630" VerticalAlignment="Top" Margin="0,0,-4,-2">
+                    <!--<Grid.RowDefinitions>
+                        <RowDefinition/>
+                        -->
+                    <!--<RowDefinition Height="2*"/>-->
+                    <!--
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>-->
+                    <GroupBox Grid.Row="0" Grid.Column="0" Margin="0,-2,543,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="87" Height="347">
+                        <GroupBox.Header>
+                            <Label FontWeight="Bold">Segment</Label>
+                        </GroupBox.Header>
+                        <StackPanel HorizontalAlignment="Left">
+                            <Label Height="26"  FontWeight="Bold" Margin="0,32,0,0">Equity 1</Label>
+                            <Label Height="26"  FontWeight="Bold"  Margin="0,2,0,0">Equity 2</Label>
+                            <!--<Label Height="24"  FontWeight="Bold" Margin="0,0,0,0">Bolt</Label>-->
+                            <Label Height="26"  FontWeight="Bold" Margin="0,0,0,0">BCast IP 1</Label>
+                            <!--<Label Height="24"  FontWeight="Bold" Margin="0,0,0,0">BCast IP 2</Label>-->
+
+                            <Label Height="24" FontWeight="Bold"  Width="78" Margin="-7,20,0,0"  >Derivative 1</Label>
+                            <Label Height="24" FontWeight="Bold"  Width="82"  Margin="-7,3,0,0" Content=" Derivative 2"/>
+                            <Label Height="24" FontWeight="Bold" Margin="0,5,0,0">BCast IP</Label>
+                            <Label Height="26" FontWeight="Bold" Margin="0,20,0,0" Content="Currency 1"/>
+                            <Label Height="26" FontWeight="Bold" Margin="0,1,0,0">Currency 2</Label>
+                            <Label Height="24" FontWeight="Bold" Margin="0,2,0,0">BCast IP</Label>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Row="0" Margin="0,-5,271,0" Height="348" VerticalAlignment="Top" HorizontalAlignment="Right" Width="267">
+                        <GroupBox.Header>
+                            <Label  FontWeight="Bold">Production</Label>
+                        </GroupBox.Header>
+                        <Grid Margin="-8,6,8,-6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition Height="15"></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                                <RowDefinition Height="15"></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                                <RowDefinition ></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"></ColumnDefinition>
+                                <ColumnDefinition Width="179"></ColumnDefinition>
+                                <ColumnDefinition Width="15"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="IP"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center"  FontWeight="Bold" Margin="0,-4,0,0"   ></Label>
+                            <Label Content="Port"  FontWeight="Bold" Height="25" Grid.Row="0" Grid.Column="3" Margin="0,-5,0,1"    />
+                            <control:IpAddressControl  VerticalAlignment="Top"  Grid.Column="1" Width="178"  x:Name="EquityIP1Prod" Height="23"  BorderThickness="0.5"  FontSize="14" IsEnabled="{Binding CtrEnable}"  BorderBrush="LightGray"  Grid.Row="1"   />
+                            <!--<TextBox Name="TxtEquityPort1" MaxLength="5"  Grid.Column="3" VerticalAlignment="Top" IsEnabled="{Binding CtrEnable}"   Height="23" Text="{Binding EquityPort1Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,20,0,0" Grid.RowSpan="2" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtEquityPort1_TextChanged}" CommandParameter="{Binding ElementName=TxtEquityPort1}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>-->
+                            <s:ClickSelectTextBox x:Name="TxtEquityPort1"  MaxLength="5"  Grid.Column="3" VerticalContentAlignment="Bottom"   IsEnabled="{Binding CtrEnable}"     Height="23" Text="{Binding EquityPort1Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,28,0,5" Grid.RowSpan="2" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtEquityPort1_TextChanged}" CommandParameter="{Binding ElementName=TxtEquityPort1}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <control:IpAddressControl  Grid.Column="1" Grid.Row="2"   x:Name="EquityIP2Prod" Width="178"  BorderThickness="0.5" FontSize="14"   Height="23" IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray" Margin="1,0,0,6" />
+                            <s:ClickSelectTextBox   MaxLength="5"  Grid.Row="2" Grid.Column="3" VerticalContentAlignment="Bottom"   IsEnabled="{Binding CtrEnable}"   Height="23" Text="{Binding EquityPort2Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,0,0,5" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtEquityPort2_TextChanged}" CommandParameter="{Binding ElementName=TxtEquityPort2}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <!--<control:IpAddressControl  x:Name="BoltIp1"  Grid.Row="3" Grid.Column="1"  BorderThickness="0.5" FontSize="14"     Height="23" IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray" Margin="1,2,0,2"/>-->
+                            <!--<TextBox  Name="TxtBoltPort1"   Grid.Row="3" Grid.Column="3" MaxLength="5"   IsEnabled="{Binding CtrEnable}"  Height="23" Text="{Binding BoltPort1, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,2"  >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtBoltPort1_TextChanged}" CommandParameter="{Binding ElementName=TxtBoltPort1}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>-->
+                            <control:IpAddressControl   x:Name="EquityIP1BCastProd"  Grid.Row="3" Grid.Column="1" BorderThickness="0.5"    Height="23" IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray" Margin="1,0,0,6" />
+                            <s:ClickSelectTextBox  Grid.Row="3" Grid.Column="3" MaxLength="5" VerticalContentAlignment="Bottom"  IsEnabled="{Binding CtrEnable}"   Height="23" Text="{Binding EquityPort1BCastProd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,0,0,6" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtEquityPort1BCastProd_TextChanged}" CommandParameter="{Binding ElementName=TxtEquityPort1BCastProd}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <!--<control:IpAddressControl  Grid.Row="5" Grid.Column="1"  x:Name="EquityIP2BCastProd"  BorderThickness="0.5"      Height="23"  IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray" Margin="1,1,0,31" Grid.RowSpan="2"/>-->
+                            <!--<TextBox  Name="TxtEquityPort2BCastProd" MaxLength="5"  Grid.Row="5" Grid.Column="3"  IsEnabled="{Binding CtrEnable}" Height="23" Text="{Binding EquityPort2BCastProd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,1,0,31" Grid.RowSpan="2"  >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtEquityPort2BCastProd_TextChanged}" CommandParameter="{Binding ElementName=TxtEquityPort2BCastProd}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>-->
+                            <control:IpAddressControl  Grid.Row="5"  Grid.Column="1" x:Name="DerivativeIP1Prod"   BorderThickness="0.5"  Height="23"  IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray" Margin="1,0,0,5" />
+                            <s:ClickSelectTextBox    Grid.Row="5" Grid.Column="3" MaxLength="5" VerticalContentAlignment="Bottom"  IsEnabled="{Binding CtrEnable}"  Height="23" Text="{Binding DerivativePort1Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,0,0,5"  >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtDerivativePort1_TextChanged}" CommandParameter="{Binding ElementName=TxtDerivativePort1}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <control:IpAddressControl  Grid.Row="6" Grid.Column="1" x:Name="DerivativeIP2Prod"   BorderThickness="0.5"  Height="23"  IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray" Margin="1,1,0,5" />
+                            <s:ClickSelectTextBox    MaxLength="5"  Grid.Row="6" VerticalContentAlignment="Bottom" Grid.Column="3"  IsEnabled="{Binding CtrEnable}" Height="23" Text="{Binding DerivativePort2Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,1,0,5" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtDerivativePort2_TextChanged}" CommandParameter="{Binding ElementName=TxtDerivativePort2}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <control:IpAddressControl x:Name="DerivativeIP1BCastProd" Height="23" Grid.Row="7" Grid.Column="1"  BorderThickness="0.5"  IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray" Margin="1,1,0,5"/>
+                            <s:ClickSelectTextBox  MaxLength="5"   IsEnabled="{Binding CtrEnable}" VerticalContentAlignment="Bottom" Grid.Row="7" Grid.Column="3" Height="23" Text="{Binding DerivativePort1BCastProd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,1,0,4" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtDerivativePort1BCastProd_TextChanged}" CommandParameter="{Binding ElementName=TxtDerivativePort1BCastProd}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <control:IpAddressControl x:Name="CurrencyIP1Prod"  Height="23"    Grid.Row="9" Grid.Column="1" BorderThickness="0.5" IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray" Margin="1,0,0,6"/>
+                            <s:ClickSelectTextBox  MaxLength="5"  IsEnabled="{Binding CtrEnable}" VerticalContentAlignment="Bottom" Grid.Row="9" Height="23" Grid.Column="3"  Text="{Binding CurrencyPort1Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,0,0,6">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtCurrencyPort1Prod_TextChanged}" CommandParameter="{Binding ElementName=TxtCurrencyPort1Prod}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <control:IpAddressControl x:Name="CurrencyIP2Prod"  Grid.Row="10" Grid.Column="1" BorderThickness="0.5"  Height="23"  IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray" Margin="1,0,0,5" />
+                            <s:ClickSelectTextBox  MaxLength="5" IsEnabled="{Binding CtrEnable}" VerticalContentAlignment="Bottom"  Height="23" Grid.Row="10" Grid.Column="3" Text="{Binding CurrencyPort2Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,0,0,5" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtCurrencyPort2Prod_TextChanged}" CommandParameter="{Binding ElementName=TxtCurrencyPort2Prod}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <control:IpAddressControl x:Name="CurrencyIP1BCastProd"   Margin="1,0,0,6" Grid.Row="11" Grid.Column="1" BorderThickness="0.5"  Height="23"  IsEnabled="{Binding CtrEnable}" BorderBrush="LightGray"/>
+                            <s:ClickSelectTextBox  MaxLength="5"  IsEnabled="{Binding CtrEnable}" VerticalContentAlignment="Bottom" Grid.Row="11" Grid.Column="3" Height="23"   Text="{Binding CurrencyPort1BCastProd, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,0,0,6" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtCurrencyPort1BCastProd_TextChanged}" CommandParameter="{Binding ElementName=TxtCurrencyPort1BCastProd}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <StackPanel HorizontalAlignment="Left" Width="187" Grid.ColumnSpan="3" Margin="0,-5,0,5">
+                                <!--<TextBox  Text="{Binding EquityIP1Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TabIndex="1" Width="100"  Height="23" Margin="0,0,0,0" IsEnabled="{Binding CtrEnable}"/>-->
+
+
+
+                                <!--<control:IpAddressControl x:Name="BoltIp2" Grid.Column="0" Margin="0,2,0,0" BorderThickness="1" Grid.Row="0" Height="23" Grid.ColumnSpan="7" BorderBrush="LightGray"/>-->
+
+
+
+
+
+
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right">
+
+
+
+
+
+
+
+
+
+
+
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="0" Margin="363,-5,0,0" Height="347" VerticalAlignment="Top" HorizontalAlignment="Left" Width="263" RenderTransformOrigin="0.5,0.5">
+                        <!--<GroupBox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform AngleX="0.322"/>
+                                <RotateTransform/>
+                                <TranslateTransform X="-0.994"/>
+                            </TransformGroup>
+                        </GroupBox.RenderTransform>-->
+                        <GroupBox.Header>
+                            <Label  FontWeight="Bold">Disaster Recovery</Label>
+                        </GroupBox.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition Height="15"  ></RowDefinition>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition Height="15" ></RowDefinition>
+                                <RowDefinition   ></RowDefinition>
+                                <RowDefinition  ></RowDefinition>
+                                <RowDefinition  ></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5"></ColumnDefinition>
+                                <ColumnDefinition Width="179"></ColumnDefinition>
+                                <ColumnDefinition Width="15"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                <ColumnDefinition Width="10"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="1"  FontWeight="Bold" HorizontalAlignment="Center" Margin="79,0" Width="21">IP</Label>
+                            <Label Content="Port"  FontWeight="Bold" Grid.Row="0" Grid.Column="3" ></Label>
+                            <control:IpAddressControl   Grid.Row="1" VerticalAlignment="Bottom" x:Name="EquityIP3Prod"  BorderThickness="0.5" IsEnabled="{Binding CtrEnable}" Height="23"  BorderBrush="LightGray" Grid.Column="1" Margin="1,0,0,0" />
+                            <s:ClickSelectTextBox   MaxLength="5" VerticalContentAlignment="Bottom" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="3" Width="50" HorizontalAlignment="Left"  Height="23" IsEnabled="{Binding CtrEnable}"  Text="{Binding EquityPort3Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtEquityPort3_TextChanged}" CommandParameter="{Binding ElementName=TxtEquityPort3}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <control:IpAddressControl   Grid.Row="2" Height="23" Grid.Column="1" x:Name="EquityIP4Prod" IsEnabled="{Binding CtrEnable}"  BorderThickness="0.5" BorderBrush="LightGray" Margin="1,5,0,0"/>
+                            <s:ClickSelectTextBox   Height="23" VerticalContentAlignment="Bottom" MaxLength="5" Grid.Row="2" Grid.Column="3" Width="50"   IsEnabled="{Binding CtrEnable}" HorizontalAlignment="Left"  Text="{Binding EquityPort4Prod, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,6,0,27" Grid.RowSpan="2" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtEquityPort4_TextChanged}" CommandParameter="{Binding ElementName=TxtEquityPort4}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <Label Grid.Row="3" Grid.ColumnSpan="4"  Content="Bcast IP/Port Same as Production" Width="200" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="26" Margin="1,3,0,0" />
+                            <control:IpAddressControl Height="23"  x:Name="DerivativeIP3Prod" Grid.Row="5" Grid.Column="1"   BorderThickness="0.5" IsEnabled="{Binding CtrEnable}"  BorderBrush="LightGray" Margin="1,6,0,28" Grid.RowSpan="2" />
+                            <s:ClickSelectTextBox  Height="23" VerticalContentAlignment="Bottom" MaxLength="5" Width="50" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="3"   IsEnabled="{Binding CtrEnable}" Text="{Binding DerivativePort3Prod , UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,6,0,28" Grid.RowSpan="2"  >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtDerivativePort3_TextChanged}" CommandParameter="{Binding ElementName=TxtDerivativePort3}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <control:IpAddressControl Height="23"  x:Name="DerivativeIP4Prod" Grid.Row="6" Grid.Column="1"   BorderThickness="0.5" IsEnabled="{Binding CtrEnable}"  BorderBrush="LightGray" Margin="1,6,0,0" />
+                            <s:ClickSelectTextBox   MaxLength="5" Width="50" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Height="23" Grid.Row="6" Grid.Column="3"   IsEnabled="{Binding CtrEnable}" Text="{Binding DerivativePort4Prod , UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,6,0,0"  >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtDerivativePort4Prod_TextChanged}" CommandParameter="{Binding ElementName=TxtDerivativePort4Prod}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <Label  Content="Bcast IP/Port Same as Production" Width="200" Grid.Row="7" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24" Margin="0,5,0,0" Grid.RowSpan="2"  />
+                            <control:IpAddressControl x:Name="CurrencyIP3Prod"  Height="23" Grid.Row="9" Grid.Column="1"   BorderThickness="0.5" IsEnabled="{Binding CtrEnable}"  BorderBrush="LightGray" Margin="0,7,1,28" Grid.RowSpan="2" />
+                            <s:ClickSelectTextBox  MaxLength="5"  Height="23" VerticalContentAlignment="Bottom" Width="50" HorizontalAlignment="Left" Margin="0,7,0,28" Grid.Row="9" Grid.Column="3"   IsEnabled="{Binding CtrEnable}" Text="{Binding CurrencyPort3Prod , UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.RowSpan="2"  >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtCurrencyPort3Prod_TextChanged}" CommandParameter="{Binding ElementName=TxtCurrencyPort3Prod}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <control:IpAddressControl x:Name="CurrencyIP4Prod"  Height="23" Grid.Row="10" Grid.Column="1"   BorderThickness="0.5" IsEnabled="{Binding CtrEnable}"  BorderBrush="LightGray" Margin="0,7,1,27" Grid.RowSpan="2" />
+                            <s:ClickSelectTextBox   MaxLength="5" Height="23" Width="50" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="10" Grid.Column="3"   IsEnabled="{Binding CtrEnable}" Text="{Binding CurrencyPort4Prod , UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,7,0,27" Grid.RowSpan="2"  >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtCurrencyPort4Prod_TextChanged}" CommandParameter="{Binding ElementName=TxtCurrencyPort4Prod}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                            <Label Content="Bcast IP/Port Same as Production" Width="200" Grid.Row="11" Grid.ColumnSpan="4" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Margin="0,3,0,0"  />
+
+                        </Grid>
+                    </GroupBox>
+
+                    <Button  HorizontalAlignment="Left"  FontWeight="Bold" VerticalAlignment="Top"  Width="78" Margin="55,562,0,0" Height="26" Command="{Binding btnModify_Click}"  IsEnabled="{Binding BtnModifyEnable}">
+                        <AccessText>_Modify</AccessText>
+                    </Button>
+
+                    <GroupBox  HorizontalAlignment="Left" Margin="0,344,0,0" VerticalAlignment="Top" Width="628" Height="68">
+                        <GroupBox.Header>
+                            <TextBlock Text="General Settings" FontWeight="Bold"/>
+                        </GroupBox.Header>
+                        <Grid>
+                            <Label Content="Interface IP"  FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="25" Margin="0,12,0,0" />
+                            <control:IpAddressControl  x:Name="InterfaceIP"   IsEnabled="{Binding CtrEnable}"  BorderThickness="0.5" Height="23" BorderBrush="LightGray" Margin="96,12,342,11"/>
+                            <Label Content="IML Port" HorizontalAlignment="Right"  FontWeight="Bold" VerticalAlignment="Top"  Width="63" Height="23" Margin="0,13,169,0"/>
+                            <s:ClickSelectTextBox  MaxLength="5" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Height="23" VerticalContentAlignment="Center" TextWrapping="Wrap" IsEnabled="{Binding CtrEnable}"   VerticalAlignment="Top" Width="77" Text="{Binding IMLPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0,12,85,0">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <cmd:EventToCommand Command="{Binding TxtIMLPort_TextChanged}" CommandParameter="{Binding ElementName=TxtIMLPort}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </s:ClickSelectTextBox>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox  HorizontalAlignment="Left" Margin="0,410,0,0" VerticalAlignment="Top" Width="628" Height="64">
+                        <GroupBox.Header>
+                            <TextBlock Text="Master Download Settings" FontWeight="Bold"/>
+                        </GroupBox.Header>
+                        <Grid>
+                            <Label Content="Secondary&#xD;&#xA;Extranet IP" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" Width="76" Margin="338,0,0,-1" />
+                            <Label Content="Primary&#xD;&#xA;Extranet IP"  FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Height="43" Width="80" Margin="1,0,0,-1" />
+
+                            <control:IpAddressControl x:Name="PrimaryExtranetIP"   IsEnabled="{Binding CtrEnable}" BorderThickness="0.5" Height="23" BorderBrush="LightGray" HorizontalAlignment="Left" Width="178" Margin="97,10,0,9"/>
+                            <control:IpAddressControl x:Name="SecondaryExtranetIP"    BorderThickness="0.5" IsEnabled="{Binding CtrEnable}" Height="23" Width="178" BorderBrush="LightGray" Margin="429,10,9,9"/>
+
+                        </Grid>
+                    </GroupBox>
+                    <!--<TextBox Text="{Binding InterfaceIP, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TabIndex="37"  IsEnabled="{Binding CtrEnable}" Grid.ColumnSpan="2" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Margin="49,100,304,0" Grid.Row="2" Grid.Column="1"/>-->
+
+
+                    <Button   FontWeight="Bold" VerticalAlignment="Top" Height="26" Width="78" Margin="273,562,279,0" Command="{Binding btnSave_Click}">
+                        <AccessText>_Save</AccessText>
+                    </Button>
+                    <Button HorizontalAlignment="Left"  FontWeight="Bold" VerticalAlignment="Top"  Width="78" Margin="492,563,0,0" Height="26" Command="{Binding btnCancel_Click}"   IsEnabled="{Binding BtnCancelEnable}">
+                        <AccessText Text="_Cancel"/>
+                    </Button>
+                    <GroupBox x:Name="groupBox" Header="Scrip Id/Name display" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,472,0,0" Height="84" Width="628" IsEnabled="False">
+
+                        <Grid HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="618" Margin="0,0,-2,0">
+                            <GroupBox x:Name="groupBox1" Header="Equity" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Width="180" Margin="10,1,0,-1">
+                                <Grid>
+                                    <RadioButton x:Name="radioButton" Content="Scrip Id" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="18,0,0,0" IsChecked="{Binding ScripIdEquity}"/>
+                                    <RadioButton x:Name="radioButton1" Content="Scrip Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="18,18,0,0" IsChecked="{Binding ScripNameEquity}"/>
+
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox x:Name="groupBox2" Header="Derivatives" Height="60" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="218,1,0,-1" Width="180">
+                                <Grid>
+                                    <RadioButton x:Name="radioButton2" Content="Scrip Id" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="18,0,0,0" IsChecked="{Binding ScripIdDerivative}"/>
+                                    <RadioButton x:Name="radioButton3" Content="Scrip Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="18,18,0,0" IsChecked="{Binding ScripNameDerivative}"/>
+                                </Grid>
+                            </GroupBox>
+
+                        </Grid>
+
+                    </GroupBox>
+
+                </Grid>
+            </TabItem>
+
+
+        </TabControl>
+        <!--<ScrollBar HorizontalAlignment="Left" Height="437" VerticalAlignment="Top" Grid.Column="4" Margin="75,54,-10,0" Width="19"/>-->
+
+    </Grid>
+
+
+</UserControl>

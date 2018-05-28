@@ -1,0 +1,140 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.Trade.NetPositionClientWise"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:n="clr-namespace:CommonFrontEnd.SharedMemories"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"                     
+        x:Name="NPClientWindow" 
+        ResizeMode="CanResizeWithGrip" 
+        xmlns:helpers="clr-namespace:CommonFrontEnd.Common.DataGridHelperClasses"
+        Width="785" 
+        Height="301"
+        Top="{Binding TopPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Left="{Binding LeftPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        Title="Net Position - Client Wise" ShowInTaskbar="False" Icon="/Images/NetPosCltWs.bmp"
+         Style="{DynamicResource DefaultFont}" Background="White" Foreground="White">
+
+    <Window.Resources>
+        <!--<ItemsPanelTemplate x:Key="MyPanel">
+            <VirtualizingStackPanel></VirtualizingStackPanel>
+        </ItemsPanelTemplate>-->
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <CollectionViewSource x:Key="MyItemsViewSource" Source="{Binding NetPositionCWDataCollectionDemo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="TraderId" Direction="Ascending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="LocationChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding NPCWWindowClosing}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ScripHelpClosing}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SizeChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Common:TitleBarHelperClass.MenuItems>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcel}" Header="Save Trades as CVS" Id="100"/>
+    </Common:TitleBarHelperClass.MenuItems>
+
+    <Common:TitleBarHelperClass.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=NPClientWindow}"/>
+    </Common:TitleBarHelperClass.InputBindings>
+    <Grid>
+        <Label Height="26" Content="Net Real P/L" HorizontalAlignment="Left" Margin="2,3,0,0" VerticalAlignment="Top"/>
+        <Label Height="26" Content="Net Unreal P/L" HorizontalAlignment="Left" Margin="113,3,0,0" VerticalAlignment="Top" />
+        <Label Height="26" Content="Net P/L" HorizontalAlignment="Left" Margin="227,3,0,0" VerticalAlignment="Top"/>
+        <TextBox  HorizontalAlignment="Left" Height="23" Margin="6,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="101" Text="{Binding NetRealPL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="115,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="107" Text="{Binding NetUnRealPL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="230,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106" Text="{Binding NetPL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <Button x:Name="button" Content="Save Image" HorizontalAlignment="Left"  Margin="408,20,0,0" VerticalAlignment="Top" Width="85" Height="30" Command="{Binding SaveImage}"/>
+        <Button x:Name="Email" Content="Email" HorizontalAlignment="Left"  Margin="345,20,0,0" VerticalAlignment="Top" Width="54" Height="30" Command="{Binding EmailClick}"/>
+
+        <Button Content="Refresh" HorizontalAlignment="Left" Margin="503,20,0,0" VerticalAlignment="Top"  Width="85" Height="30" Command="{Binding RefreshPL}"/>
+        <!--<Button Height="22" Content="Email" HorizontalAlignment="Left" Margin="523,26,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Height="22" Content="Save Image" HorizontalAlignment="Left" Margin="612,26,0,0" VerticalAlignment="Top" Width="75"/>-->
+        <Button Content="SqOff Batch&#xD;&#xA;      Save" Command="{Binding btnSquareOffSave}" HorizontalAlignment="Left" Margin="595,12,0,0" VerticalAlignment="Top" Width="85" Height="43" Grid.Column="3"/>
+        <Common:CustomDataGrid x:Name="dgClientWise" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  SelectionUnit="FullRow"  AutoGenerateColumns="False" AlternationCount="2" GridLinesVisibility="All"
+                      SelectionMode="Extended" SelectedItemsList="{Binding selectEntireRowList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Source={StaticResource MyItemsViewSource}}" VirtualizingStackPanel.IsVirtualizing="True"  AlternatingRowBackground="#f7f7f7"
+                       VirtualizingStackPanel.VirtualizationMode="Recycling" IsReadOnly="True" ScrollViewer.IsDeferredScrollingEnabled="True" EnableRowVirtualization="True"  CanUserResizeRows="False"
+                      EnableColumnVirtualization="True" SelectedItem="{Binding SelectedItem, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Tag="{Binding ElementName=myWindow}" Margin="10,64,10,10" helpers:RowDoubleClickHandler.MethodName="DataGrid_DoubleClick" >
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding DataGridDoubleClick}"></KeyBinding>
+            </DataGrid.InputBindings>
+            
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DataGridDoubleClick}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Export to Excel" Command="{Binding ExportExcel}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+            <!--<DataGrid.DataContext>
+                    <n:NetPositionMemory/>
+                </DataGrid.DataContext>-->
+            <!--<DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding NetValue}">
+                            <Setter Property="Foreground" Value="{Binding rowColor,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding NetValue}" Value="S">
+                            <Setter Property="Foreground" Value="#f40000"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding NetValue}" Value="0">
+                            <Setter Property="Foreground" Value="#000000"/>
+                        </DataTrigger>
+                        <Trigger Property="IsSelected" Value="true">
+
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>-->
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding TraderIdString,UpdateSourceTrigger=PropertyChanged}" Header="Trader ID" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding ClientId,UpdateSourceTrigger=PropertyChanged}" Header="Client" MinWidth="60"   Width="SizeToCells" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding ClientType,UpdateSourceTrigger=PropertyChanged}" Header="CltType" MinWidth="{Binding RoleWiseMinWidth,UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding RoleWiseMaxWidth,UpdateSourceTrigger=PropertyChanged}" Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding GrossPurchaseString,UpdateSourceTrigger=PropertyChanged}" Header="Gr.Purchase" MinWidth="85"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding GrossSellString,UpdateSourceTrigger=PropertyChanged}" Header="Gr.Sell" MinWidth="60"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding NetValue,UpdateSourceTrigger=PropertyChanged}" Header="Net Value" MinWidth="72"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding NetPL,UpdateSourceTrigger=PropertyChanged}" Header="Net P/L" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding RealPL,UpdateSourceTrigger=PropertyChanged}" Header="Real P/L" MinWidth="70"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding UnRealPL,UpdateSourceTrigger=PropertyChanged}" Header="Unreal P/L" MinWidth="78"   Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}"/>
+            </DataGrid.Columns>
+        </Common:CustomDataGrid>
+        <CheckBox x:Name="ratein4decimal" Width="100" Common:MultiWindowCheckBoxCheckExtension.IsChecked="{Binding Ratein4decimalChecked,Mode=TwoWay}" IsChecked="{Binding Ratein4decimalChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="685,15,0,0" VerticalAlignment="Top">
+            <AccessText TextWrapping="Wrap">Rate in 4-decimal</AccessText>
+        </CheckBox>
+
+
+    </Grid>
+</Common:TitleBarHelperClass>
