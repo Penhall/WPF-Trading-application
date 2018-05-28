@@ -1,0 +1,155 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CommonFrontEnd.Global
+{
+    [Serializable()]
+    class UtilityLoginDetails
+    {
+        
+            #region "Properties Set During Login Details"
+            private long mlngUserId;
+            private string mstrUserType = "";
+            private string mstrUserLoginId = "";
+            //Private mstrUserBackOfficeId As String = ""
+            private string mstrUserFirstName = "";
+            private string mstrUserLastName = "";
+            private bool mblnHasSubUsers;
+            private int mintNumberOfSubUsers;
+            private string[] mstrSubUserIds;
+            private string[] mstrSubUserLoginIds;
+            private string[] mstrSubUserBackOfficeIds;
+            private string[] mstrDMABrokers;
+            //: LoginId-FirstName-LastName
+            //: BackOfficeId-FirstName-LastName
+            private UserDetails[] mobjSubUserDetailsForSmartSearch;
+            // : Set Default as 99 Just to prevent the Format Exceptions that take place in frmListMarketWatch
+            private string mstrDefaultMWID = "99";
+            private string mstrLoginKey = "";
+            private bool mblnLoginDone;
+            private bool mblnInstitutionalClient;
+            private UserDetails[] mobjInstitutionalClients;
+            private const string PARAMETER_LOGIN_KEY = "LoginKey";
+            private static UtilityLoginDetails mobjInstance;
+            //: Do not delete this as we are creating a singleton object
+            private UtilityLoginDetails()
+            {
+            }
+            public static UtilityLoginDetails GETInstance
+            {
+                get
+                {
+                    if (mobjInstance == null)
+                    {
+                        mobjInstance = new UtilityLoginDetails();
+                    }
+                    return mobjInstance;
+                }
+            }
+
+            public long UserId
+            {
+                get { return mlngUserId; }
+                set { mlngUserId = value; }
+            }
+            public bool LoginDone
+            {
+                get { return mblnLoginDone; }
+                set { mblnLoginDone = value; }
+            }
+            public string LoginKey
+            {
+                get { return PARAMETER_LOGIN_KEY; }
+            }
+            public string LoginKeyValue
+            {
+                get { return mstrLoginKey; }
+                set { mstrLoginKey = value; }
+            }
+            public string UserType
+            {
+                get { return mstrUserType; }
+                set { mstrUserType = value; }
+            }
+            public string UserLoginId
+            {
+                get { return mstrUserLoginId; }
+                set { mstrUserLoginId = value; }
+            }
+            public string UserBackOfficeId
+            {
+                get { return mstrUserLoginId; }
+                set { mstrUserLoginId = value; }
+            }
+            public string UserFirstName
+            {
+                get { return mstrUserFirstName; }
+                set { mstrUserFirstName = value; }
+            }
+            public string UserLastName
+            {
+                get { return mstrUserLastName; }
+                set { mstrUserLastName = value; }
+            }
+            public string DefaultMWID
+            {
+                get { return mstrDefaultMWID; }
+                set
+                {
+                    if (value == null || value.Trim().Length == 0)
+                        value = "0";
+                    mstrDefaultMWID = value;
+                }
+            }
+            public bool HasSubUsers
+            {
+                get { return mblnHasSubUsers; }
+                set { mblnHasSubUsers = value; }
+            }
+            public int NumberOfSubUsers
+            {
+                get { return mintNumberOfSubUsers; }
+                set { mintNumberOfSubUsers = value; }
+            }
+            public string[] SubUserIds
+            {
+                get { return mstrSubUserIds; }
+                set { mstrSubUserIds = value; }
+            }
+            public string[] SubUserLoginIds
+            {
+                get { return mstrSubUserLoginIds; }
+                set { mstrSubUserLoginIds = value; }
+            }
+            public string[] SubUserBackOfficeIds
+            {
+                get { return mstrSubUserBackOfficeIds; }
+                set { mstrSubUserBackOfficeIds = value; }
+            }
+            public bool InstitutionalClient
+            {
+                get { return mblnInstitutionalClient; }
+                set { mblnInstitutionalClient = value; }
+            }
+            public UserDetails[] InstitutionalClients
+            {
+                get { return mobjInstitutionalClients; }
+                set { mobjInstitutionalClients = value; }
+            }
+            public UserDetails[] SubUserDetailsForSmartSearch
+            {
+                get { return mobjSubUserDetailsForSmartSearch; }
+                set { mobjSubUserDetailsForSmartSearch = value; }
+            }
+            public string[] DMA_Brokers
+            {
+                get { return mstrDMABrokers; }
+                set { mstrDMABrokers = value; }
+            }
+            #endregion
+        }
+    
+}
