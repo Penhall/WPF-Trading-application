@@ -1,0 +1,113 @@
+﻿<Window x:Class="CommonFrontEnd.View.Admin.ClientMaster"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.Admin"
+        mc:Ignorable="d"
+        Title="Step 2 - Client Master" Height="610" Width="780" ResizeMode="NoResize">
+    <Grid>
+        <GroupBox x:Name="groupBox" Header="Advance Filter" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="485" Height="69">
+            <Grid HorizontalAlignment="Left" Height="63" Margin="0,-9,-2,-3" VerticalAlignment="Top" Width="475">
+                <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="54,29,0,0" VerticalAlignment="Top" Width="100"/>
+                <ComboBox x:Name="comboBox_Copy" HorizontalAlignment="Left" Margin="169,29,0,0" VerticalAlignment="Top" Width="100"/>
+                <ComboBox x:Name="comboBox_Copy1" HorizontalAlignment="Left" Margin="285,29,0,0" VerticalAlignment="Top" Width="79"/>
+                <Button x:Name="button" Content="Filter" HorizontalAlignment="Left" Margin="398,29,0,0" VerticalAlignment="Top" Width="75"/>
+                <Label x:Name="label" Content="Filter by" HorizontalAlignment="Left" Margin="0,25,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy" Content="Branch" HorizontalAlignment="Left" Margin="79,5,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy1" Content="Group" HorizontalAlignment="Left" Margin="197,5,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label_Copy2" Content="Trader" HorizontalAlignment="Left" Margin="302,5,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox5" Header="Client ID Search" HorizontalAlignment="Left" Margin="501,10,0,0" VerticalAlignment="Top" Width="165" Height="68">
+            <Grid HorizontalAlignment="Left" Height="49" Margin="0,0,-2,-3" VerticalAlignment="Top" Width="155">
+                <TextBox x:Name="textBox4" HorizontalAlignment="Left" Height="23" Margin="-1,20,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="82"/>
+                <Button x:Name="button5" Content="Search" HorizontalAlignment="Left" Margin="86,20,0,0" VerticalAlignment="Top" Width="65"/>
+            </Grid>
+        </GroupBox>
+
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="676,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" IsReadOnly="True"/>
+        <Label x:Name="label1" Content="Count" HorizontalAlignment="Left" Margin="692,20,0,0" VerticalAlignment="Top"/>
+
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" Width="743" Height="27" HeadersVisibility="Column" AutoGenerateColumns="False" GridLinesVisibility="All"
+                  SelectionMode="Extended" IsReadOnly="True" SelectionUnit="FullRow" AlternationCount="2" IsTabStop="False" ScrollViewer.IsDeferredScrollingEnabled="True" EnableRowVirtualization="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  VirtualizingStackPanel.IsVirtualizing="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="TraderID" Header="Trader ID" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="Branch" Header="Branch" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="Group" Header="Group" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="ClientView" Header="Client View" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="OrderRights" Header="Order Rights" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="ClientViewAT" Header="Client View(A/T)" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="FourLAllow" Header="4L Allow" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="SixLAllow" Header="6L Allow" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="AuctionAllow" Header="Auction Allow" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="BlockDealAllow" Header="Block Deal Allow" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="ODDlotAllow" Header="ODD lot Allow" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="InstTradingAllow" Header="Inst Trading Allow" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+                <DataGridTextColumn x:Name="NotApplicable" Header="Not Applicable" IsReadOnly="True" Width="*" MinWidth="90" CanUserSort="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <GroupBox x:Name="groupBox1" Header="Client Section" HorizontalAlignment="Left" Margin="10,219,0,0" VerticalAlignment="Top" Width="743" Height="173">
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="733" Margin="0,0,-2,-1" Height="152">
+                <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" Margin="0,28,0,0" VerticalAlignment="Top" Width="65"/>
+                <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="82,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80"/>
+                <TextBox x:Name="textBox1_Copy" HorizontalAlignment="Left" Height="23" Margin="172,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80"/>
+                <TextBox x:Name="textBox1_Copy1" HorizontalAlignment="Left" Height="23" Margin="262,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80"/>
+                <Label x:Name="label4" Content="Client ID" HorizontalAlignment="Left" Margin="93,3,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label4_Copy" Content="First Name" HorizontalAlignment="Left" Margin="180,3,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label4_Copy1" Content="Last Name" HorizontalAlignment="Left" Margin="270,3,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="textBox1_Copy2" HorizontalAlignment="Left" Height="23" Margin="597,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="96"/>
+                <Label x:Name="label4_Copy2" Content="Contact No" HorizontalAlignment="Left" Margin="611,3,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="comboBox1_Copy" HorizontalAlignment="Left" Margin="359,28,0,0" VerticalAlignment="Top" Width="90"/>
+                <ComboBox x:Name="comboBox1_Copy1" HorizontalAlignment="Left" Margin="466,28,0,0" VerticalAlignment="Top" Width="116"/>
+                <Label x:Name="label4_Copy3" Content="Client Type" HorizontalAlignment="Left" Margin="373,3,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label4_Copy4" Content="Trd Status" HorizontalAlignment="Left" Margin="489,3,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label4_Copy5" Content="Email ID" HorizontalAlignment="Left" Margin="2,69,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="textBox5" HorizontalAlignment="Left" Height="23" Margin="60,71,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="165"/>
+                <TextBox x:Name="textBox5_Copy" HorizontalAlignment="Left" Height="23" Margin="394,71,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="264"/>
+                <Label x:Name="label4_Copy6" Content="Mapped Trader ID's" HorizontalAlignment="Left" Margin="277,69,0,0" VerticalAlignment="Top"/>
+
+                <Button x:Name="button1" Content="Submit" HorizontalAlignment="Left" Margin="599,111,0,0" VerticalAlignment="Top" Width="80" Height="25"/>
+                <Button x:Name="button1_Copy" Content="Trd Status Upload" HorizontalAlignment="Left" Margin="466,111,0,0" VerticalAlignment="Top" Width="108" Height="25"/>
+                <Button x:Name="button1_Copy1" Content="Trd Status Format" HorizontalAlignment="Left" Margin="334,111,0,0" VerticalAlignment="Top" Width="108" Height="25"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox x:Name="groupBox3" Header="Copy Trader Mapping Details" HorizontalAlignment="Left" Margin="10,397,0,0" VerticalAlignment="Top" Width="659" Height="78">
+            <Grid HorizontalAlignment="Left" Height="58" Margin="0,0,-2,-2" VerticalAlignment="Top" Width="649">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="322*"/>
+                    <ColumnDefinition Width="327*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="23" Margin="98,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="89"/>
+                <TextBox x:Name="textBox2_Copy" HorizontalAlignment="Left" Height="23" Margin="287,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="214" Grid.ColumnSpan="2"/>
+                <Label x:Name="label6" Content="From Client ID" HorizontalAlignment="Left" Margin="99,2,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="label6_Copy1" Content="Client Id's should be separated by comma&#xD;&#xA;(Space not allowed)" HorizontalAlignment="Left" Margin="282,-8,0,25" VerticalAlignment="Bottom" Height="41" Grid.ColumnSpan="2"/>
+                <Button x:Name="button2" Content="Copy" HorizontalAlignment="Left" Margin="206,28,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1"/>
+                <Button x:Name="button6" Content="Click to Copy" HorizontalAlignment="Left" Margin="194,24,0,0" VerticalAlignment="Top" Width="84" Height="31"/>
+                <ComboBox x:Name="comboBox2" HorizontalAlignment="Left" Margin="5,29,0,0" VerticalAlignment="Top" Width="80"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox4" Header="Full/Incremental Upload" HorizontalAlignment="Left" Margin="10,480,0,0" VerticalAlignment="Top" Width="743" Height="48">
+            <Grid HorizontalAlignment="Left" Height="34" Margin="-6,-6,-2,-2" VerticalAlignment="Top" Width="739">
+                <RadioButton x:Name="radioButton" Content="Incremental" HorizontalAlignment="Left" Margin="34,12,0,0" VerticalAlignment="Top"/>
+                <RadioButton x:Name="radioButton_Copy" Content="Full Replace" HorizontalAlignment="Left" Margin="143,12,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="button3" Content="1 - Client" HorizontalAlignment="Left" Margin="248,9,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button x:Name="button3_Copy" Content="2 - Client Mapping" HorizontalAlignment="Left" Margin="335,9,0,0" VerticalAlignment="Top" Width="116"/>
+                <Button x:Name="button3_Copy1" Content="Client Export" HorizontalAlignment="Left" Margin="528,9,0,0" VerticalAlignment="Top" Width="80"/>
+                <Button x:Name="button3_Copy3" Content="Export Mapping" HorizontalAlignment="Left" Margin="623,9,0,0" VerticalAlignment="Top" Width="100"/>
+            </Grid>
+        </GroupBox>
+        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="23" Margin="33,539,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="494"/>
+        <Button x:Name="button4" Content="Back" HorizontalAlignment="Left" Margin="542,539,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ClientMasterBack}"/>
+        <Button x:Name="button4_Copy" Content="Next/Skip" HorizontalAlignment="Left" Margin="655,539,0,0" VerticalAlignment="Top" Width="75"/>
+
+    </Grid>
+</Window>

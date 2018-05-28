@@ -1,0 +1,80 @@
+﻿<Window x:Class="CommonFrontEnd.View.News"
+        x:Name="WinNews"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform" 
+        xmlns:local="clr-namespace:CommonFrontEnd.View" ShowInTaskbar="False"
+        mc:Ignorable="d"
+        Title="News" Height="300" Width="291">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding Path=ShortCut_Escape}" CommandParameter="{Binding ElementName=WinNews}"/>
+            <!--<i:InvokeCommandAction Command="{Binding Path=LoadNPProgressBarWindow}"/>-->
+        </i:EventTrigger>
+       
+            <i:EventTrigger EventName="PreviewMouseDown">
+            <cmd:EventToCommand Command="{Binding CellClicked}" PassEventArgsToCommand="True" />
+                <!--PassEventArgsToCommand="True" CommandParameter="{Binding NewsId}"-->
+
+            </i:EventTrigger>
+       
+    </i:Interaction.Triggers>
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=WinNews}"/>
+    </Window.InputBindings>
+    <Grid>
+        <DataGrid  Grid.Row="3" HorizontalAlignment="Left" Name="NewsGrid" SelectionUnit="FullRow" AutoGenerateColumns="False" VerticalAlignment="Top" CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjNewsCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" GridLinesVisibility="All"
+                               SelectionMode="Extended" AlternationCount="2" CanUserAddRows="false" VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                              CanUserSortColumns="True" IsReadOnly="True" VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn  Header="News Category" IsReadOnly="True" MinWidth="85" SortMemberPath="NewsCategory">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NewsCategory,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="News Id" IsReadOnly="True" MinWidth="85" SortMemberPath="NewsId">
+                   
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NewsId,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTemplateColumn   Header="News Headline" IsReadOnly="True" MinWidth="85" SortMemberPath="NewsHeadline">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NewsHeadline,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn >-->
+                <DataGridTemplateColumn   Header="News Headline" IsReadOnly="True" MinWidth="85" SortMemberPath="NewsHeadline">
+                   
+                    <DataGridTemplateColumn.CellTemplate >                        
+                        <DataTemplate>                          
+                           <TextBox IsReadOnly="True"  Text="{Binding NewsHeadline,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" >
+                            <!--<Hyperlink NavigateUri="{Binding ObjNewsURL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >-->
+                                <!--RequestNavigate="{Binding CellClicked}" >-->
+        <!--<Run Text="{Binding NewsHeadline}" />--> 
+       
+                 
+              <!--<TextBlock Text="{Binding NewsHeadline,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}">    </TextBlock>--> 
+ <!--</Hyperlink>-->              </TextBox>
+                           
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn >
+               
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="button" Content="ALL BSE NEWS" Command="{Binding AllBSENews}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Margin="90,117,0,0"/>
+
+
+    </Grid>
+</Window>

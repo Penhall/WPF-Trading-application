@@ -1,0 +1,141 @@
+﻿<Window x:Class="CommonFrontEnd.View.DigitalClock.CustomLockScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.DigitalClock"
+        mc:Ignorable="d" x:Name="CustomLockScreenWindow"
+        Title="Trading Workstation locked ..." SizeToContent="WidthAndHeight" Style="{DynamicResource DefaultFont}" 
+        ShowInTaskbar="False" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+         xmlns:Common="clr-namespace:CommonFrontEnd.Common">
+    <i:Interaction.Behaviors>
+        <Common:HideCloseButtonOnWindow />
+    </i:Interaction.Behaviors>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <Style x:Key="PwdStyle" TargetType="{x:Type PasswordBox}">
+                        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Setter Property="AllowDrop" Value="true" />
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Setter Property="FontFamily" Value="Trebuchet MS" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="UseLayoutRounding" Value="True"/>
+                        <Setter Property="Padding" Value="4" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="BorderBrush" Value="#FFAAAAAA" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                    <ControlTemplate.Resources>
+                                        <Storyboard x:Key="FocusedOn">
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <Storyboard x:Key="FocusedOff">
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <Storyboard x:Key="DisabledOn">
+                                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <Storyboard x:Key="DisabledOff">
+                                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Collapsed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </ControlTemplate.Resources>
+                                    <Grid>
+                                        <Border Margin="3" x:Name="BorderBase" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" />
+                                        <Border Margin="0" Background="#FFECF5FD" x:Name="FocusVisualElement" BorderBrush="#FFECF5FD" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="7" IsHitTestVisible="False" Opacity="0" >
+                                            <Border Background="#FFE3F1FC" x:Name="InnerFocusVisualElement" BorderBrush="#FFE3F1FC" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" IsHitTestVisible="False" Opacity="1" >
+                                                <Border Background="#FFD9ECFA" x:Name="InnerFocusVisualElement2" BorderBrush="#FFD9ECFA" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Opacity="1" >
+                                                    <Border Background="{TemplateBinding Background}" x:Name="InnerFocusVisualElement3" BorderBrush="#FF7DBEF1" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Opacity="1" >
+                                                    </Border>
+                                                </Border>
+                                            </Border>
+                                        </Border>
+                                        <Label Foreground="DimGray"  Grid.Column="1" Margin="3" x:Name="TextPrompt" Content="{TemplateBinding Tag}" Visibility="Collapsed" Focusable="False"></Label>
+                                        <ScrollViewer Margin="3" x:Name="PART_ContentHost" Foreground="{TemplateBinding Foreground}" />
+                                        <Label Margin="3" x:Name="WaterMarkLabel" Content="{TemplateBinding Tag}" VerticalAlignment="Center"
+                               Visibility="Collapsed" Foreground="Black" FontFamily="Arial"/>
+                                        <Border Margin="3" x:Name="DisabledVisualElement" Background="#A5FFFFFF" BorderBrush="#59C0C0C0" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Visibility="Collapsed" />
+                                        <Border Margin="3" x:Name="ReadOnlyVisualElement" Background="#66FFFFFF" CornerRadius="2.75" Visibility="Collapsed" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsFocused" Value="False"></Condition>
+                                                <!--<Condition Property="Text" Value=""></Condition>-->
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter Property="Visibility" TargetName="TextPrompt" Value="Visible"></Setter>
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
+                                        <Trigger Property="IsFocused" Value="True">
+                                            <Trigger.ExitActions>
+                                                <BeginStoryboard Storyboard="{StaticResource FocusedOff}" x:Name="FocusedOff_BeginStoryboard" />
+                                            </Trigger.ExitActions>
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource FocusedOn}" x:Name="FocusedOn_BeginStoryboard" />
+                                            </Trigger.EnterActions>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource DisabledOn}" x:Name="DisabledOn_BeginStoryboard" />
+                                            </Trigger.EnterActions>
+
+                                            <Setter Property="Foreground" Value="Silver" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="True">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource DisabledOff}" />
+                                            </Trigger.EnterActions>
+
+                                            <Setter Property="Foreground" Value="#FF000000" />
+                                        </Trigger>
+                                        <Trigger Property="IsKeyboardFocused" Value="True">
+                                            <Setter Property="Visibility" TargetName="WaterMarkLabel" Value="Hidden"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border BorderThickness="5" BorderBrush="LightCoral" CornerRadius="10" x:Name="masterBorder">
+        <Grid Background="White" Margin="0.5,0.5,0.5,0.5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="343*"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="/Images/LockScreenIcon.ico" Height="40"/>
+            <TextBlock Text="This trading workstation is in use and has been locked." Grid.Column="1" Margin="8,5,0,0" VerticalAlignment="Top"/>
+            <TextBlock x:Name="secondmessage" Grid.Column="1" Margin="8,25,0,0" VerticalAlignment="Top"/>
+            <TextBlock Text="Enter Password and Press on Unlock button to Unlock the screen." Grid.Column="1" Margin="8,45,0,0" VerticalAlignment="Top"/>
+            <TextBlock Text="Enter Password for Unlocking: " Grid.Column="1" Margin="8,69,0,0" VerticalAlignment="Top" Width="195" HorizontalAlignment="Left"/>
+            <PasswordBox x:Name="LockScreePassword" Grid.Column="1" VerticalAlignment="Top" Margin="208,65,271,0" Tag="Password" Style="{StaticResource PwdStyle}" Width="100"/>
+            <Button  Grid.Column="1" Margin="99,69,0,0" Width="50" IsDefault="True" Height="23" VerticalAlignment="Top" HorizontalAlignment="Center" Click="Button_Click">
+                <AccessText>_Unlock</AccessText>
+            </Button>
+            <!--<TextBlock Text="{Binding CapitalInfoMsg,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="15,10,0,10" Grid.Row="0" FontFamily="Verdana" FontWeight="ExtraBlack" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Height="64" Width="559" Padding="6,6"/>
+        <CheckBox IsChecked="{Binding chkDontShow,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="15" Grid.Row="1" HorizontalAlignment="Left" RenderTransformOrigin="1.72,1.541" Margin="14,29,0,24"/>
+        <TextBlock Text="Don't show this message again" Grid.Row="1" Margin="33,27,229,24"/>
+        <Button Content="OK" Grid.Row="1" Margin="0,21,20,28" HorizontalAlignment="Right" Command="{Binding btnOkClick}" CommandParameter="{Binding ElementName=CustomMessageWindow}" Width="24"/>-->
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,172 @@
+﻿<Window x:Class="CommonFrontEnd.View.ScripInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View"
+        mc:Ignorable="d"
+        Title="Scrip Info" Height="573.654" Width="621.399" ShowInTaskbar="False" Style="{DynamicResource DefaultFont}" ResizeMode="CanResizeWithGrip">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseOnEscape}"/>
+    </Window.InputBindings>
+    <Window.Resources>
+        <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <GroupBox x:Name="groupBox" Header="Scrip Information" HorizontalAlignment="Left" VerticalAlignment="Top" Height="309" Width="598">
+                <Grid Margin="0,1,-2,-1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="30*"/>
+                        <RowDefinition Height="29*"/>
+                        <RowDefinition Height="29*"/>
+                        <RowDefinition Height="25*"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="185*"/>
+                        <ColumnDefinition Width="185*"/>
+                        <ColumnDefinition Width="186*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label" Content="Scrip ID" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="173"/>
+                    <Label x:Name="label1" Content="SCode" HorizontalAlignment="Left" Height="30" Margin="22,0,0,0" VerticalAlignment="Top" Width="115" Grid.Column="1"/>
+                    <Label x:Name="label2" Content="ISIN" Grid.Column="1" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="101" Margin="156,0,0,0" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="textBox" HorizontalAlignment="Left" IsTabStop="False" IsReadOnly="True" Height="23" Margin="0,23,0,0"  TextWrapping="Wrap" Text="{Binding ScripID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="191"  Grid.RowSpan="2"/>
+                    <TextBox x:Name="textBox1" HorizontalAlignment="Left" IsReadOnly="True" IsTabStop="False" Height="23" Margin="22,23,0,0" TextWrapping="Wrap" Text="{Binding Scode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="107"  Grid.Column="1" Grid.RowSpan="2"/>
+                    <TextBox x:Name="textBox2" Grid.Column="1" IsTabStop="False" HorizontalAlignment="Left" IsReadOnly="True" Height="23" Margin="156,23,0,0" Text="{Binding ISIN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"  VerticalAlignment="Top" Width="217" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+                    <Label x:Name="label4" Content="SName" HorizontalAlignment="Right" Height="28" Grid.Row="1" VerticalAlignment="Top" Width="95" Margin="0,2,96,0" Grid.RowSpan="2"/>
+                    <Label x:Name="label5" Content="Sett Option" Grid.Column="2" HorizontalAlignment="Left" Height="33" Margin="49,0,0,0" VerticalAlignment="Top" Width="103" Grid.Row="4"/>
+                    <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="23" IsTabStop="False" IsReadOnly="True" Margin="0,26,0,0" Grid.Row="1" Text="{Binding SName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="397" Grid.ColumnSpan="3" Grid.RowSpan="2" />
+                    <TextBox x:Name="textBox4" IsTabStop="False" Grid.Column="2" HorizontalAlignment="Left"  Height="23" IsReadOnly="True" Text="{Binding SettOptn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="48,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="131" Grid.Row="4" Grid.RowSpan="2" />
+                    <Label x:Name="label3" Content="Mkt Lot" HorizontalAlignment="Right"  Margin="0,27,71,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Height="38" Grid.RowSpan="2"/>
+                    <Label x:Name="label6" Content="Tick Size" HorizontalAlignment="Left" Height="39" Margin="141,26,0,0" Grid.Row="2" VerticalAlignment="Top" Width="95" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                    <Label x:Name="label7" Content="Face Value" Grid.Column="1" HorizontalAlignment="Left" Height="26" Margin="90,25,0,0" Grid.Row="2" VerticalAlignment="Top" Width="95" Grid.RowSpan="2"/>
+                    <TextBox x:Name="textBox5" HorizontalAlignment="Left" IsTabStop="False" Height="23" IsReadOnly="True" Grid.Row="3" Text="{Binding MktLotEq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" Margin="0,6,0,0" />
+                    <TextBox x:Name="textBox6" HorizontalAlignment="Left" Height="23" IsTabStop="False" IsReadOnly="True" Margin="141,5,0,0" Grid.Row="3" Text="{Binding TicketSizeEqt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="114" Grid.ColumnSpan="2" />
+                    <TextBox x:Name="textBox7" Grid.Column="1" HorizontalAlignment="Left" IsTabStop="False" IsReadOnly="True" Height="23" Margin="94,5,0,0" Grid.Row="3" Text="{Binding FaceValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"  Grid.ColumnSpan="2"/>
+                    <Label x:Name="label8" Content="Scrip Grp" HorizontalAlignment="Left" Height="33" Margin="64,0,0,0" VerticalAlignment="Top" Width="109" Grid.Row="4"/>
+                    <Label x:Name="label9" Content="  GSM" HorizontalAlignment="Left" Height="26" Grid.Row="4" VerticalAlignment="Top" Width="95" Grid.ColumnSpan="2" Margin="134,0,0,0"/>
+                    <Label x:Name="label10" Content="Status" Grid.Column="1" HorizontalAlignment="Left" Height="26" Margin="90,0,0,0" Grid.Row="4" VerticalAlignment="Top" Width="95"/>
+                    <TextBox x:Name="textBox8" HorizontalAlignment="Left" IsTabStop="False" IsReadOnly="True" Height="23" Margin="77,25,0,0" TextWrapping="Wrap" Text="{Binding ScrpGrp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="35" Grid.Row="4" Grid.RowSpan="2" />
+                    <TextBox x:Name="textBox9" Height="23" IsTabStop="False" Margin="141,25,133,0"  Grid.Row="4" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding GSM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"  Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                    <TextBox x:Name="textBox10" Grid.Column="1" IsTabStop="False" HorizontalAlignment="Right" IsReadOnly="True" Height="23" Margin="0,25,186,0" Text="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+                    <Label x:Name="label11" Content="  52 Weeks High Price" HorizontalAlignment="Left" Height="28" Margin="36,2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="159" Grid.Column="2" Grid.RowSpan="2"/>
+                    <Label x:Name="label12" Content="52 Weeks Low Price" Grid.Column="2" HorizontalAlignment="Left" Height="25" Margin="48,25,0,0" Grid.Row="2" VerticalAlignment="Top" Width="140" Grid.RowSpan="2"/>
+                    <Label x:Name="label13" Content="BSE &#xD;&#xA;Exclusive" HorizontalAlignment="Left" Height="66" Margin="0,26,0,0" Grid.Row="3" VerticalAlignment="Top" Width="67" Grid.RowSpan="3"/>
+                    <TextBox x:Name="textBox11" HorizontalAlignment="Left" Height="23" IsTabStop="False" IsReadOnly="True" Margin="49,26,0,0" Grid.Row="1" Text="{Binding FWeekHP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.Column="2" Grid.RowSpan="2" />
+                    <TextBox x:Name="textBox12" Grid.Column="2" HorizontalAlignment="Left" IsTabStop="False" Height="23" IsReadOnly="True" Margin="49,6,0,0" Grid.Row="3" Text="{Binding FWeekLP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" />
+                    <TextBox x:Name="textBox13" HorizontalAlignment="Left" IsTabStop="False" IsReadOnly="True" Height="23" Grid.Row="4" Text="{Binding BseExc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="59" Margin="0,25,0,0" Grid.RowSpan="2" />
+                    <Label x:Name="label14" Content="VAR/IM %" HorizontalAlignment="Left" Height="33" Margin="0,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="109"/>
+                    <TextBox x:Name="textBox16" IsTabStop="False" Height="23" Margin="0,35,82,0" Grid.Row="5" IsReadOnly="True" Text="{Binding VARIM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Grid.RowSpan="2" />
+                    <Label x:Name="label16" Grid.ColumnSpan="2" Content="VAR EM %" HorizontalAlignment="Left" Height="33" Margin="141,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="107"/>
+                    <TextBox x:Name="textBox17" Grid.ColumnSpan="2" IsTabStop="False" HorizontalAlignment="Left" Height="23" IsReadOnly="True" Text="{Binding VAREM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="141,35,0,0" Grid.Row="5" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="114" />
+                    <Label x:Name="label15" Grid.ColumnSpan="2" Content="Partition ID " Grid.Column="1" HorizontalAlignment="Left" Height="33" Margin="90,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="116"/>
+                    <Label x:Name="label17" Content="Product ID" Grid.Column="2" HorizontalAlignment="Left" Height="33" Margin="49,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="139"/>
+                    <TextBox x:Name="textBox14" IsTabStop="False" Grid.ColumnSpan="2" Grid.Column="1" IsReadOnly="True" HorizontalAlignment="Left" Text="{Binding PartnID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Height="23" Margin="94,35,0,0" Grid.Row="5" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" />
+                    <TextBox x:Name="textBox15"  IsTabStop="False" Grid.Column="2" HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding ProdID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="23" Margin="48,35,0,0" Grid.Row="5" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="129" />
+
+                </Grid>
+
+
+
+            </GroupBox>
+
+            <GroupBox x:Name="groupBox2" Header="Corporate Action Information" HorizontalAlignment="Left" Height="234" Margin="0,309,0,0" VerticalAlignment="Top" Width="382">
+                <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="210" IsTabStop="False" Margin="0,0,-2,-2" VerticalAlignment="Top" Width="372" AutoGenerateColumns="False" GridLinesVisibility="All"
+                      CanUserDeleteRows="False" SelectionMode="Extended" SelectionUnit="FullRow"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                      ScrollViewer.HorizontalScrollBarVisibility="Visible"  EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="false"
+                      CanUserResizeColumns="True" CanUserResizeRows="True" Grid.RowSpan="10" ItemsSource="{Binding CAInfoGrid,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                    <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="IsTabStop" Value="False"/>
+                    </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                    <DataGridTemplateColumn  Header="Purpose" IsReadOnly="True" Width="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding purposeOrEvent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Ex Date" IsReadOnly="True" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding exDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="BC Start Date" IsReadOnly="True" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding bookClosureFrom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="BC End Date" IsReadOnly="True" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding bookClosureTo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="Record Date" IsReadOnly="True" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding recordDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="ND Start Date" IsReadOnly="True" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding NdStartDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn  Header="ND End Date" IsReadOnly="True" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ndEndDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox x:Name="groupBox3" Header="Scrip On Indices" HorizontalAlignment="Left" Height="234" Margin="382,309,0,0" VerticalAlignment="Top" Width="134">
+                <DataGrid x:Name="dataGrid1" HorizontalAlignment="Left" IsTabStop="False" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Height="210" Margin="0,0,-2,-2" VerticalAlignment="Top" Width="124" ItemsSource="{Binding IndicesMemory}" AutoGenerateColumns="False">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="IsTabStop" Value="False"/>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn  Header="On Indices" IsReadOnly="True" Width="121">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <Button x:Name="button1" HorizontalAlignment="Left" Height="25" Margin="550,384,0,0" TabIndex="0"  Command="{Binding Info}" VerticalAlignment="Top" Width="27">
+                <Image Height="25" Width="27" RenderTransformOrigin="0.433,0.48">
+                    <Image.Source>
+                        <BitmapImage UriSource="/Images/bselink1.bmp"/>
+                    </Image.Source>
+                </Image>
+            </Button>
+           
+            <Button x:Name="button2" Content="All Corp &#xD;&#xA; Action" HorizontalAlignment="Left" TabIndex="1" Height="41" Margin="534,430,0,0" VerticalAlignment="Top" Width="58" Command="{Binding AllCorpClick}" />
+            <!--<Button x:Name="button3" Content="Close" HorizontalAlignment="Left" Height="23" TabIndex="2" Margin="527,489,0,0" VerticalAlignment="Top" Width="71" Command="{Binding CloseWindowsOnEscape}"/>-->
+            <Button x:Name="button3" Content="Close"  HorizontalAlignment="Left" Height="23" TabIndex="2" Margin="527,489,0,0" VerticalAlignment="Top" Width="71"  Command="{Binding CloseWindowsOnEscape}" />
+        </Grid>
+    </Grid>
+
+</Window>

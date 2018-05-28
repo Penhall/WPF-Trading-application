@@ -1,0 +1,2058 @@
+﻿<Window x:Class="CommonFrontEnd.View.ScripHelp"
+        x:Name="WinScripHelp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform" 
+        xmlns:local="clr-namespace:CommonFrontEnd.View"
+        xmlns:UI="clr-namespace:CommonFrontEnd.Common"
+        mc:Ignorable="d" ShowInTaskbar="False"
+        Title="{Binding TitleScripHelp,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Height="300" Width="auto"
+         Top="{Binding TopPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Left="{Binding LeftPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+         xmlns:helpers="clr-namespace:CommonFrontEnd.DataGridHelperClasses" ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <Style x:Key="HoldOrResumeButton" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
+                <Setter Property="Content">
+                    <Setter.Value>
+                        <TextBlock>
+                    <Underline>H</Underline>ide Filter
+                        </TextBlock>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Mode=Self}}" Value="True">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <TextBlock>
+                    <Underline>S</Underline>how Filter
+                                </TextBlock>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="TwitterTextBoxStyle" TargetType="{x:Type TextBox}">
+                <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="AllowDrop" Value="true" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Setter Property="FontFamily" Value="Trebuchet MS" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="UseLayoutRounding" Value="True"/>
+                <Setter Property="Padding" Value="4" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="BorderBrush" Value="#FFAAAAAA" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <ControlTemplate.Resources>
+                                <Storyboard x:Key="FocusedOn">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="FocusedOff">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="DisabledOn">
+                                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="DisabledOff">
+                                    <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Collapsed}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </ControlTemplate.Resources>
+                            <Grid>
+                                <Border Margin="3" x:Name="BorderBase" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" />
+                                <Border Margin="0" Background="#FFECF5FD" x:Name="FocusVisualElement" BorderBrush="#FFECF5FD" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="7" IsHitTestVisible="False" Opacity="0" >
+                                    <Border Background="#FFE3F1FC" x:Name="InnerFocusVisualElement" BorderBrush="#FFE3F1FC" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" IsHitTestVisible="False" Opacity="1" >
+                                        <Border Background="#FFD9ECFA" x:Name="InnerFocusVisualElement2" BorderBrush="#FFD9ECFA" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Opacity="1" >
+                                            <Border Background="{TemplateBinding Background}" x:Name="InnerFocusVisualElement3" BorderBrush="#FF7DBEF1" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Opacity="1" >
+                                            </Border>
+                                        </Border>
+                                    </Border>
+                                </Border>
+                                <Label Foreground="DimGray"  Grid.Column="1" Margin="3" x:Name="TextPrompt" Content="{TemplateBinding Tag}" Visibility="Collapsed" Focusable="False"></Label>
+                                <ScrollViewer Margin="3" x:Name="PART_ContentHost" Foreground="{TemplateBinding Foreground}" />
+                                <Label Margin="3" x:Name="WaterMarkLabel" Content="{TemplateBinding Tag}" VerticalAlignment="Center"
+                               Visibility="Collapsed" Foreground="Black" FontFamily="Arial"/>
+                                <Border Margin="3" x:Name="DisabledVisualElement" Background="#A5FFFFFF" BorderBrush="#59C0C0C0" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Visibility="Collapsed" />
+                                <Border Margin="3" x:Name="ReadOnlyVisualElement" Background="#66FFFFFF" CornerRadius="2.75" Visibility="Collapsed" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsFocused" Value="False"></Condition>
+                                        <Condition Property="Text" Value=""></Condition>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Visibility" TargetName="TextPrompt" Value="Visible"></Setter>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource FocusedOff}" x:Name="FocusedOff_BeginStoryboard" />
+                                    </Trigger.ExitActions>
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource FocusedOn}" x:Name="FocusedOn_BeginStoryboard" />
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource DisabledOn}" x:Name="DisabledOn_BeginStoryboard" />
+                                    </Trigger.EnterActions>
+
+                                    <Setter Property="Foreground" Value="Silver" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource DisabledOff}" />
+                                    </Trigger.EnterActions>
+
+                                    <Setter Property="Foreground" Value="#FF000000" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Visibility" TargetName="WaterMarkLabel" Value="Hidden"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing" >
+            <cmd:EventToCommand Command="{Binding Path=ShortCut_Escape}" CommandParameter="{Binding ElementName=WinScripHelp}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ScripHelpWindowClosing}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=WinScripHelp}"/>
+    </Window.InputBindings>
+    <Grid>
+
+        <GroupBox Header="General Information" HorizontalAlignment="Left" Height="80" VerticalAlignment="Top" Width="750">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="33*"></RowDefinition>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto" MinWidth="117"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Row="0" Grid.Column="0" Margin="-16,3,118,31" Width="83" Height="23" SelectedItem="{Binding selectedExchange}" ItemsSource="{Binding ExchangeData,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Grid.Row="0" Height="23" Margin="94,3,0,31" ItemsSource="{Binding SegmentData}"  SelectedItem="{Binding selectedSegment,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" AllowDrop="True" Width="83"/>
+                <RadioButton Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Margin="5,19,-33,1" Visibility="{Binding CoSpdVisibility}" IsChecked="{Binding cochecked}" Content="CO"/>
+                <RadioButton Grid.Row="0" Grid.Column="4" Margin="61,18,39,2" Visibility="{Binding CoSpdVisibility}" Content="SPD" IsChecked="{Binding spdchecked}"/>
+                <Button Grid.Row="0" Grid.Column="5" Margin="15,15,0,0" Content="Search" Command="{Binding btnSearch}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Height="20"/>
+                <Button x:Name="button" Grid.Row="0" Grid.Column="5" Content="Save in CSV" Command="{Binding btnSaveinCSV}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="104,15,0,0" Height="20"/>
+                <WrapPanel Orientation="Horizontal" Margin="0,26,0,0" Visibility="{Binding FilterVisibility}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="30" Width="300">
+
+                    <TextBox Height="30" CharacterCasing="Upper" Text="{Binding Path=DataContext.txtScripID , 
+                    RelativeSource={RelativeSource AncestorType={x:Type Grid}} ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="0,2,0,0" 
+                          Grid.ColumnSpan="4" Width="90"
+                             Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Scrip ID"/>
+
+
+
+                    <TextBox Height="30" CharacterCasing="Upper" Text="{Binding Path=DataContext.txtScripCode , 
+                    RelativeSource={RelativeSource AncestorType={x:Type Grid}} , Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="90"   Grid.ColumnSpan="5" Visibility="Visible"  Margin="0,2,0,0"
+                          HorizontalAlignment="Left" 
+                        Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Scrip Code"/>
+
+                    <TextBox Height="30" CharacterCasing="Upper" Text="{Binding Path=DataContext.txtISINCode , 
+                    RelativeSource={RelativeSource AncestorType={x:Type Grid}} , Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="90"   Grid.ColumnSpan="5" Visibility="{Binding ISINCodeVisibility}"  Margin="0,2,0,0"
+                          HorizontalAlignment="Left" 
+                        Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="ISIN Code"/>
+
+                </WrapPanel>
+            </Grid>
+        </GroupBox>
+
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridEquityBSE" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjEquityDataCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityBSEEquityGrid}" helpers:RowDoubleClickHandler.MethodName="DataGrid_DoubleClickEquity">
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn Header="SC ID" IsReadOnly="True" x:Name="ScripIdColumn" CanUserSort="True" MinWidth="75" SortMemberPath="ScripId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SCID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Code" x:Name="ScripCodeColumn" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ScripCode1" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripCode,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Exchange Code" IsReadOnly="True" SortMemberPath="ExchangeCode" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding ExchangeCode,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Id" IsReadOnly="True" SortMemberPath="ScripId" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripId,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Name" IsReadOnly="True" SortMemberPath="ScripName" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Partition Id" IsReadOnly="True" SortMemberPath="PartitionId" MinWidth="75">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PartitionId,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Product Id" IsReadOnly="True" SortMemberPath="PartitionId" MinWidth="75">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductId,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Type" IsReadOnly="True" MinWidth="95" SortMemberPath="InstrumentType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Group Name" IsReadOnly="True" MinWidth="85" SortMemberPath="GroupName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding GroupName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Type" IsReadOnly="True" MinWidth="85" SortMemberPath="ScripType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Face Value" IsReadOnly="True" MinWidth="85" SortMemberPath="FaceValue">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FaceValue,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Market Lot" IsReadOnly="True" MinWidth="85" SortMemberPath="MarketLot">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MarketLot,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Tick Size" IsReadOnly="True" MinWidth="85" SortMemberPath="TickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Bse Exclusive" IsReadOnly="True" MinWidth="90" SortMemberPath="BseExclusive">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BseExclusive,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Status" IsReadOnly="True" MinWidth="50" SortMemberPath="Status">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Status,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ex Div Date" IsReadOnly="True" MinWidth="80" SortMemberPath="ExDivDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExDivDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="No Del End Date" IsReadOnly="True" MinWidth="100" SortMemberPath="NoDelEndDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NoDelEndDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="No Del Start Date" IsReadOnly="True" MinWidth="110" SortMemberPath="NoDelStartDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NoDelStartDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="New Tick Size" IsReadOnly="True" MinWidth="95" SortMemberPath="NewTickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NewTickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="ISIN Code" IsReadOnly="True" MinWidth="90" SortMemberPath="IsinCode">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding IsinCode,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Call &#xD;&#xA;Auction &#xD;&#xA;Indicator" IsReadOnly="True" SortMemberPath="CallAuctionIndicator">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CallAuctionIndicator,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Bc Start Date" IsReadOnly="True" MinWidth="95" SortMemberPath="BcStartDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BcStartDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ex Bonus Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExBonusDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExBonusDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ex Right Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExRightDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExRightDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Bc End Date" IsReadOnly="True" MinWidth="95" SortMemberPath="BcEndDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BcEndDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--
+                -->
+                <!---->
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridDerivativeBSE" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjBSEDerivativeCOCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling" SelectedItem="{Binding SelectedItemDerivateCO, Mode=TwoWay}"
+                      EnableColumnVirtualization="True" helpers:RowDoubleClickHandler.MethodName="DataGrid_DoubleClickDerivateCO"
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityBSEDerivativeCOGrid}">
+  
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="BOWID" IsReadOnly="True" CanUserSort="True" MinWidth="0" Width="0" SortMemberPath="BOWID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BOWID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Token Num" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ContractTokenNum" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractTokenNum,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="ScripID" IsReadOnly="True" MinWidth="130" SortMemberPath="ScripID">
+                    
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Assest Token Num" IsReadOnly="True" SortMemberPath="AssestTokenNum" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding AssestTokenNum,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" TextAlignment="Right" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Type" IsReadOnly="True" SortMemberPath="InstrumentType" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Asset Code" IsReadOnly="True" SortMemberPath="AssetCd" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding AssetCd,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Underlying Asset" IsReadOnly="True" SortMemberPath="UnderlyingAsset" MinWidth="75">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnderlyingAsset,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Expiry Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExpiryDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExpiryDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Strike Price" IsReadOnly="True" MinWidth="85" SortMemberPath="StrikePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StrikePrice,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Option Type" IsReadOnly="True" MinWidth="85" SortMemberPath="OptionType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OptionType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Precision" IsReadOnly="True" MinWidth="85" SortMemberPath="Precision">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Precision,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Partition ID" IsReadOnly="True" MinWidth="85" SortMemberPath="PartitionID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PartitionID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Product ID" IsReadOnly="True" MinWidth="85" SortMemberPath="ProductID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Capacity Group ID" IsReadOnly="True" MinWidth="90" SortMemberPath="CapacityGroupID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CapacityGroupID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Minimum Lot Size" IsReadOnly="True" MinWidth="50" SortMemberPath="MinimumLotSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MinimumLotSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Tick Size" IsReadOnly="True" MinWidth="80" SortMemberPath="TickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Name" IsReadOnly="True" MinWidth="100" SortMemberPath="InstrumentName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Quantity Multiplier" IsReadOnly="True" MinWidth="110" SortMemberPath="QuantityMultiplier">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding QuantityMultiplier,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Underlying Market" IsReadOnly="True" MinWidth="95" SortMemberPath="UnderlyingMarket">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnderlyingMarket,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Type" IsReadOnly="True" MinWidth="90" SortMemberPath="ContractType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Product Code" IsReadOnly="True" MinWidth="130" SortMemberPath="ProductCode">
+                    
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductCode,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                 
+                <DataGridTemplateColumn Header="Base Price" IsReadOnly="True" MinWidth="95" SortMemberPath="BasePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BasePrice,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Delete Flag" IsReadOnly="True" MinWidth="95" SortMemberPath="DeleteFlag">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DeleteFlag,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+   </DataGrid>
+    
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridDerivativeSPDBSE" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjBSEDerivativeCOCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True" SelectedItem="{Binding SelectedItemDerivateSPD, Mode=TwoWay}"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True" helpers:RowDoubleClickHandler.MethodName="DataGrid_DoubleClickDerivateSPD" 
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityBSEDerivativeSPDGrid}">
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="BOWID" IsReadOnly="True" CanUserSort="True" MinWidth="0" Width="0" SortMemberPath="BOWID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BOWID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Token Num" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ContractTokenNum" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractTokenNum,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="ScripID" IsReadOnly="True" MinWidth="85" SortMemberPath="ScripID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Assest Token Num" IsReadOnly="True" SortMemberPath="AssestTokenNum" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding AssestTokenNum,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" TextAlignment="Right" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Type" IsReadOnly="True" SortMemberPath="InstrumentType" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Asset Code" IsReadOnly="True" SortMemberPath="AssetCd" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding AssetCd,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Underlying Asset" IsReadOnly="True" SortMemberPath="UnderlyingAsset" MinWidth="75">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnderlyingAsset,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Expiry Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExpiryDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExpiryDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Strike Price" IsReadOnly="True" MinWidth="85" SortMemberPath="StrikePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StrikePrice,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Option Type" IsReadOnly="True" MinWidth="85" SortMemberPath="OptionType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OptionType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Precision" IsReadOnly="True" MinWidth="85" SortMemberPath="Precision">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Precision,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Partition ID" IsReadOnly="True" MinWidth="85" SortMemberPath="PartitionID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PartitionID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Product ID" IsReadOnly="True" MinWidth="85" SortMemberPath="ProductID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Capacity Group ID" IsReadOnly="True" MinWidth="90" SortMemberPath="CapacityGroupID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CapacityGroupID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Minimum Lot Size" IsReadOnly="True" MinWidth="50" SortMemberPath="MinimumLotSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MinimumLotSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Tick Size" IsReadOnly="True" MinWidth="80" SortMemberPath="TickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Name" IsReadOnly="True" MinWidth="100" SortMemberPath="InstrumentName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Quantity Multiplier" IsReadOnly="True" MinWidth="110" SortMemberPath="QuantityMultiplier">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding QuantityMultiplier,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Underlying Market" IsReadOnly="True" MinWidth="95" SortMemberPath="UnderlyingMarket">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnderlyingMarket,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Type" IsReadOnly="True" MinWidth="90" SortMemberPath="ContractType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Product Code" IsReadOnly="True" MinWidth="130" SortMemberPath="ProductCode">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductCode,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Base Price" IsReadOnly="True" MinWidth="95" SortMemberPath="BasePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BasePrice,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Delete Flag" IsReadOnly="True" MinWidth="95" SortMemberPath="DeleteFlag">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DeleteFlag,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!--Below Columns are for Spreads-->
+
+                <DataGridTemplateColumn Header="Contract Token Num_Leg1" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ContractTokenNum_Leg1" Visibility="{Binding ContractLeg1Visibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractTokenNum_Leg1,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Contract Token Num_Leg2" IsReadOnly="True" SortMemberPath="ContractTokenNum_Leg2" CanUserSort="True" MinWidth="100" Visibility="{Binding ContractLeg2Visibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding ContractTokenNum_Leg2,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NTAScripCode" IsReadOnly="True" SortMemberPath="ScripCode" MinWidth="95" Visibility="{Binding NtaScripCodeVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripCode,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Strategy ID" IsReadOnly="True" SortMemberPath="StrategyID" MinWidth="95" Visibility="{Binding StrategyIDVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StrategyID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="No of Legs in Strategy" IsReadOnly="True" SortMemberPath="NoofLegsinStrategy" MinWidth="75" Visibility="{Binding NoofLegsVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NoofLegsinStrategy,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Eligibility" IsReadOnly="True" MinWidth="95" SortMemberPath="Eligibility" Visibility="{Binding EligibilityVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Eligibility,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridCurrencyCOBSE" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjBSECurrencyCOCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2" 
+                              CanUserSortColumns="True" 
+                      VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                      EnableColumnVirtualization="True" helpers:RowDoubleClickHandler.MethodName="DataGrid_DoubleClickCurrency"
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityBSECurrencyCOGrid}" SelectedItem="{Binding SelectedItemCurrency, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="BOWID" IsReadOnly="True" CanUserSort="True" MinWidth="0" Width="0" SortMemberPath="BOWID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BOWID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Token Num" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ContractTokenNum" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractTokenNum,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="ScripID" IsReadOnly="True" MinWidth="95" SortMemberPath="ScripID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Assest Token Num" IsReadOnly="True" SortMemberPath="AssestTokenNum" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding AssestTokenNum,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Type" IsReadOnly="True" SortMemberPath="InstrumentType" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Asset Code" IsReadOnly="True" SortMemberPath="AssetCD" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding AssetCD,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Expiry Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExpiryDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExpiryDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Strike Price" IsReadOnly="True" MinWidth="85" SortMemberPath="StrikePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StrikePrice,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Option Type" IsReadOnly="True" MinWidth="85" SortMemberPath="OptionType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OptionType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Precision" IsReadOnly="True" MinWidth="85" SortMemberPath="Precision">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Precision,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Partition ID" IsReadOnly="True" MinWidth="85" SortMemberPath="PartitionID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PartitionID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Product ID" IsReadOnly="True" MinWidth="85" SortMemberPath="ProductID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Capacity Group ID" IsReadOnly="True" MinWidth="90" SortMemberPath="CapacityGroupID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CapacityGroupID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Minimum Lot Size" IsReadOnly="True" MinWidth="50" SortMemberPath="MinimumLotSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MinimumLotSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Tick Size" IsReadOnly="True" MinWidth="80" SortMemberPath="TickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Name" IsReadOnly="True" MinWidth="100" SortMemberPath="InstrumentName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Quantity Multiplier" IsReadOnly="True" MinWidth="110" SortMemberPath="QuantityMultiplier">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding QuantityMultiplier,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Underlying Market" IsReadOnly="True" MinWidth="95" SortMemberPath="UnderlyingMarket">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnderlyingMarket,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Type" IsReadOnly="True" MinWidth="90" SortMemberPath="ContractType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Base Price" IsReadOnly="True" MinWidth="95" SortMemberPath="BasePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BasePrice,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Delete Flag" IsReadOnly="True" MinWidth="95" SortMemberPath="DeleteFlag">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DeleteFlag,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridCurrencySPDBSE" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjBSECurrencyCOCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True"  helpers:RowDoubleClickHandler.MethodName="DataGrid_DoubleClickCurrencySPD"
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityBSECurrencySPDGrid}" SelectedItem="{Binding SelectedItemCurrencySPD, Mode=TwoWay}">
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="BOWID" IsReadOnly="True" CanUserSort="True" MinWidth="0" Width="0" SortMemberPath="BOWID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BOWID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Token Num" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ContractTokenNum" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractTokenNum,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="ScripID" IsReadOnly="True" MinWidth="95" SortMemberPath="ScripID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Assest Token Num" IsReadOnly="True" SortMemberPath="AssestTokenNum" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding AssestTokenNum,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Type" IsReadOnly="True" SortMemberPath="InstrumentType" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Asset Code" IsReadOnly="True" SortMemberPath="AssetCD" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding AssetCD,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Expiry Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExpiryDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExpiryDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Strike Price" IsReadOnly="True" MinWidth="85" SortMemberPath="StrikePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StrikePrice,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Option Type" IsReadOnly="True" MinWidth="85" SortMemberPath="OptionType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OptionType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Precision" IsReadOnly="True" MinWidth="85" SortMemberPath="Precision">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Precision,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Partition ID" IsReadOnly="True" MinWidth="85" SortMemberPath="PartitionID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PartitionID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Product ID" IsReadOnly="True" MinWidth="85" SortMemberPath="ProductID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Capacity Group ID" IsReadOnly="True" MinWidth="90" SortMemberPath="CapacityGroupID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CapacityGroupID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Minimum Lot Size" IsReadOnly="True" MinWidth="50" SortMemberPath="MinimumLotSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MinimumLotSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Tick Size" IsReadOnly="True" MinWidth="80" SortMemberPath="TickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Name" IsReadOnly="True" MinWidth="100" SortMemberPath="InstrumentName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Quantity Multiplier" IsReadOnly="True" MinWidth="110" SortMemberPath="QuantityMultiplier">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding QuantityMultiplier,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Underlying Market" IsReadOnly="True" MinWidth="95" SortMemberPath="UnderlyingMarket">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnderlyingMarket,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Type" IsReadOnly="True" MinWidth="90" SortMemberPath="ContractType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Base Price" IsReadOnly="True" MinWidth="95" SortMemberPath="BasePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BasePrice,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Delete Flag" IsReadOnly="True" MinWidth="95" SortMemberPath="DeleteFlag">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DeleteFlag,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Contract Token Num_Leg1" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ContractTokenNum_Leg1" Visibility="{Binding ContractLeg1Visibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractTokenNum_Leg1,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Contract Token Num_Leg2" IsReadOnly="True" SortMemberPath="ContractTokenNum_Leg2" CanUserSort="True" MinWidth="100" Visibility="{Binding ContractLeg2Visibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding ContractTokenNum_Leg2,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NTAScripCode" IsReadOnly="True" SortMemberPath="ScripCode" MinWidth="95" Visibility="{Binding NtaScripCodeVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripCode,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Strategy ID" IsReadOnly="True" SortMemberPath="StrategyID" MinWidth="95" Visibility="{Binding StrategyIDVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StrategyID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="No of Legs in Strategy" IsReadOnly="True" SortMemberPath="NoofLegsinStrategy" MinWidth="75" Visibility="{Binding NoofLegsVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NoofLegsinStrategy,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Eligibility" IsReadOnly="True" MinWidth="95" SortMemberPath="Eligibility" Visibility="{Binding EligibilityVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Eligibility,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridDebtBSE" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjDebtDataCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling" SelectedItem="{Binding SelectedItemDebt, Mode=TwoWay}"
+                      EnableColumnVirtualization="True" helpers:RowDoubleClickHandler.MethodName="DataGrid_DoubleClickDebt" 
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityBSEDebtGrid}">
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="SCID" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ScripId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SCID,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Code" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ScripCode1" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripCode,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Exchange Code" IsReadOnly="True" SortMemberPath="ExchangeCode" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding ExchangeCode,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Id" IsReadOnly="True" SortMemberPath="ScripId" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripId,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Name" IsReadOnly="True" SortMemberPath="ScripName" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Partition Id" IsReadOnly="True" SortMemberPath="PartitionId" MinWidth="75">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PartitionId,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Product Id" IsReadOnly="True" SortMemberPath="ProductId" MinWidth="75">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ProductId,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Type" IsReadOnly="True" MinWidth="95" SortMemberPath="InstrumentType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Group Name" IsReadOnly="True" MinWidth="85" SortMemberPath="GroupName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding GroupName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Type" IsReadOnly="True" MinWidth="85" SortMemberPath="ScripType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Face Value" IsReadOnly="True" MinWidth="85" SortMemberPath="FaceValue">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FaceValue,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Market Lot" IsReadOnly="True" MinWidth="85" SortMemberPath="MarketLot">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MarketLot,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Tick Size" IsReadOnly="True" MinWidth="85" SortMemberPath="TickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Bse Exclusive" IsReadOnly="True" MinWidth="90" SortMemberPath="BseExclusive">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BseExclusive,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Status" IsReadOnly="True" MinWidth="50" SortMemberPath="Status">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Status,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ex Div Date" IsReadOnly="True" MinWidth="80" SortMemberPath="ExDivDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExDivDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="No Del End Date" IsReadOnly="True" SortMemberPath="NoDelEndDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NoDelEndDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="No Del Start Date" IsReadOnly="True" SortMemberPath="NoDelStartDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NoDelStartDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="New Tick Size" IsReadOnly="True" MinWidth="95" SortMemberPath="NewTickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NewTickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="ISIN Code" IsReadOnly="True" MinWidth="90" SortMemberPath="IsinCode">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding IsinCode,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Call Auction Indicator" IsReadOnly="True" MinWidth="130" SortMemberPath="CallAuctionIndicator">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CallAuctionIndicator,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Bc Start Date" IsReadOnly="True" MinWidth="95" SortMemberPath="BcStartDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BcStartDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ex Bonus Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExBonusDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExBonusDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Ex Right Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExRightDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExRightDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Bc End Date" IsReadOnly="True" MinWidth="95" SortMemberPath="BcEndDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BcEndDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--
+                -->
+                <!---->
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridEquityNSE" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjNSEEquityDataCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True" 
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityNSEEquityGrid}">
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="SCID" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="SCID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SCID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Code" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ScripCode1" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripCode,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Exchange Code" IsReadOnly="True" SortMemberPath="ExchangeCode" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding ExchangeCode,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Id" IsReadOnly="True" SortMemberPath="ScripId" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripId,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip Name" IsReadOnly="True" SortMemberPath="ScripName" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               
+                <DataGridTemplateColumn Header="Group Name" IsReadOnly="True" MinWidth="85" SortMemberPath="GroupName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding GroupName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Face Value" IsReadOnly="True" MinWidth="85" SortMemberPath="FaceValue">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FaceValue,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Market Lot" IsReadOnly="True" MinWidth="85" SortMemberPath="MarketLot">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MarketLot,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Tick Size" IsReadOnly="True" MinWidth="85" SortMemberPath="TickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Status" IsReadOnly="True" MinWidth="50" SortMemberPath="Status">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Status,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               
+                <DataGridTemplateColumn Header="ISIN Code" IsReadOnly="True" MinWidth="90" SortMemberPath="IsinCode">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding IsinCode,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Call Auction Indicator" IsReadOnly="True" MinWidth="130" SortMemberPath="CallAuctionIndicator">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CallAuctionIndicator,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="SC Sequence Id" IsReadOnly="True" MinWidth="130" SortMemberPath="SCSequenceId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SCSequenceId,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridnseDerivativecoBSE" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjNSEDerivativeCOCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True" 
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityNSEDerivativeCOGrid}">
+  
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="BOWID" IsReadOnly="True" CanUserSort="True" MinWidth="0" Width="0" SortMemberPath="BOWID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BOWID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Token Num" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ContractTokenNum" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractTokenNum,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Assest Token Num" IsReadOnly="True" SortMemberPath="AssestTokenNum" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding AssestTokenNum,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Type" IsReadOnly="True" SortMemberPath="InstrumentType" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Underlying Asset" IsReadOnly="True" SortMemberPath="UnderlyingAsset" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnderlyingAsset,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+
+                <DataGridTemplateColumn Header="Expiry Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExpiryDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExpiryDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Strike Price" IsReadOnly="True" MinWidth="85" SortMemberPath="StrikePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StrikePrice,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Option Type" IsReadOnly="True" MinWidth="85" SortMemberPath="OptionType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OptionType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Precision" IsReadOnly="True" MinWidth="85" SortMemberPath="Precision">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Precision,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Minimum Lot Size" IsReadOnly="True" MinWidth="85" SortMemberPath="MinimumLotSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MinimumLotSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Tick Size" IsReadOnly="True" MinWidth="80" SortMemberPath="TickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TickSize,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Name" IsReadOnly="True" MinWidth="100" SortMemberPath="InstrumentName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Quantity Multiplier" IsReadOnly="True" MinWidth="110" SortMemberPath="QuantityMultiplier">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding QuantityMultiplier,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Delete Flag" IsReadOnly="True" MinWidth="95" SortMemberPath="DeleteFlag">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DeleteFlag,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               
+                <DataGridTemplateColumn Header="In Banned Period" IsReadOnly="True" MinWidth="95" SortMemberPath="InBannedPeriod">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InBannedPeriod,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+            </DataGrid.Columns>
+   </DataGrid>
+    
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridNSEDerivativeco" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjNSECurrencyCOCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True" 
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityNSECurrencyCOGrid}">
+  
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="BOWID" IsReadOnly="True" CanUserSort="True" MinWidth="0" Width="0" SortMemberPath="BOWID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BOWID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Contract Token Num" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="ContractTokenNum" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ContractTokenNum,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Assest Token Num" IsReadOnly="True" SortMemberPath="AssestTokenNum" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding AssestTokenNum,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Type" IsReadOnly="True" SortMemberPath="InstrumentType" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Underlying Asset" IsReadOnly="True" SortMemberPath="UnderlyingAsset" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding UnderlyingAsset,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+
+                <DataGridTemplateColumn Header="Expiry Date" IsReadOnly="True" MinWidth="95" SortMemberPath="ExpiryDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ExpiryDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Strike Price" IsReadOnly="True" MinWidth="85" SortMemberPath="StrikePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StrikePrice,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Option Type" IsReadOnly="True" MinWidth="85" SortMemberPath="OptionType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OptionType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Precision" IsReadOnly="True" MinWidth="85" SortMemberPath="Precision">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Precision,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Minimum Lot Size" IsReadOnly="True" MinWidth="85" SortMemberPath="MinimumLotSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MinimumLotSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Tick Size" IsReadOnly="True" MinWidth="80" SortMemberPath="TickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TickSize,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Instrument Name" IsReadOnly="True" MinWidth="100" SortMemberPath="InstrumentName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Quantity Multiplier" IsReadOnly="True" MinWidth="110" SortMemberPath="QuantityMultiplier">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding QuantityMultiplier,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Delete Flag" IsReadOnly="True" MinWidth="95" SortMemberPath="DeleteFlag">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DeleteFlag,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               
+                <DataGridTemplateColumn Header="In Banned Period" IsReadOnly="True" MinWidth="95" SortMemberPath="InBannedPeriod">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InBannedPeriod,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+            </DataGrid.Columns>
+   </DataGrid>
+    
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridNCDEXCommodities" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjNCDEXCommoditiesCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True" 
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityNCDEXCommoditiesGrid}">
+  
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="NCDID" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="NCDID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NCD Token" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="NCDToken" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDToken,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="NCD Instrument Name" IsReadOnly="True" SortMemberPath="NCDInstrumentName" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding NCDInstrumentName,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NCD Symbol" IsReadOnly="True" SortMemberPath="NCDSymbol" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDSymbol,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NCD Expiry Date" IsReadOnly="True" SortMemberPath="NCDExpiryDate" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDExpiryDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+
+                <DataGridTemplateColumn Header="NCD Display Expiry Date" IsReadOnly="True" MinWidth="95" SortMemberPath="NCDDisplayExpiryDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDDisplayExpiryDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NCD Strike Price" IsReadOnly="True" MinWidth="85" SortMemberPath="NCDStrikePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDStrikePrice,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NCD Option Type" IsReadOnly="True" MinWidth="85" SortMemberPath="NCDOptionType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDOptionType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NCD Board Lot Quantity" IsReadOnly="True" MinWidth="85" SortMemberPath="NCDBoardLotQuantity">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDBoardLotQuantity,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="NCD Tick Size" IsReadOnly="True" MinWidth="85" SortMemberPath="NCDTickSize">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDTickSize,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="NCD Name" IsReadOnly="True" MinWidth="80" SortMemberPath="NCDName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDName,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NCD Exercise Start Date" IsReadOnly="True" MinWidth="100" SortMemberPath="NCDExerciseStartDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDExerciseStartDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="NCD Exercise End Date" IsReadOnly="True" MinWidth="110" SortMemberPath="NCDExerciseEndDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDExerciseEndDate,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="NCD Price Numerator" IsReadOnly="True" MinWidth="95" SortMemberPath="NCDPriceNumerator">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDPriceNumerator,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               
+                <DataGridTemplateColumn Header="NCD Price Denominator" IsReadOnly="True" MinWidth="95" SortMemberPath="NCDPriceDenominator">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDPriceDenominator,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            
+                <DataGridTemplateColumn Header="NCD Price Unit" IsReadOnly="True" MinWidth="95" SortMemberPath="NCDPriceUnit">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDPriceUnit,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="NCD Quantity Unit" IsReadOnly="True" MinWidth="95" SortMemberPath="NCDQuantityUnit">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDQuantityUnit,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            
+                <DataGridTemplateColumn Header="NCD Delivery Unit" IsReadOnly="True" MinWidth="95" SortMemberPath="NCDDeliveryUnit">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDDeliveryUnit,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="NCD Delivery Lot Quantity" IsReadOnly="True" MinWidth="95" SortMemberPath="NCDDeliveryLotQuantity">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDDeliveryLotQuantity,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="NCD Sequence Id" IsReadOnly="True" MinWidth="95" SortMemberPath="NCDSequenceId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDSequenceId,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="NCD Token String" IsReadOnly="True" MinWidth="95" SortMemberPath="NCDTokenString">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NCDTokenString,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+   </DataGrid>
+
+        <DataGrid HorizontalAlignment="Left" Margin="10,85,0,0" Name="DataGridMCXCommodity" VerticalAlignment="Top" Width="auto"  CanUserDeleteRows="False"
+                              ItemsSource="{Binding ObjMCXCommoditiesCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True" 
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True" 
+                      EnableRowVirtualization="True" CanUserAddRows="false" Visibility="{Binding VisibilityMCXCommoditiesGrid}">
+           
+            <DataGrid.Columns>
+                
+                <DataGridTemplateColumn Header="MCID" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="MCID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCID,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="MC Sequence Id" IsReadOnly="True" CanUserSort="True" MinWidth="75" SortMemberPath="MCSequenceId" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCSequenceId,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="MC Instrument Name" IsReadOnly="True" SortMemberPath="MCInstrumentName" CanUserSort="True" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding MCInstrumentName,UpdateSourceTrigger=PropertyChanged, StringFormat='{}{0:#}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="MC Token" IsReadOnly="True" SortMemberPath="MCToken" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCToken,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="MC Underlying Asset" IsReadOnly="True" SortMemberPath="MCUnderlyingAsset" MinWidth="95">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCUnderlyingAsset,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+
+                <DataGridTemplateColumn Header="MC Contract Code" IsReadOnly="True" MinWidth="95" SortMemberPath="MCContractCode">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCContractCode,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="MC Strike Price" IsReadOnly="True" MinWidth="85" SortMemberPath="MCStrikePrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCStrikePrice,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="MC Option Type" IsReadOnly="True" MinWidth="85" SortMemberPath="MCOptionType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCOptionType,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="MC Expiry Date" IsReadOnly="True" MinWidth="85" SortMemberPath="MCExpiryDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCExpiryDate,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="MC Display Expiry Date" IsReadOnly="True" MinWidth="85" SortMemberPath="MCDisplayExpiryDate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCDisplayExpiryDate,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="MC Contract Description" IsReadOnly="True" MinWidth="80" SortMemberPath="MCContractDescription">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCContractDescription,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="MC Quotation Unit" IsReadOnly="True" MinWidth="100" SortMemberPath="MCQuotationUnit">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCQuotationUnit,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="MC Quotation Metric" IsReadOnly="True" MinWidth="110" SortMemberPath="MCQuotationMetric">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCQuotationMetric,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="MC Board Lot" IsReadOnly="True" MinWidth="95" SortMemberPath="MCBoardLot">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCBoardLot,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               
+                <DataGridTemplateColumn Header="MC Price Tick" IsReadOnly="True" MinWidth="95" SortMemberPath="MCPriceTick">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCPriceTick,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            
+                <DataGridTemplateColumn Header="MC PQ Factor" IsReadOnly="True" MinWidth="95" SortMemberPath="MCPQFactor">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCPQFactor,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="MC Trading Unit" IsReadOnly="True" MinWidth="95" SortMemberPath="MCTradingUnit">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCTradingUnit,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            
+                <DataGridTemplateColumn Header="MC General Numerator" IsReadOnly="True" MinWidth="95" SortMemberPath="MCGeneralNumerator">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCGeneralNumerator,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="MC General Denominator" IsReadOnly="True" MinWidth="95" SortMemberPath="MCGeneralDenominator">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCGeneralDenominator,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="MC Field3" IsReadOnly="True" MinWidth="95" SortMemberPath="MCField3">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding MCField3,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                
+            </DataGrid.Columns>
+   </DataGrid>
+</Grid>
+</Window>

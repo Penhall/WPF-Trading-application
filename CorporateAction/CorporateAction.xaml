@@ -1,0 +1,370 @@
+﻿<Window x:Class="CommonFrontEnd.View.CorporateAction.CorporateAction"
+        x:Name="WinCorporateAction"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.CorporateAction"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform" 
+        Title="{Binding TitleCorporate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Height="574" Width="Auto" FontWeight="Bold"  FontFamily="Arial" FontSize="12" 
+        ShowInTaskbar="False"  
+        Top="{Binding TopPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+        Left="{Binding LeftPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" >
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="LocationChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding CorpActClosing}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SizeChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+
+                    <Style x:Key="TwitterTextBoxStyle" TargetType="{x:Type TextBox}">
+                        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+
+                        <Setter Property="AllowDrop" Value="true" />
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Setter Property="FontFamily" Value="Trebuchet MS" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="UseLayoutRounding" Value="True"/>
+                        <Setter Property="Padding" Value="4" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="BorderBrush" Value="#FFAAAAAA" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <ControlTemplate.Resources>
+                                        <Storyboard x:Key="FocusedOn">
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <Storyboard x:Key="FocusedOff">
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <Storyboard x:Key="DisabledOn">
+                                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                        <Storyboard x:Key="DisabledOff">
+                                            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Collapsed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </ControlTemplate.Resources>
+                                    <Grid>
+                                        <Border Margin="3" x:Name="BorderBase" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" />
+                                        <Border Margin="0" Background="#FFECF5FD" x:Name="FocusVisualElement" BorderBrush="#FFECF5FD" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="7" IsHitTestVisible="False" Opacity="0" >
+                                            <Border Background="#FFE3F1FC" x:Name="InnerFocusVisualElement" BorderBrush="#FFE3F1FC" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" IsHitTestVisible="False" Opacity="1" >
+                                                <Border Background="#FFD9ECFA" x:Name="InnerFocusVisualElement2" BorderBrush="#FFD9ECFA" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Opacity="1" >
+                                                    <Border Background="{TemplateBinding Background}" x:Name="InnerFocusVisualElement3" BorderBrush="#FF7DBEF1" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Opacity="1" >
+                                                    </Border>
+                                                </Border>
+                                            </Border>
+                                        </Border>
+                                        <Label Foreground="DimGray"  Grid.Column="1" Margin="3" x:Name="TextPrompt" Content="{TemplateBinding Tag}" Visibility="Collapsed" Focusable="False"></Label>
+                                        <ScrollViewer Margin="3" x:Name="PART_ContentHost" Foreground="{TemplateBinding Foreground}" />
+                                        <Label Margin="3" x:Name="WaterMarkLabel" Content="{TemplateBinding Tag}" VerticalAlignment="Center"
+                               Visibility="Collapsed" Foreground="Black" FontFamily="Arial"/>
+                                        <Border Margin="3" x:Name="DisabledVisualElement" Background="#A5FFFFFF" BorderBrush="#59C0C0C0" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" IsHitTestVisible="False" Visibility="Collapsed" />
+                                        <Border Margin="3" x:Name="ReadOnlyVisualElement" Background="#66FFFFFF" CornerRadius="2.75" Visibility="Collapsed" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsFocused" Value="False"></Condition>
+                                                <Condition Property="Text" Value=""></Condition>
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter Property="Visibility" TargetName="TextPrompt" Value="Visible"></Setter>
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
+                                        <Trigger Property="IsFocused" Value="True">
+                                            <Trigger.ExitActions>
+                                                <BeginStoryboard Storyboard="{StaticResource FocusedOff}" x:Name="FocusedOff_BeginStoryboard" />
+                                            </Trigger.ExitActions>
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource FocusedOn}" x:Name="FocusedOn_BeginStoryboard" />
+                                            </Trigger.EnterActions>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource DisabledOn}" x:Name="DisabledOn_BeginStoryboard" />
+                                            </Trigger.EnterActions>
+
+                                            <Setter Property="Foreground" Value="Silver" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="True">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard Storyboard="{StaticResource DisabledOff}" />
+                                            </Trigger.EnterActions>
+
+                                            <Setter Property="Foreground" Value="#FF000000" />
+                                        </Trigger>
+                                        <Trigger Property="IsKeyboardFocused" Value="True">
+                                            <Setter Property="Visibility" TargetName="WaterMarkLabel" Value="Hidden"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    
+                    <Style x:Key="MyWaterMarkStyle" TargetType="{x:Type TextBox}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Grid>
+                                        <Border Background="White" BorderBrush="#FF7D8683" BorderThickness="1"/>
+                                        <ScrollViewer x:Name="PART_ContentHost" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                        <Label Margin="5,0,0,0" x:Name="WaterMarkLabel" Content="{TemplateBinding Tag}" VerticalAlignment="Center"
+                               Visibility="Collapsed" Foreground="Gray" FontFamily="Arial"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="Text" Value=""/>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Visibility" TargetName="WaterMarkLabel" Value="Visible"/>
+                                        </MultiTrigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Foreground" Value="DimGray"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"/>
+                <ResourceDictionary>
+                    <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ComboBox}">
+                                    <Grid>
+                                        <TextBox x:Name="PART_EditableTextBox"
+                                                 MaxLength="11"
+                                                 CharacterCasing="Upper" Background="White"/>
+                                    </Grid>
+
+                                </ControlTemplate>
+
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="White"/>
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary >
+                    <Style x:Key="TextBoxStyle" TargetType="TextBox">
+
+
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" Value="Blue"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <cmd:EventToCommand Command="{Binding Path=ShortCut_Escape}" CommandParameter="{Binding ElementName=WinCorporateAction}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
+
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=WinCorporateAction}"/>
+    </Window.InputBindings>
+    <!--<StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+        <GroupBox Header="Filters" Height="74" HorizontalAlignment="Left" Margin="0,2,0,0" Name="groupBox1" VerticalAlignment="Top" Width="633" Grid.Row="0">
+            <DockPanel>
+                <Grid Width="605">
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,21,0,0" Name="comboBox1" VerticalAlignment="Top" Width="133" ItemsSource="{Binding corpSegment}" SelectedItem="{Binding corpSegmentSelected}"/>
+                    <Label Content="Segment" HorizontalAlignment="Left" Margin="48,0,0,23" Name="label1" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="184,0,0,8" Name="comboBox2" VerticalAlignment="Bottom" Width="129" ItemsSource="{Binding CorpPurpose}" SelectedItem="{Binding CorpPurposeSelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsEnabled="{Binding IsPurposeEnable}" IsSynchronizedWithCurrentItem="True"/>
+                    <Label Content="Purpose" Height="28" HorizontalAlignment="Left" Margin="215,-1,0,0" Name="label2" VerticalAlignment="Top" />
+                    <CheckBox Content="Show Only Past Records" Height="20" HorizontalAlignment="Left" Margin="336,24,0,0" Name="checkBox1" VerticalAlignment="Top" IsChecked="{Binding IsPastDatesChk}"/>
+                    <Button Content="Search" Height="23" HorizontalAlignment="Left" Margin="518,19,0,0" Name="button1" VerticalAlignment="Top" Width="61" Command="{Binding SearchButtonClick}"/>
+                    <Button Content="Purpose &#xa;Full Name" Height="44" HorizontalAlignment="Left" Margin="625,-4,-95,0" Name="button2" VerticalAlignment="Top" Width="75" Command="{Binding DisplayFullName}"  Grid.Row="0"/>
+                </Grid>
+            </DockPanel>
+        </GroupBox>
+
+        <WrapPanel HorizontalAlignment="Left" Height="27" Margin="8,10,0,0" VerticalAlignment="Top" Width="218" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.ColumnSpan="1">
+            <Separator/>
+            <TextBox BorderBrush="White" BorderThickness="0.5"
+                                     Margin="0" Text="{Binding DataContext.ScripId, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Grid}}, UpdateSourceTrigger=PropertyChanged}" 
+                                     Width="{Binding ActualWidth, ElementName=ScripIDColumn}" HorizontalAlignment="Left" Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Scrip ID" Height="31"/>
+            <TextBox BorderBrush="White" BorderThickness="0.5"
+                                     Margin="0" Text="{Binding DataContext.ScripCode, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Grid}}, UpdateSourceTrigger=PropertyChanged}"
+                                     Width="{Binding ActualWidth, ElementName=ScripCodeColumn}" HorizontalAlignment="Right"  Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Scrip Code" Height="31"/>
+            <TextBox BorderBrush="White" BorderThickness="0.5"
+                                     Margin="0" Text="{Binding DataContext.Grp, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Grid}}, UpdateSourceTrigger=PropertyChanged}"
+                                     Width="{Binding ActualWidth, ElementName=GroupColumn}" HorizontalAlignment="Right"  Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Group" Height="31"/>
+        </WrapPanel>
+        <DataGrid AutoGenerateColumns="False"  HorizontalAlignment="Left" Margin="6,0,0,0" Name="corpActDataGrid" VerticalAlignment="Top"  ItemsSource="{Binding ObjCorporateActionDataCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                  AlternationCount="2" GridLinesVisibility="None"  IsReadOnly="True" SelectionMode="Extended" SelectionUnit="FullRow" VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling" EnableColumnVirtualization="True" EnableRowVirtualization="True" Grid.Row="2">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Scrip Id" Width="*" Binding="{Binding ScripID,UpdateSourceTrigger=PropertyChanged}" x:Name="ScripIDColumn" CanUserSort="True">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Code" Width="*" Binding="{Binding scripCode,UpdateSourceTrigger=PropertyChanged}" x:Name="ScripCodeColumn" CanUserSort="True">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Group" Width="*" Binding="{Binding Group,UpdateSourceTrigger=PropertyChanged}" x:Name="GroupColumn" CanUserSort="True">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Purpose" Width="*" CanUserSort="True" Binding="{Binding purposeOrEvent,UpdateSourceTrigger=PropertyChanged}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Ex-Date" Width="*" Binding="{Binding exDate,UpdateSourceTrigger=PropertyChanged}" CanUserSort="True">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="BC Start Date" Width="*" CanUserSort="True" Binding="{Binding bookClosureFrom,UpdateSourceTrigger=PropertyChanged}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="BC End Date" Width="*" CanUserSort="True" Binding="{Binding bookClosureTo,UpdateSourceTrigger=PropertyChanged}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Record Date" Width="*" CanUserSort="True" Binding="{Binding recordDate ,UpdateSourceTrigger=PropertyChanged}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ND Start Date" Width="*" CanUserSort="False" Binding="{Binding NdStartDate,UpdateSourceTrigger=PropertyChanged}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ND End Date" Width="*" CanUserSort="False" Binding="{Binding ndEndDate,UpdateSourceTrigger=PropertyChanged}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Command="{Binding ClearFilterButton}" Width="40" Margin="221,-48,0,435" HorizontalAlignment="Left" Height="20">
+            <TextBlock><Underline><Run Text="C"/></Underline><Run Text="lear"/></TextBlock>
+        </Button>
+    </StackPanel>
+</Window>-->
+
+
+<DockPanel>
+        <Grid>
+            <GroupBox Header="Filters" Height="74" HorizontalAlignment="Left" Margin="0,2,0,0" Name="groupBox1" VerticalAlignment="Top" Width="633">
+                <DockPanel>
+                    <Grid Width="605">
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,21,0,0" Name="comboBox1" VerticalAlignment="Top" Width="133" ItemsSource="{Binding corpSegment}" SelectedItem="{Binding corpSegmentSelected}" TabIndex="0"/>
+                        <Label Content="Segment" HorizontalAlignment="Left" Margin="48,0,0,23" Name="label1" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="184,0,0,8" Name="comboBox2" VerticalAlignment="Bottom" Width="129" ItemsSource="{Binding CorpPurpose}" SelectedItem="{Binding CorpPurposeSelected,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" IsEnabled="{Binding IsPurposeEnable}" IsSynchronizedWithCurrentItem="True" TabIndex="1"/>
+                        <Label Content="Purpose" Height="28" HorizontalAlignment="Left" Margin="215,-1,0,0" Name="label2" VerticalAlignment="Top" />
+                        <CheckBox Content="Show Only Past _Records" Height="20" HorizontalAlignment="Left" Margin="336,24,0,0" Name="checkBox1" VerticalAlignment="Top" IsChecked="{Binding IsPastDatesChk}" TabIndex="2"/>
+                        <Button Content="_Search" Height="23" HorizontalAlignment="Left" Margin="518,19,0,0" Name="button1" VerticalAlignment="Top" Width="61" Command="{Binding SearchButtonClick}" TabIndex="3"/>
+                    </Grid>
+                </DockPanel>
+            </GroupBox>
+            <Button Content="_Purpose &#xa;Full Name" Height="44" HorizontalAlignment="Left" Margin="636,9,0,0" Name="button2" VerticalAlignment="Top" Width="75" Command="{Binding DisplayFullName}" TabIndex="4"/>
+            
+<!--<Button Content="Scrip Help" HorizontalAlignment="Left" Margin="636,55,0,445" Name="button3" Width="75" />-->
+
+            <WrapPanel HorizontalAlignment="Left" Height="27" Margin="8,80,0,0" VerticalAlignment="Top" Width="476" RenderTransformOrigin="0.5,0.5">
+                <TextBox BorderBrush="Aqua" BorderThickness="0.5" TabIndex="5"
+                                     Margin="0" Text="{Binding Path=DataContext.ScripId, RelativeSource={RelativeSource AncestorType={x:Type Grid}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                    Width="{Binding ActualWidth, ElementName=ScripIDColumn}" HorizontalAlignment="Left" Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Scrip ID" Height="31">
+                </TextBox>
+                <Separator/>
+                <TextBox BorderBrush="Aqua" BorderThickness="0.5" TabIndex="6"
+                                     Margin="0" Text="{Binding Path=DataContext.ScripCode, RelativeSource={RelativeSource AncestorType={x:Type Grid}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    Width="{Binding ActualWidth, ElementName=ScripCodeColumn}" HorizontalAlignment="Right"  Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Scrip Code" Height="31">
+                </TextBox>
+                <TextBox BorderBrush="White" BorderThickness="0.5" TabIndex="7"
+                                     Margin="0" Text="{Binding Path=DataContext.Grp, RelativeSource={RelativeSource AncestorType={x:Type Grid}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                     Width="{Binding ActualWidth, ElementName=GroupColumn}" HorizontalAlignment="Right"  Style="{StaticResource TwitterTextBoxStyle}" Foreground="Black" Tag="Group" Height="31">
+                </TextBox>
+                <Separator/>
+                <Button Command="{Binding ClearFilterButton}" Width="45" HorizontalAlignment="Left" Height="20" Margin="40,0,0,0" TabIndex="8">
+                    <TextBlock Width="45">
+                    <Underline>C</Underline>lear
+                    </TextBlock>
+                </Button>
+            </WrapPanel>
+            
+            <Common:CustomDataGrid AutoGenerateColumns="False"  HorizontalAlignment="Left" Margin="6,106,0,0"  VerticalAlignment="Top"  ItemsSource="{Binding ObjCorporateActionDataCollection,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
+                  AlternationCount="2" GridLinesVisibility="None"  IsReadOnly="True" SelectionMode="Extended" SelectionUnit="FullRow" VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling" EnableColumnVirtualization="True" EnableRowVirtualization="True">
+
+                <!--<DataGrid.Columns>
+                    <DataGridTextColumn Header="Scrip Id" Width="*" Binding="{Binding ScripID,UpdateSourceTrigger=PropertyChanged}" x:Name="ScripIDColumn" CanUserSort="True" MinWidth="1">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Code" Width="*" Binding="{Binding scripCode,UpdateSourceTrigger=PropertyChanged}" x:Name="ScripCodeColumn" CanUserSort="True">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Group" Width="*" Binding="{Binding Group,UpdateSourceTrigger=PropertyChanged}" x:Name="GroupColumn" CanUserSort="True">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Purpose" Width="*" CanUserSort="True" Binding="{Binding purposeOrEvent,UpdateSourceTrigger=PropertyChanged}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Ex-Date" Width="*" Binding="{Binding exDate,UpdateSourceTrigger=PropertyChanged}" CanUserSort="True">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="BC Start Date" Width="*" CanUserSort="True" Binding="{Binding bookClosureFrom,UpdateSourceTrigger=PropertyChanged}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="BC End Date" Width="*" CanUserSort="True" Binding="{Binding bookClosureTo,UpdateSourceTrigger=PropertyChanged}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Record Date" Width="*" CanUserSort="True" Binding="{Binding recordDate ,UpdateSourceTrigger=PropertyChanged}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="ND Start Date" Width="*" CanUserSort="False" Binding="{Binding NdStartDate,UpdateSourceTrigger=PropertyChanged}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="ND End Date" Width="*" CanUserSort="False" Binding="{Binding ndEndDate,UpdateSourceTrigger=PropertyChanged}">
+                    </DataGridTextColumn>
+                </DataGrid.Columns>-->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Scrip Id" Width="*" Binding="{Binding ScripID,UpdateSourceTrigger=PropertyChanged}" x:Name="ScripIDColumn" CanUserSort="True" MinWidth="120">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Code" Width="*" Binding="{Binding scripCode,UpdateSourceTrigger=PropertyChanged}" x:Name="ScripCodeColumn" CanUserSort="True"  MinWidth="70">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Group" Width="*" Binding="{Binding Group,UpdateSourceTrigger=PropertyChanged}" x:Name="GroupColumn" CanUserSort="True" MinWidth="50">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Purpose" Width="*" CanUserSort="True" Binding="{Binding purposeOrEvent,UpdateSourceTrigger=PropertyChanged}" MinWidth="120">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Ex-Date" Width="*" Binding="{Binding exDate,UpdateSourceTrigger=PropertyChanged}" CanUserSort="True" MinWidth="90" SortMemberPath="exDateSort">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="BC Start Date" Width="*" CanUserSort="True" Binding="{Binding bookClosureFrom,UpdateSourceTrigger=PropertyChanged}" MinWidth="90">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="BC End Date" Width="*" CanUserSort="True" Binding="{Binding bookClosureTo,UpdateSourceTrigger=PropertyChanged}" MinWidth="90">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Record Date" Width="*" CanUserSort="True" Binding="{Binding recordDate ,UpdateSourceTrigger=PropertyChanged}" MinWidth="90" SortMemberPath="recordDateSort">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="ND Start Date" Width="*" CanUserSort="False" Binding="{Binding NdStartDate,UpdateSourceTrigger=PropertyChanged}" MinWidth="90">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="ND End Date" Width="*" CanUserSort="False" Binding="{Binding ndEndDate,UpdateSourceTrigger=PropertyChanged}" MinWidth="90">
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </Common:CustomDataGrid>
+            <!--<Button Command="{Binding ClearFilterButton}" Width="40" Margin="499,83,0,440" HorizontalAlignment="Left" Height="20" >
+                <TextBlock>
+                    <Underline>C</Underline>lear
+                </TextBlock>
+            </Button>-->
+        </Grid>
+    </DockPanel>
+</Window>

@@ -1,0 +1,184 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.Order.StopLossOrderEntry"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:s="clr-namespace:CommonFrontEnd.Common"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.Order"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"  
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        mc:Ignorable="d" ShowInTaskbar="False"
+        Title="{Binding titleStopLossOrderEntry,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="450" Width="778" Style="{DynamicResource DefaultFont}">
+    <Common:TitleBarHelperClass.MenuItems>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcel}" Header="Save StopLoss Orders in CSV" Id="1"/>
+    </Common:TitleBarHelperClass.MenuItems>
+
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <CollectionViewSource x:Key="MyItemsViewSource" Source="{Binding StopLossOrderCollection, UpdateSourceTrigger=PropertyChanged}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="Time" Direction="Descending"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <!--<convertor:MyValueConverter x:Key="NameToBrushConverter"/>-->
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseWindowsOnEscape}" />
+    </Window.InputBindings>
+    <Grid>
+        <GroupBox x:Name="groupBox" Header="View" HorizontalAlignment="Left" Margin="10,10,10,0" VerticalAlignment="Top" Height="201"  Width="742">
+            <Grid HorizontalAlignment="Left" Height="180" VerticalAlignment="Top" Width="740" Margin="0,0,0,-5">
+                <s:CustomDataGrid x:Name="dataGrid" Width="Auto" Height="170" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" SelectionUnit="FullRow" AutoGenerateColumns="False" AlternationCount="2" GridLinesVisibility="None"
+                  SelectionMode="Extended"  VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" IsReadOnly="True" ScrollViewer.IsDeferredScrollingEnabled="True" EnableRowVirtualization="True" EnableColumnVirtualization="True" TabIndex="18"
+                  ItemsSource="{Binding Source={StaticResource MyItemsViewSource},UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,10"
+                     AlternatingRowBackground="#f7f7f7" SelectedItem="{Binding selectEntireRow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItemsList="{Binding SelectedItemLists,UpdateSourceTrigger=LostFocus,Mode=TwoWay}" KeyboardNavigation.TabNavigation="Once">
+                    <!--<DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding BuySell}" Value="B">
+                                    <Setter Property="Foreground" Value="#580796"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding BuySell}" Value="S">
+                                    <Setter Property="Foreground" Value="#06962f"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>-->
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DataGridBgColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding BuySell}" Value="B">
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.BuyForegroundColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding BuySell}" Value="S">
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.SellForegroundColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="GotFocus">
+                            <i:InvokeCommandAction Command="{Binding DataGridLostFocus, ElementName=dataGrid}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding BuySell,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="B/S" MinWidth="32" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                        <DataGridTextColumn Binding="{Binding ScripID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Scrip" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                        <DataGridTextColumn Binding="{Binding SCode,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="SCode" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                        <DataGridTextColumn Binding="{Binding TotalQty,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Qty" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                        <DataGridTextColumn Binding="{Binding RevQty,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Rev Qty" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                        <DataGridTextColumn Binding="{Binding LimitRate,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="LmtRate" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                        <DataGridTextColumn Binding="{Binding TriggertRate,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="TrgRate" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                        <DataGridTextColumn Binding="{Binding ClientID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Client" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                        <DataGridTextColumn Binding="{Binding Time,UpdateSourceTrigger=PropertyChanged, StringFormat=HH:mm:ss}" Header="Time" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                        <DataGridTextColumn Binding="{Binding OrdID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Ord ID" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                        <DataGridTextColumn Binding="{Binding ClientType,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="CltType" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                        <DataGridTextColumn Binding="{Binding CPCode,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="CP Code" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                    </DataGrid.Columns>
+                </s:CustomDataGrid>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox x:Name="groupBox1"  HorizontalAlignment="Left" Margin="10,216,0,0" VerticalAlignment="Top" Width="745" Height="128" >
+            <GroupBox.Header>
+                <ComboBox Width="78" ItemsSource="{Binding cmbUpdateList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding selectedUpdateStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="0"></ComboBox>
+            </GroupBox.Header>
+            <Grid HorizontalAlignment="Left" Height="104" Margin="0,-10,-2,-1" VerticalAlignment="Top" Width="730">
+                <Label x:Name="label" Content="OType" HorizontalAlignment="Left" Margin="23,6,0,0" VerticalAlignment="Top"/>
+                <ComboBox TabIndex="1" x:Name="comboBox" HorizontalAlignment="Left" ItemsSource="{Binding cmbOrderTypeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding selectedOrderType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="6,30,0,0" VerticalAlignment="Top" Width="92"/>
+                <Label x:Name="label_Copy" Content="B/S" HorizontalAlignment="Left" Margin="113,6,0,0" VerticalAlignment="Top"/>
+                <ComboBox TabIndex="2" x:Name="buySellCombo" HorizontalAlignment="Left" ItemsSource="{Binding BuySellList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding isEnableBuySell, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding textBuySell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="109,30,0,0" VerticalAlignment="Top" Width="40"/>
+                <!--<TextBox x:Name="txtBuySell" Text="{Binding textBuySell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="102,30,0,0" TextWrapping="Wrap" MaxLength="1" VerticalAlignment="Top" Width="30" IsEnabled="{Binding isEnableBuySell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding txtBuySell_TextChanged, Mode=OneWay}" CommandParameter="{Binding ElementName=txtBuySell}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>-->
+                <Label x:Name="label_Copy1" Content="ScripCode/ID" HorizontalAlignment="Left" Margin="160,6,0,0" VerticalAlignment="Top"/>
+                <s:ClickSelectTextBox TabIndex="3" x:Name="ScripCodeOrId" Text="{Binding textScripCodeOrId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper"  IsEnabled="{Binding isEnableScripCodeORID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="155,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125">
+                </s:ClickSelectTextBox>
+                <Label x:Name="label_Copy2" Content="TotalQty" HorizontalAlignment="Left" Margin="294,6,0,0" VerticalAlignment="Top"/>
+                <s:ClickSelectTextBox TabIndex="4" x:Name="txtTotlQty" Text="{Binding textTotlQty,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="286,30,0,0" MaxLength="9" TextWrapping="Wrap" VerticalAlignment="Top" Width="78">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding txtTotlQty_TextChanged, Mode=OneWay}" CommandParameter="{Binding ElementName=txtTotlQty}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </s:ClickSelectTextBox>
+                <Label x:Name="label_Copy3" Content="RevQty" HorizontalAlignment="Left" Margin="379,6,0,0" VerticalAlignment="Top"/>
+                <s:ClickSelectTextBox TabIndex="5" x:Name="txtRevQty" Text="{Binding textRevQty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="9" HorizontalAlignment="Left" Height="23" Margin="371,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding txtRevQty_TextChanged, Mode=OneWay}" CommandParameter="{Binding ElementName=txtRevQty}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </s:ClickSelectTextBox>
+                <Label x:Name="label_Copy4" Content="LmtRate" HorizontalAlignment="Left" Margin="461,6,0,0" VerticalAlignment="Top"/>
+                <s:ClickSelectTextBox TabIndex="6" x:Name="textBox_Copy3" Text="{Binding txtLmtRate,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding isEnableLmtRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="455,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78">
+                    <i:Interaction.Behaviors>
+                        <s:NumericTextBoxBehaviour AllowDecimal="True"/>
+                    </i:Interaction.Behaviors>
+                </s:ClickSelectTextBox>
+                <Label x:Name="label_Copy5"  Content="TrgRate" HorizontalAlignment="Left" Margin="550,6,0,0" VerticalAlignment="Top"/>
+                <s:ClickSelectTextBox TabIndex="7" x:Name="textBox_Copy4" Text="{Binding txtTrgRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding isEnableTrgRate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Height="23" Margin="540,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78">
+                    <i:Interaction.Behaviors>
+                        <s:NumericTextBoxBehaviour AllowDecimal="True"/>
+                    </i:Interaction.Behaviors>
+                </s:ClickSelectTextBox>
+                <Label x:Name="label_Copy6" Content="Short/Client ID" HorizontalAlignment="Left" Margin="620,6,0,0" VerticalAlignment="Top"/>
+                <s:ClickSelectTextBox TabIndex="8" x:Name="textBox_Copy5" Text="{Binding txtShortClientId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding isEnableShortClientID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="630,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87" CharacterCasing="Upper" MaxLength="11"/>
+                <Label x:Name="label_Copy7" Content="Client Type" HorizontalAlignment="Left" Margin="32,52,0,0" VerticalAlignment="Top"/>
+                <ComboBox TabIndex="9" ItemsSource="{Binding cmbClientTypeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedClientType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="comboBox1" HorizontalAlignment="Left" Margin="23,75,0,0" VerticalAlignment="Top" Width="91"/>
+                <Label x:Name="label_Copy8" Content="CP Code" HorizontalAlignment="Left" Margin="126,52,0,0" VerticalAlignment="Top"/>
+                <s:ClickSelectTextBox TabIndex="10" x:Name="textBox_Copy6" Text="{Binding txtCPCode,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CharacterCasing="Upper" IsEnabled="{Binding isEnableCPCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="123,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="12" Width="110"/>
+                <Label x:Name="label_Copy9" Content="Retain Till" HorizontalAlignment="Left" Margin="250,52,0,0" VerticalAlignment="Top"/>
+                <ComboBox TabIndex="11" x:Name="comboBox1_Copy" ItemsSource="{Binding cmbRetainTillList,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  SelectedItem="{Binding selectedRetainTill, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="244,75,0,0" VerticalAlignment="Top" Width="91"/>
+                <Label x:Name="label_Copy10" Content="MProt" HorizontalAlignment="Left" Margin="343,52,0,0" VerticalAlignment="Top"/>
+                <s:ClickSelectTextBox TabIndex="12" x:Name="textBox_Copy7" Text="{Binding txtMarketProtection,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="346,75,0,0" MaxLength="4" TextWrapping="Wrap" VerticalAlignment="Top" Width="45">
+                    <i:Interaction.Behaviors>
+                        <s:NumericTextBoxBehaviour AllowDecimal="True"/>
+                    </i:Interaction.Behaviors>
+                </s:ClickSelectTextBox>
+                <Label x:Name="label1" Content="%" HorizontalAlignment="Left" Margin="392,73,0,0" VerticalAlignment="Top"/>
+                <Button TabIndex="17" x:Name="btnRefresh"  Command="{Binding btnRefreshClick}"  HorizontalAlignment="Left" Margin="520,73,0,0" VerticalAlignment="Top" Width="88" Height="25">
+                    <AccessText>_Refresh</AccessText></Button>
+                <Button TabIndex="13" x:Name="buttonSubmit"  Command="{Binding btnSubmit}"  HorizontalAlignment="Left" Margin="620,73,0,0" VerticalAlignment="Top" Width="88" Height="25">
+                    <AccessText>S_ubmit</AccessText></Button>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox2" Header="Bulk" HorizontalAlignment="Left" Margin="468,344,0,0" VerticalAlignment="Top" Width="288" Height="65" >
+            <Grid HorizontalAlignment="Left" Height="44" Margin="0,0,-2,-1" VerticalAlignment="Top" Width="284">
+                <Button TabIndex="14" x:Name="SelectAll" Content="{Binding btnSelectAllContent,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Command="{Binding btnSelectAll}" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="75" Height="25">
+                    </Button>
+                <ComboBox TabIndex="15" ItemsSource="{Binding btnActionList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" SelectedItem="{Binding SelectedAction,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" x:Name="comboBox2" HorizontalAlignment="Left" Margin="97,14,0,0" VerticalAlignment="Top" Width="92"/>
+                <Button TabIndex="16" Command="{Binding btnApply}" x:Name="Apply"  HorizontalAlignment="Left" Margin="200,14,0,0" VerticalAlignment="Top" Width="75" Height="25">
+                    <AccessText>Appl_y</AccessText></Button>
+                <Label x:Name="label2" Content="Action" HorizontalAlignment="Left" Margin="119,-8,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <Label x:Name="label3" Content="Reply" HorizontalAlignment="Left" Margin="20,353,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="textBox1" IsEnabled="False" Text="{Binding txtReply, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="10,379,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442"/>
+    </Grid>
+</Common:TitleBarHelperClass>

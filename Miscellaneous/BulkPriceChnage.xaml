@@ -1,0 +1,146 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.BulkPriceChnage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        mc:Ignorable="d" ShowInTaskbar="False"
+        Title="{Binding titleBulkPrice,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Style="{DynamicResource DefaultFont}" Height="345" Width="778" MaxWidth="1150">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <!--<i:Interaction.Triggers>
+        --><!--<i:EventTrigger EventName="Closing" >
+            <cmd:EventToCommand Command="{Binding Path=BulkChangeWindowClosing}"/>
+        </i:EventTrigger>-->
+        <!--<i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding BulkChangeWindowClosing}"/>
+        </i:EventTrigger>--><!--
+    </i:Interaction.Triggers>-->
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding BulkChangeWindowClosing}" />
+    </Window.InputBindings>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Common:CustomDataGrid  x:Name="dataGrid" Grid.Row="0"  Grid.Column="1" TabIndex="5" VerticalAlignment="Top" Width="Auto" Height="200" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None"  KeyboardNavigation.TabNavigation="Once"
+                  SelectionMode="Extended" SelectedItemsList="{Binding SelectItemList,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"  VirtualizingStackPanel.VirtualizationMode="Recycling" VirtualizingStackPanel.IsVirtualizing="True" IsReadOnly="True" EnableRowVirtualization="True" EnableColumnVirtualization="True"  CanUserSortColumns="True" ItemsSource="{Binding selecteBulkScripList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  AlternatingRowBackground="#f7f7f7">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding BuySell,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="B/S" MinWidth="32" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                <DataGridTextColumn Binding="{Binding ScripID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Scrip" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding SCode,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="SCode" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding TotalQty,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Total Qty" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}" />
+                <DataGridTextColumn Binding="{Binding RevQty,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Rev Qty" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding Rate,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Rate" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding ClientID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Client" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}" />
+                <DataGridTextColumn Binding="{Binding Time,UpdateSourceTrigger=PropertyChanged, StringFormat=HH:mm:ss}" Header="Time" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                <!--<DataGridTextColumn Binding="{Binding OrdNumber,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Ord ID" MinWidth="70" Width="SizeToCells" Visibility="Visible" />-->
+                <DataGridTextColumn Header="Ord Id" MinWidth="100"  Width="SizeToCells">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0}{1}">
+                            <Binding Path="OrdID" UpdateSourceTrigger="PropertyChanged"/>
+                            <Binding Path="OrderType" UpdateSourceTrigger="PropertyChanged" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding ClientType,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="CltType" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                <DataGridTextColumn Binding="{Binding RetainTill,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Retain Till" MinWidth="70" Width="SizeToCells" Visibility="Visible"  ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding CPCode,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="CP Code" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding OCOTrgRate,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="OCO Trg" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding Yield,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Yield" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding DirtyPrice,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Dirty Price" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+            </DataGrid.Columns>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionChanged}"/>
+                </i:EventTrigger>
+                <!--<i:EventTrigger EventName="GotFocus">
+                    <i:InvokeCommandAction Command="{Binding SelectionChanged}"/>
+                </i:EventTrigger>-->
+            </i:Interaction.Triggers>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <!--<Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.DataGridBgColor,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>-->
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BuySell}" Value="B">
+                            <Setter Property="Foreground" Value="#0937ef"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BuySell}" Value="S">
+                            <Setter Property="Foreground" Value="#f40000"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <!--<DataGrid.CommandBindings>
+                <CommandBinding Command="ApplicationCommands.SelectAll" Executed="SelectAll_Executed"/>
+            </DataGrid.CommandBindings>-->
+        </Common:CustomDataGrid>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="New Price" Grid.Column="0"/>
+            <Common:ClickSelectTextBox x:Name="txtPrice" Grid.Column="1" Text="{Binding txtNewPrice ,StringFormat=0;0;#}" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="90" MaxLength="11">
+                <i:Interaction.Behaviors>
+                    <Common:NumericTextBoxBehaviour AllowDecimal="True"/>
+                </i:Interaction.Behaviors>
+            </Common:ClickSelectTextBox>
+            <Label Content="New OCO Trg Price" Grid.Column="4"/>
+            <Common:ClickSelectTextBox x:Name="textBox1_Copy5" Grid.Column="5" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" Text="{Binding OCOTrgRatetxt,StringFormat=0;0;#}">
+                <i:Interaction.Behaviors>
+                    <Common:NumericTextBoxBehaviour AllowDecimal="True"/>
+                </i:Interaction.Behaviors>
+            </Common:ClickSelectTextBox>
+        </Grid>
+        <Grid Grid.Row="4"  Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" IsReadOnly="True" Width="365" Text="{Binding txtReply,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Content="Submit" Grid.Column="2" Command="{Binding btnSubmit}"  Height="25" Width="70"></Button>
+            <Button Content="Remove" Grid.Column="4" Height="25" Command="{Binding btnRemove}" Width="70"></Button>
+        </Grid>
+        <TextBlock Grid.Column="1" Text="* To update single order directly from Pending Order Window, close Bulk Price Window" Foreground="Red" Grid.Row="6"></TextBlock>
+    </Grid>
+</Common:TitleBarHelperClass>

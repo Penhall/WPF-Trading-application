@@ -1,0 +1,20 @@
+﻿<Window x:Class="CommonFrontEnd.View.CorporateAction.DetailedCorporateAction"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.CorporateAction"
+        Title="Detailed Corporate Action- Purpose Full Name" Height="308" Width="496" FontWeight="Bold" FontFamily="Arial" FontSize="12"
+        ResizeMode="NoResize" Background="{DynamicResource WindowBackgroundBrush}" ShowInTaskbar="False">
+    <Grid>
+        <DataGrid  AlternationCount="2" GridLinesVisibility="None" 
+                  ItemsSource="{Binding PurposeNameList}"  IsReadOnly="True" AutoGenerateColumns="False" CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Purpose" Width="Auto" Binding="{Binding Purpose}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Purpose Full Name" Width="Auto" Binding="{Binding PurposeFullName}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

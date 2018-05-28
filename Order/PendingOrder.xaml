@@ -1,0 +1,197 @@
+﻿<Window x:Class="CommonFrontEnd.View.Order.PendingOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.Order"
+        mc:Ignorable="d"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"
+        Title="Pending Order" ShowInTaskbar="False" ResizeMode="CanResizeWithGrip">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="11"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="759*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DockPanel HorizontalAlignment="Left" Height="22" LastChildFill="False" Margin="0" Grid.Row="1" VerticalAlignment="Top" Width="95" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <!--<ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>-->
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="1" Width="85" Margin="0"  ItemsSource="{Binding OrderStatus}" SelectedItem="{Binding SelectedOderStatus}"></ComboBox>
+                <Button Width="85" Margin="104,0,-104,0" Command="{Binding Modify_Click}">
+                    <AccessText>_Modify</AccessText>
+                </Button>
+
+                <Button Width="85" Margin="204,0,-204,0" Command="{Binding Cancel_Click}">
+                    <AccessText>_Cancel</AccessText>
+                </Button>
+
+                <Button Width="85" Margin="304,0,-304,0" Command="{Binding Cancel_All_Click}">
+                    <AccessText>_Cancel_All</AccessText>
+                </Button>
+
+            </Grid>
+        </DockPanel>
+        <Common:CustomDataGrid  Grid.Row="3" HorizontalAlignment="Left" x:Name="PendingOrderGrid" SelectionUnit="FullRow" AutoGenerateColumns="False" VerticalAlignment="Top" 
+                              ItemsSource="{Binding ObjPendingOrderCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" GridLinesVisibility="All"
+                               SelectionMode="Extended" AlternationCount="2" VirtualizingStackPanel.VirtualizationMode="Recycling" AlternatingRowBackground="Azure"
+                              CanUserSortColumns="True" IsReadOnly="True" VirtualizingStackPanel.IsVirtualizing="True"
+                                VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollViewer.IsDeferredScrollingEnabled="True" 
+                                SelectedItemsList="{Binding SelectedValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,0,-411" Height="448">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.CellStyle>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn  Header="B/S" x:Name="InstrumentName" IsReadOnly="True" MinWidth="50" SortMemberPath="BuySell">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BuySell, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Total Qty" x:Name="ScripCodeCurrency" IsReadOnly="True" MinWidth="80" SortMemberPath="TotalQty">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Background="{Binding TotalQty}" Text="{Binding TotalQty, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Rev Qty" IsReadOnly="True" MinWidth="90" SortMemberPath="RevQty">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding RevQty,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTemplateColumn Header="Pending Qty" IsReadOnly="True" MinWidth="90" SortMemberPath="PendingQty">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PendingQty,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="SCode" IsReadOnly="True" MinWidth="90" SortMemberPath="SCode">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SCode,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay ,StringFormat='{}{0:#}'}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Scrip ID" IsReadOnly="True" MinWidth="80" SortMemberPath="ScripID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripID,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTemplateColumn Header="Rate" IsReadOnly="True" MinWidth="80" SortMemberPath="Rate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Rate,UpdateSourceTrigger=PropertyChanged ,Mode=TwoWay,StringFormat=.00;.00;#}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="Client ID" IsReadOnly="True" MinWidth="90" SortMemberPath="ClientID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ClientID,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay ,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn  Header="Time" IsReadOnly="True" Visibility="{Binding bowVisibility}" MinWidth="90" SortMemberPath="Time">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Time,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" Visibility="{Binding bowVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn  Header="Ord ID" IsReadOnly="True" Visibility="{Binding bowVisibility}" MinWidth="85" SortMemberPath="PartitionID1">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OrdNumber,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="Client Type" IsReadOnly="True" MinWidth="85" Visibility="{Binding bowVisibility}" SortMemberPath="ClientType">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ClientType,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="Retain Till" IsReadOnly="True" MinWidth="85" Visibility="{Binding bowVisibility}" SortMemberPath="RetainTill">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding RetainTill,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="Order Type" IsReadOnly="True" MinWidth="85" Visibility="{Binding bowVisibility}" SortMemberPath="RetainTill">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OrderType,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" TextAlignment="Right" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="CP Code" IsReadOnly="True" MinWidth="85" Visibility="{Binding bowVisibility}" SortMemberPath="CPCode">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CPCode,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="OCO Trg Rate" IsReadOnly="True" MinWidth="85" Visibility="{Binding bowVisibility}" SortMemberPath="OCOTrgRate">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding OCOTrgRate,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat=.00;.00;#}" TextAlignment="Right" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="Yield" IsReadOnly="True" MinWidth="85" Visibility="{Binding bowVisibility}" SortMemberPath="Yield">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Yield,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="Dirty Price" IsReadOnly="True" MinWidth="85" Visibility="{Binding bowVisibility}" SortMemberPath="DirtyPrice">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DirtyPrice,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat=.00;.00;#}" TextAlignment="Right" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </Common:CustomDataGrid>
+
+    </Grid>
+</Window>

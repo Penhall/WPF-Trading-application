@@ -1,0 +1,146 @@
+﻿<Window x:Class="CommonFrontEnd.View.IndexDetails"
+        x:Name="index_Details"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View" ShowInTaskbar="False" ResizeMode="CanResize"
+        mc:Ignorable="d"
+        Title="Index Details" Height="600" Width="740" Style="{DynamicResource DefaultFont}">
+    <Window.Resources>
+        <ResourceDictionary>
+            
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <!--<Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=index_Details}"/>
+    </Window.InputBindings>-->
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseWindowsOnEscape}" />
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="515"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <DockPanel HorizontalAlignment="Left" Height="auto" Margin="10,0,0,0" LastChildFill="False" Grid.Row="1" VerticalAlignment="Top" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+           
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="1" Width="85" Margin="0"  ItemsSource="{Binding ExchangeLst}" SelectedItem="{Binding SelectedExchange}"></ComboBox>
+                <Button x:Name="button" Content="Sensex Graph" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Column="3" Command="{Binding ShowSensexGraph}"/>
+                <Button x:Name="TouchLineButton" Content="Show in TouchLine" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Column="3" Margin="95,0,-95,0" Command="{Binding ShowintTouchline}"/>
+            </Grid>
+        </DockPanel>
+        
+            <DataGrid  Grid.Row="3"  Name="IndicesDetailsDataGrid" SelectionUnit="FullRow" AutoGenerateColumns="False" CanUserDeleteRows="False" Margin="10,0,10,10"
+                              ItemsSource="{Binding ObjIndicesCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" GridLinesVisibility="All"
+                             SelectionMode="Extended" AlternationCount="2" CanUserAddRows="false" VirtualizingStackPanel.VirtualizationMode="Recycling" AlternatingRowBackground="#f7f7f7"
+                              CanUserSortColumns="True" IsReadOnly="True" VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" SelectedItem="{Binding SelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            
+                
+            <DataGrid.Columns>
+                <DataGridTemplateColumn  Header="INDEX" x:Name="InstrumentName" IsReadOnly="True" MinWidth="60" SortMemberPath="IndexName">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding IndexName, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" Style="{StaticResource CellLeftAlign}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="CURRENT" x:Name="ScripCodeCurrency" IsReadOnly="True" MinWidth="60" SortMemberPath="IndexValue">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock  Background="{Binding Back_IndexValue}" HorizontalAlignment="Right" Text="{Binding IndexValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=.00;.00;#}"  Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="HIGH" IsReadOnly="True" MinWidth="60" SortMemberPath="IndexHigh">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock HorizontalAlignment="Right" Text="{Binding IndexHigh,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat=.00;.00;#}" Style="{StaticResource CellRightAlign}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="LOW" IsReadOnly="True" MinWidth="60" SortMemberPath="IndexLow">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock HorizontalAlignment="Right" Text="{Binding IndexLow,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay ,StringFormat=.00;.00;#}" Style="{StaticResource CellRightAlign}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="OPEN" IsReadOnly="True" MinWidth="60" SortMemberPath="IndexOpen">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding IndexOpen,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat =.00;.00;#}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                <DataGridTemplateColumn Header="P. CLOSE" IsReadOnly="True" MinWidth="70" SortMemberPath="PreviousIndexClose">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock Style="{StaticResource CellRightAlign}" Text="{Binding PreviousIndexClose,UpdateSourceTrigger=PropertyChanged ,Mode=TwoWay,StringFormat=.00;.00;#}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="% CHANGE" IsReadOnly="True" MinWidth="70" SortMemberPath="perChange">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding perChange,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay ,StringFormat=0.00;0.00;#}" Foreground="{Binding setcolor,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn  Header="CHANGE IN VALUES" IsReadOnly="True" Visibility="{Binding bowVisibility}" MinWidth="90" SortMemberPath="chngInValue">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding chngInValue,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="{Binding setcolor,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CellRightAlign}" Visibility="{Binding bowVisibility}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn  Header="YEARLY HIGH" IsReadOnly="True" Width="0" Visibility="Hidden" SortMemberPath="yearlyHigh">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding yearlyHigh,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="YEARLY LOW" IsReadOnly="True" Width="0" Visibility="Hidden" SortMemberPath="yearlyLow">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding yearlyLow,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" Style="{StaticResource CellRightAlign}" TextWrapping="NoWrap" Visibility="{Binding bowVisibility}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        
+    </Grid>
+</Window>

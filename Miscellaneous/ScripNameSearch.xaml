@@ -1,0 +1,143 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.scripNameSearch"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"                     
+
+        xmlns:local="clr-namespace:CommonFrontEnd.View"
+        mc:Ignorable="d"
+        Title="Search Scrip" Height="405" Width="680" ShowInTaskbar="False" Style="{DynamicResource DefaultFont}">
+    <Window.Resources>
+        <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+    </Window.Resources>
+    <Common:TitleBarHelperClass.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=NPClientWindow}"/>
+    </Common:TitleBarHelperClass.InputBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="24"></RowDefinition>
+            <RowDefinition Height="3"></RowDefinition>
+
+            <RowDefinition Height="195*"></RowDefinition>
+            <RowDefinition Height="3"></RowDefinition>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="5"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+        </Grid.ColumnDefinitions>-->
+
+        <Grid Grid.Row="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75"></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="112*" ></ColumnDefinition>
+
+                <ColumnDefinition Width="475*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="SegmentLabel" Content=" Segment" Width="auto" Grid.Column="0"/>
+            <Label x:Name="SearchByLabel" Content="         Search By   " Width="auto" Grid.Column="2"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="3" Margin="0,5">
+                <RadioButton x:Name="ScripNameRadioButton" GroupName="searchBy"  Content="Scrip Name  " IsChecked="{Binding isScripNameChecked,Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}" />
+                <RadioButton x:Name="ScripIdRadioButton" GroupName="searchBy" Content="Scrip Id  " IsChecked="{Binding isScripIdChecked, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <RadioButton x:Name="ISINRadioButton" GroupName="searchBy" Content="ISIN                 " IsChecked="{Binding isISINChecked, Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Name="excludeFGroup"    IsChecked="{Binding isExcludeChecked,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                    <AccessText>_Exclude F,G and 4L,6L</AccessText></CheckBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="35"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ComboBox Name="scripSegmentComboBox" Width="90" Grid.Column="0" Grid.Row="0" Height="auto" ItemsSource="{Binding ScripSegmentList}"  SelectedItem="{Binding ScripSelectedSegment,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEditable="False">
+            </ComboBox>
+            <TextBox Name="scripName" Text="{Binding inputScripName ,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" Grid.Column="2"/>
+            <Button Name="submitButton"  Grid.Column="4" Width="auto" Command="{Binding findButtonClick}">
+                <AccessText>_Find</AccessText></Button>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <DataGrid  ItemsSource="{Binding ScripCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                  CanUserResizeColumns="True" CanUserResizeRows="True" 
+                    Name="ScripNameDataGrid" Width="Auto"  CanUserDeleteRows="False" Height="Auto"
+                              AutoGenerateColumns="False" GridLinesVisibility="All"
+                               SelectionMode="Extended" SelectionUnit="FullRow" AlternationCount="2"
+                              CanUserSortColumns="True" 
+                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      EnableColumnVirtualization="True" IsTabStop="False" KeyboardNavigation.TabNavigation="None"
+                      EnableRowVirtualization="True" CanUserAddRows="false" Grid.ColumnSpan="2" SelectedItem="{Binding SelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="ScripCode"  IsReadOnly="True" CanUserSort="True" Width="auto" SortMemberPath="ScripCode">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ScripCode,UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="ScripID" IsReadOnly="True" CanUserSort="True" Width="auto" SortMemberPath="ScripID">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ScripID,UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="ScripName" IsReadOnly="True" CanUserSort="True" Width="auto" SortMemberPath="ScripName">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ScripName,UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="ISIN" IsReadOnly="True" CanUserSort="True" Width="auto" SortMemberPath="ISIN">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ISIN,UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Group" IsReadOnly="True" CanUserSort="True" Width="auto" SortMemberPath="GroupName">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding GroupName,UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="5" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition Width="52*"></ColumnDefinition>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition Width="52*" ></ColumnDefinition>
+                <ColumnDefinition Width="43*" ></ColumnDefinition>
+                <ColumnDefinition Width="258"></ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+            <Button Name="AddToOrderEntryButton" Grid.Column="1" Command="{Binding AddToOrderEntry}" Grid.ColumnSpan="2" Margin="0,0,19,0">
+                <AccessText>_Add To Order Entry</AccessText></Button>
+            <Button Name="CancelButton"  Grid.Column="3"  Command="{Binding CloseOnCancel}" IsCancel="True">
+                <AccessText>_Cancel</AccessText></Button>
+            <TextBox Name="ErrorMessageTextBox"  Text="{Binding ErrorMessage, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Grid.Column="5"/>
+        </Grid>
+    </Grid>
+</Common:TitleBarHelperClass>

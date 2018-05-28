@@ -1,0 +1,486 @@
+﻿<Commmon:TitleBarHelperClass x:Class="CommonFrontEnd.View.Order.NormalOrderEntry"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/200"
+        xmlns:s="clr-namespace:CommonFrontEnd.Common"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"      
+        xmlns:local="clr-namespace:CommonFrontEnd.View.Order"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:Commmon="clr-namespace:CommonFrontEnd.Common"
+        mc:Ignorable="d"
+        Height="300.816" FontSize="13" Width="778" Background="{Binding WindowColour}" Title="{Binding HeaderTitle,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" ShowInTaskbar="False" ResizeMode="NoResize" Style="{DynamicResource DefaultFont}" Loaded="TitleBarHelperClass_Loaded">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ItemsPanelTemplate x:Key="VSP">
+                <VirtualizingStackPanel/>
+            </ItemsPanelTemplate>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <Style TargetType="Button" x:Key="OEButton">
+                        <Setter Property="Background" Value="#e8eaed"/>
+                        <Setter Property="BorderBrush" Value="Gray" />
+                        <Setter Property="BorderThickness" Value="0.5 0.5 2 2" />
+                    </Style>
+                </ResourceDictionary>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Commmon:TitleBarHelperClass.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding BuyWindow}" CommandParameter="B"/>
+        <KeyBinding Key="F2" Command="{Binding BuyWindow}" CommandParameter="S"/>
+        <KeyBinding Key="Add" Command="{Binding BuyWindow}" CommandParameter="B"/>
+        <KeyBinding Key="Subtract" Command="{Binding BuyWindow}" CommandParameter="S"/>
+        <KeyBinding Key="Return" Modifiers="Ctrl" Command="{Binding SubmitButton}" />
+        <KeyBinding Key="Esc" Command="{Binding CloseWindowsOnEscape}"/>
+    </Commmon:TitleBarHelperClass.InputBindings>
+
+    <Commmon:TitleBarHelperClass.MenuItems>
+        <Commmon:SystemMenuItem Command="{Binding Path= SwiftOrderEntry}"  Header="Swift Order Entry"/>
+    </Commmon:TitleBarHelperClass.MenuItems>
+
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="LocationChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="SizeChanged">
+            <i:InvokeCommandAction Command="{Binding myLocationChanged}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding NormalOrderEntryClosing}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
+
+    <!--<Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="OnCloseExecuted" />
+    </Window.CommandBindings>-->
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" >
+            <i:InvokeCommandAction Command="{Binding Path=LoadTabIndex}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="747*" />
+            <ColumnDefinition Width="10*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBox Height="23" Background="{Binding WindowColour}" HorizontalAlignment="Left" Margin="11,22,0,0" Name="TxtTouchLine" VerticalAlignment="Top" Width="264" IsReadOnly="True" IsTabStop="False" Text="{Binding TouchlineValue}">
+
+        </TextBox>
+        <Label Content="Touchline" Height="28" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" Margin="5,0,0,0" />
+
+        <Label Content="Mkt Lot" Visibility="{Binding MktLotVisibilty}" Height="28" HorizontalAlignment="Left" Margin="275,0,0,0" Name="label5" VerticalAlignment="Top" />
+        <Label Content="Per Lot Qty" Visibility="{Binding PerlotVisibilty}" Height="28" HorizontalAlignment="Left" Margin="280,0,0,0" Name="Perlot" VerticalAlignment="Top" />
+        <TextBox Height="23" Background="{Binding WindowColour}"  HorizontalAlignment="Left" Margin="280,22,0,0" Name="TxtMktLotQty" VerticalAlignment="Top" Width="69" IsReadOnly="True" IsTabStop="False"  Text="{Binding MarketLot}" />
+
+        <TextBox Height="23" Background="{Binding WindowColour}" HorizontalAlignment="Left" Margin="354,22,0,0" Name="TxtScrgroup" VerticalAlignment="Top" Width="24" IsReadOnly="True" IsTabStop="False" Text="{Binding Group}" />
+        <Label Content="ScrGrp" Height="28" HorizontalAlignment="Left" Margin="344,0,0,0" Name="label6" VerticalAlignment="Top" />
+
+        <TextBox Height="23" Background="{Binding WindowColour}" HorizontalAlignment="Left" Margin="384,22,0,0" Name="TxtOpenInt" VerticalAlignment="Top" Width="82" IsReadOnly="True" IsTabStop="False" Text="{Binding FaceValue}" />
+        <Label Content="Face Value" Visibility="{Binding FaceValueVisibility}" Height="28" HorizontalAlignment="Left" Margin="394,0,0,0" Name="facevalue" VerticalAlignment="Top" />
+        <Label Content="OpenInt" Visibility="{Binding OpenIntVisibility}" Height="28" HorizontalAlignment="Left" Margin="387,0,0,0" Name="openint" VerticalAlignment="Top" />
+
+        <Label Content="Tick" Height="28" HorizontalAlignment="Left" Margin="466,0,0,0" Name="label8" VerticalAlignment="Top" RenderTransformOrigin="-0.52,0.47" />
+        <TextBox Height="23" Background="{Binding WindowColour}" HorizontalAlignment="Left" Margin="470,22,0,0" Name="TxtTickSize" VerticalAlignment="Top" Width="64" IsReadOnly="True" IsTabStop="False"  Text="{Binding TickSize}"/>
+
+        <Label Content="GSM/S+" Height="28" HorizontalAlignment="Left" Margin="521,0,0,0"  VerticalAlignment="Top" RenderTransformOrigin="0.509,1.622" />
+        <TextBox x:Name="textBlock" Background="{Binding WindowColour}" HorizontalAlignment="Left" Height="23" Margin="539,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="32" Text="{Binding Gsm}" IsReadOnly="True" IsTabStop="False"/>
+        <TextBox Background="{Binding WindowColour}" Height="23" HorizontalAlignment="Left" Margin="576,22,0,0" Name="TxtVarIM" VerticalAlignment="Top" Width="82" IsReadOnly="True" IsTabStop="False" Text="{Binding VarIM,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+        <TextBox Background="{Binding WindowColour}" Height="23" HorizontalAlignment="Left" Margin="665,22,0,0" Name="TxtVarEm" VerticalAlignment="Top" Width="85" IsReadOnly="True" IsTabStop="False" Text="{Binding VarEM,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+        <Label Content="VAR / IM%" Height="28" HorizontalAlignment="Left" Margin="580,0,0,0" Name="label9" VerticalAlignment="Top" />
+        <Label Content="VAR / EM%" Height="28" HorizontalAlignment="Left" Margin="670,0,0,0" Name="label10" VerticalAlignment="Top" />
+
+        <!--uc stack-->
+        <ComboBox Grid.Row="0" Grid.Column="0" Name="ddlSegmentType" VerticalContentAlignment="Center"  VerticalAlignment="Top" RenderTransformOrigin="-3.135,3.543" Margin="11,52,653,0" ItemsSource="{Binding ScripSegmentLst}"  SelectedItem="{Binding ScripSelectedSegment,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsPanel="{StaticResource VSP}" IsEditable="False">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ScripSegmentSelectionChanged}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+
+        <GroupBox IsTabStop="True"  Focusable="True" Header="Order Type" Height="47" HorizontalAlignment="Left" Margin="9,114,0,0" Name="groupBox1" VerticalAlignment="Top" Width="102">
+            <Grid Height="42" Margin="0,0,-12,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="113*" />
+                </Grid.ColumnDefinitions>
+                <RadioButton  Content="Buy" Height="16" HorizontalAlignment="Left" Margin="3,6,0,0" Name="rdoBuy" 
+                             VerticalAlignment="Top" GroupName="OrderType" Grid.ColumnSpan="2" Width="49" Command="{Binding BuyWindow}" CommandParameter="BUY"  IsChecked="{Binding BuyChecked}">
+                </RadioButton>
+                <RadioButton  Content="Sell" Grid.Column="1" Height="16"  HorizontalAlignment="Left" Margin="7,0,0,20" Name="rdoSell"
+                             VerticalAlignment="Bottom" GroupName="OrderType"  Width="53"  Command="{Binding BuyWindow}" CommandParameter="SELL" IsChecked="{Binding SellChecked}"/>
+            </Grid>
+        </GroupBox>
+        <ComboBox  Height="23" HorizontalAlignment="Left" Margin="152,185,0,0" Name="drpdwnClientType" VerticalAlignment="Top" Width="99" ItemsSource="{Binding Clienttypelst}" SelectedItem="{Binding clienttypeselected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Commmon:EditableComboBox.MaxLength="11" Height="23" HorizontalAlignment="Left" Margin="27,185,0,0" Name="drpdwnShortClient" VerticalAlignment="Top" Width="120" IsEnabled="{Binding clientinputEnabled}" IsEditable="True" AllowDrop="True" ItemsSource="{Binding ClientIDinputlst}" SelectedItem="{Binding ShortClientSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Text="{Binding ShortClientSelectedText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                 IsTextSearchEnabled="True" StaysOpenOnEdit="True">
+            <!--<i:Interaction.Triggers>-->
+            <!--<i:EventTrigger EventName="KeyUp">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDChange}" CommandParameter="{Binding ElementName=drpdwnShortClient}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="KeyDown">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDChange}" CommandParameter="{Binding ElementName=drpdwnShortClient}"/>
+                </i:EventTrigger>-->
+            <!--<i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDSelectionChange}"/>
+                </i:EventTrigger>-->
+            <!--</i:Interaction.Triggers>-->
+        </ComboBox>
+        <!--<TextBox Height="23" HorizontalAlignment="Left" Margin="116,138,0,0" Name="TxtTotalQty" VerticalAlignment="Top" Width="71"  Visibility="{Binding TotalQtyVisibility}" Text="{Binding TotalQty}"/>-->
+        <s:ClickSelectTextBox  Height="23" Commmon:FocusExtension.IsFocused="{Binding IsOrderQtyFocus, Mode=TwoWay}" HorizontalAlignment="Left" Margin="116,138,0,0" x:Name="TxtTotalLot" VerticalAlignment="Top" Width="71" Text="{Binding qty,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="10">
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="LostFocus">
+                    <i:InvokeCommandAction Command="{Binding QtyLostFocus}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </s:ClickSelectTextBox>
+        <Label Content="Total Qty" Height="28" HorizontalAlignment="Left" Margin="109,114,0,0" Name="label4" VerticalAlignment="Top" Visibility="{Binding TotalQtyVisibility}" />
+        <CheckBox  HorizontalAlignment="Left" Margin="9,190,0,0" Name="cbEquityShortClientId" VerticalAlignment="Top" IsChecked="{Binding ShortClientIDEquityCheck}" Visibility="{Binding IsEQvisible}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDEquityCheckCMD}" CommandParameter="EQ" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Unchecked">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDEquityCheckCMD}" CommandParameter="EQ" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </CheckBox>
+        <CheckBox  HorizontalAlignment="Left" Margin="9,190,0,0" Name="cbDebtShortClientId" VerticalAlignment="Top" IsChecked="{Binding ShortClientIDDebtCheck}" Visibility="{Binding IsDebtvisible}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDDebtCheckCMD}" CommandParameter="DEBT" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Unchecked">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDDebtCheckCMD}" CommandParameter="DEBT" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </CheckBox>
+        <CheckBox  HorizontalAlignment="Left" Margin="9,190,0,0" Name="cbDerShortClientId" VerticalAlignment="Top" IsChecked="{Binding ShortClientIDDerCheck}" Visibility="{Binding IsDERvisible}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDDERCheckCMD}" CommandParameter="DER" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Unchecked">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDDERCheckCMD}" CommandParameter="DER" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </CheckBox>
+        <CheckBox  HorizontalAlignment="Left" Margin="9,190,0,0" Name="cbCurShortClientId" VerticalAlignment="Top" IsChecked="{Binding ShortClientIDCurCheck}" Visibility="{Binding IsCurrencyvisible}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDCURCheckCMD}" CommandParameter="CUR" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Unchecked">
+                    <i:InvokeCommandAction Command="{Binding ShortClientIDCURCheckCMD}" CommandParameter="CUR" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </CheckBox>
+
+        <Button  IsTabStop="True"  Height="23" HorizontalAlignment="Left" Margin="672,113,0,0" Name="btnRefresh" VerticalAlignment="Top" Width="80" Command="{Binding RefreshBtnClick}">
+            <AccessText>_Refresh</AccessText>
+        </Button>
+        <Button  Height="23" Name="btnLimit" HorizontalAlignment="Left" Margin="672,140,0,0"  VerticalAlignment="Top" Width="80" Command="{Binding LimitSubmitButton}" >
+            <AccessText>_Limit</AccessText>
+        </Button>
+        <Button   Height="23" HorizontalAlignment="Left" Margin="672,168,0,0" Name="BtnMarket" VerticalAlignment="Top" Width="80" IsEnabled="{Binding MktbtnEnability}" Command="{Binding MarketSubmitButton}">
+            <AccessText>_Market</AccessText>
+        </Button>
+        <Button   Height="23" HorizontalAlignment="Left" Margin="672,196,0,0" Name="BtnBlockDeal" VerticalAlignment="Top" Width="80" Visibility="{Binding BlockDealVisibility}" IsEnabled="{Binding BlockDealbtnEnability}" Command="{Binding BlockDealSubmitButton}">
+            <AccessText>_Block Deal</AccessText>
+        </Button>
+        <Button   Height="24" HorizontalAlignment="Left" Margin="672,225,0,0" Name="OrderSliceCalc" VerticalAlignment="Top" Width="80" Visibility="{Binding OrderSlicingVisibility}" RenderTransformOrigin="0.777,0.557" >
+            <AccessText>Order Slicin_g</AccessText>
+
+        </Button>
+        <Button  Height="24" HorizontalAlignment="Left" Margin="672,225,0,0" Name="BtnBondCalc" VerticalAlignment="Top" Width="80" Visibility="{Binding BondCalcVisibility}" RenderTransformOrigin="0.777,0.557" >
+            <AccessText>Bond _Calc</AccessText>
+
+        </Button>
+        <Button   Height="50" HorizontalAlignment="Left" Margin="672,196,0,0" Name="DerChain" VerticalAlignment="Top" Width="80" Visibility="{Binding DervChainVisibility}" RenderTransformOrigin="0.777,0.557" >
+            <AccessText>_Derv Chain</AccessText>
+
+        </Button>
+
+
+        <Label Content="Short Client" Height="28" HorizontalAlignment="Left" Margin="24,160,0,0" Name="label11" VerticalAlignment="Top" />
+        <!--cpcode left-->
+        <Label Content="Client Type" Height="28" HorizontalAlignment="Left" Margin="152,160,0,0" Name="lblClientType" VerticalAlignment="Top" />
+        <Label Content="Client ID" Height="28" HorizontalAlignment="Right" Margin="0,160,432,0" Name="lblClientID" VerticalAlignment="Top" RenderTransformOrigin="0.702,0.588" Visibility="{Binding ClientIdVisibility}" />
+        <Label Content="CP Code" Height="28" HorizontalAlignment="Right" Margin="0,160,432,0" Name="lblCPCODE" VerticalAlignment="Top" RenderTransformOrigin="0.702,0.588" Visibility="{Binding CPCodeVisibility}" />
+
+
+
+        <Label Content="Enbl &#xD;&#xA;RevQty" Height="43" HorizontalAlignment="Left" Margin="186,102,0,0" Name="label14" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="59" />
+        <Label Content="Revealed Qty" Height="41" HorizontalAlignment="Left" Margin="234,114,0,0" Name="label15" VerticalAlignment="Top" RenderTransformOrigin="0.457,0.526" Width="95" Visibility="{Binding RevealedOtyVisibility}" />
+
+
+        <Label Content="Rate" Height="28" HorizontalAlignment="Left" Margin="323,113,0,0" Name="label16" VerticalAlignment="Top" />
+        <Label Content="YTM" Height="28" HorizontalAlignment="Left" Margin="410,113,0,0" Name="label18" VerticalAlignment="Top" />
+        <Label Height="40"  Width="50" HorizontalAlignment="Left" Margin="465,101,0,0" Name="label19" VerticalAlignment="Top">
+            <AccessText TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" TextWrapping="WrapWithOverflow">Retain Till</AccessText>
+        </Label>
+        <s:ClickSelectTextBox   Height="23" IsEnabled="{Binding RevQtyEnbl}" HorizontalAlignment="Right" Margin="0,138,432,0" Text="{Binding revQty,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" x:Name="TxtRevealedQty" VerticalAlignment="Top" Width="85" Visibility="{Binding RevealedOtyVisibility}" MaxLength="10">
+            <s:ClickSelectTextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="BorderBrush" Value="#7a8392" />
+                    <Setter Property="BorderThickness" Value="2 2 0.5 0.5" />
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{Binding WindowColour}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </s:ClickSelectTextBox.Style>
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>
+        <s:ClickSelectTextBox Background="{Binding WindowColour}" Height="23" Padding="0,2,0,0" HorizontalAlignment="Right" IsEnabled="False" Margin="0,138,299,0" x:Name="TxtYTM" VerticalAlignment="Top" Width="51" RenderTransformOrigin="0.059,0.391" />
+        <ComboBox  IsEditable="False" Height="23" HorizontalAlignment="Right" Margin="0,138,241,0" Name="Ret" VerticalAlignment="Top" Width="53" ItemsSource="{Binding RetType}" SelectedItem="{Binding RetTypeSelected}" />
+        <CheckBox  Height="16" IsChecked="{Binding RevChck}" HorizontalAlignment="Left" Margin="200,142,0,0" Name="ChkEnblRevQty" VerticalAlignment="Top" RenderTransformOrigin="-0.692,0.562"/>
+        <s:ClickSelectTextBox  Height="23" Commmon:FocusExtension.IsFocused="{Binding IsOrderRateFocus,Mode=TwoWay}" HorizontalAlignment="Left" Margin="323,138,0,0" x:Name="TxtRate" VerticalAlignment="Top" Width="76" Text="{Binding rate}" MaxLength="11">
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="True"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>
+
+        <s:ClickSelectTextBox  Height="23" HorizontalAlignment="Left" Margin="627,0,0,101" x:Name="TxtMktProfitPercentage" VerticalAlignment="Bottom" Width="30" Text="{Binding MktPT, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="4">
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="True"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>
+        <Label Content="Mkt % &#xD;&#xA;Prot" Height="41" HorizontalAlignment="Left" Margin="622,101,0,0" Name="label17" VerticalAlignment="Top" Width="50"  />
+        <TextBox Height="21" Background="{Binding WindowColour}" IsTabStop="False" HorizontalAlignment="Left" Margin="10,223,0,0" Name="txtMessage" Text="{Binding ErrorMsg}" VerticalAlignment="Top" Width="392" IsReadOnly="True"/>
+        <s:ClickSelectTextBox Background="{Binding WindowColour}" Height="23" HorizontalAlignment="Right" IsReadOnly="True" IsTabStop="False" Margin="0,186,255,0" x:Name="txtBuyPosition" VerticalAlignment="Top" Width="80" Text="{Binding BuyPosition,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" >
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>
+        <s:ClickSelectTextBox Height="23" Background="{Binding WindowColour}" HorizontalAlignment="Right" Margin="0,186,179,0" x:Name="txtBuyAvgRate" IsTabStop="False" IsReadOnly="True" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.5,0.5" Text="{Binding AvgBuyPosition,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="2.291"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0.46"/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="True"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>
+        <s:ClickSelectTextBox Height="23" Background="{Binding WindowColour}" HorizontalAlignment="Right" IsTabStop="False" Margin="0,224,255,0" x:Name="txtSellPosition" IsReadOnly="True" Text="{Binding SellPosition,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="80" >
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>
+        <s:ClickSelectTextBox Height="23" Background="{Binding WindowColour}" HorizontalAlignment="Right" IsTabStop="False" Margin="0,223,178,0" x:Name="txtSellAvgRate" IsReadOnly="True" Text="{Binding AvgSellPosition,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="71" >
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="True"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>
+        <CheckBox Name="ocoCheck"  HorizontalAlignment="Left" Margin="522,141,0,0" VerticalAlignment="Top" IsChecked="{Binding OcoChecked}"/>
+        <s:ClickSelectTextBox  HorizontalAlignment="Left" Height="23" Margin="543,138,0,0" x:Name="txtOCOTriggerRate" Text="{Binding trgPrice}" IsEnabled="{Binding TrgRateEnbl}" VerticalAlignment="Top" Width="80" MaxLength="11">
+            <s:ClickSelectTextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="BorderBrush" Value="#7a8392" />
+                    <Setter Property="BorderThickness" Value="2 2 0.5 0.5" />
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{Binding WindowColour}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </s:ClickSelectTextBox.Style>
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="True"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>
+
+        <Label Content="Trg Rate" HorizontalAlignment="Left" Margin="552,114,0,0" VerticalAlignment="Top" Name="lblOCOTriggerRate" RenderTransformOrigin="1.107,1.327"/>
+        <Label Content="Position" HorizontalAlignment="Left" Margin="423,161,0,0" VerticalAlignment="Top" Name="lblPosition"/>
+        <Label Content="AvgRate" HorizontalAlignment="Left" Margin="512,160,0,0" VerticalAlignment="Top" Name="lblAvgRate"/>
+        <Label Content="B" HorizontalAlignment="Left" Margin="399,183,0,0" VerticalAlignment="Top" Name="lblB" RenderTransformOrigin="1.353,0.231"/>
+        <Label Content="S" HorizontalAlignment="Left" Margin="399,221,0,0" VerticalAlignment="Top" Name="lblS"/>
+
+
+
+        <Label Content="OCO" HorizontalAlignment="Left" Margin="512,116,0,0" VerticalAlignment="Top"/>
+
+
+        <StackPanel Orientation="Horizontal" Margin="104,50,0,188" Visibility="{Binding EQStackVisi}">
+            <!--<Border BorderBrush="#7a8392" BorderThickness="2 2 0.5 0.5" Background="{Binding WindowColour}" HorizontalAlignment="Left" Height="29" Margin="72,4,0,-2" VerticalAlignment="Top" Width="572">-->
+            <s:ClickSelectTextBox TextWrapping="NoWrap" x:Name="txtCorpAct" Foreground="Red" Background="{Binding WindowColour}" HorizontalAlignment="Left" Height="29" Margin="72,4,0,-2" VerticalAlignment="Top" Width="572" IsReadOnly="True" IsTabStop="False" Text="{Binding CorpActionData,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
+                <!--<s:ClickSelectTextBox.Template>
+                        <ControlTemplate>
+                            <Canvas>
+                                <TextBlock Name="txtMarque" Text="{Binding CorpActionData,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Height="29" Width="572"></TextBlock>
+                            </Canvas>
+                        </ControlTemplate>
+                    </s:ClickSelectTextBox.Template>-->
+            </s:ClickSelectTextBox>
+            <!--</Border>-->
+            <Label Content="Corp Act" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29"  Margin="-644,0,0,0" Width="64" RenderTransformOrigin="-1.057,0.704"/>
+        </StackPanel>
+
+        <StackPanel Orientation='Horizontal' Margin="104,50,0,182" Visibility="{Binding DerivStackVisi}">
+            <ComboBox x:Name="comboBox2" Margin="2,3,0,0" VerticalAlignment="Top" Width="90" ItemsSource="{Binding IntrTypeLst,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  SelectedItem="{Binding IntrTypeSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsEditable="False" MaxDropDownHeight="190" HorizontalAlignment="Left" ItemsPanel="{StaticResource VSP}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding InstrTypeSelectionChange}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Label x:Name="label" Content="Asset" Height="24" Margin="-2,0,0,0" VerticalAlignment="Top" Width="42"/>
+            <ComboBox  x:Name="comboBox3" Margin="-5,3,0,0" VerticalAlignment="Top" Width="95" ItemsSource="{Binding UnderLyingAssetLst}"  SelectedItem="{Binding UnderAssetSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"    VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" MaxDropDownHeight="80">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding UnderAssetSelectionChange}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Label x:Name="label2" Content="Expiry" Height="29" Margin="0,0,0,0" VerticalAlignment="Top" Width="51"/>
+            <ComboBox  IsEnabled="{Binding CurrencyAssetEnable}"  x:Name="comboBox4" Margin="-10,2,0,0" VerticalAlignment="Top" Width="110" ItemsSource="{Binding ExpDateLst}" SelectedItem="{Binding ExpDateSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="False" MaxDropDownHeight="80">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding ExpDateSelectionChange}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Label x:Name="label3" Content="Strike" Margin="-1,0,0,9" Width="43" Height="24"/>
+            <ComboBox  x:Name="comboBox5" Height="22" Margin="0,3,0,0" VerticalAlignment="Top" Width="90" IsEnabled="{Binding StrikePriceEnable}" Text="STK" ItemsSource="{Binding StkPrcLst}" SelectedItem="{Binding StkPriceSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEditable="True" HorizontalAlignment="Left" MaxDropDownHeight="80">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding StkPriceSelectionChange}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Label x:Name="label7" Content="Asset &#xA;Value" Height="41" Margin="0,-6,0,0" VerticalAlignment="Top" Width="51"/>
+            <s:ClickSelectTextBox Background="{Binding WindowColour}" IsTabStop="False" IsReadOnly="True" x:Name="assetvalue" Height="22" Margin="0,3,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90" Text="{Binding AssetValue,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+        <ComboBox  IsEditable="False" VerticalContentAlignment="Center" Commmon:FocusExtension.IsFocused="{Binding IsEquityDebtScripIdFocus,Mode=TwoWay}" Focusable="True" x:Name="comboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="201" Margin="38,87,0,0" Visibility="{Binding EQStackVisi}" SelectedItem="{Binding ScripSymSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding ScripSymLst}" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsPanel="{StaticResource VSP}" MaxDropDownHeight="100" >
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Foreground" Value="Blue" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+        </ComboBox>
+        <ComboBox IsEditable="False" VerticalContentAlignment="Center" IsReadOnly="False" Commmon:FocusExtension.IsFocused="{Binding IsEquityDebtScripCodeFocus,Mode=TwoWay}" Focusable="True" x:Name="comboBox1" HorizontalAlignment="Left" Margin="245,87,0,0" VerticalAlignment="Top" Width="120" Visibility="{Binding EQStackVisi}" ItemsSource="{Binding ScripCodeLst}"  Text="{Binding ScripSelectedCode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsPanel="{StaticResource VSP}" MaxDropDownHeight="100">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewTextInput">
+                    <cmd:EventToCommand Command="{Binding EqFiveLachCalculator}" PassEventArgsToCommand="True"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Foreground" Value="Blue" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+        </ComboBox>
+        <s:ClickSelectTextBox VerticalContentAlignment="Top" Padding="0,-1" Background="{Binding WindowColour}" IsReadOnly="True" x:Name="textBox1" HorizontalAlignment="Left" Height="22" Margin="392,88,0,0" TextWrapping="Wrap" Visibility="{Binding EQStackVisi}" VerticalAlignment="Top" Width="318" Text="{Binding ScripNameSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox VerticalContentAlignment="Center" x:Name="DerivInstr" Commmon:FocusExtension.IsFocused="{Binding IsCurDerScripIdFocus,Mode=TwoWay}" IsTabStop="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="201" Margin="38,87,0,0" Visibility="{Binding DerivStackVisi}" SelectedItem="{Binding ScripIDSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding ScripIDColl}" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsPanel="{StaticResource VSP}" MaxDropDownHeight="100">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ScripIDSelectionChange}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Foreground" Value="Blue" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+        </ComboBox>
+        <ComboBox  IsEditable="False" VerticalContentAlignment="Center" x:Name="derivcode" Commmon:FocusExtension.IsFocused="{Binding IsCurDerScripCodeFocus,Mode=TwoWay}" Focusable="True" HorizontalAlignment="Left" Margin="245,87,0,0" VerticalAlignment="Top" Width="120"  Visibility="{Binding DerivStackVisi}" IsDropDownOpen="False"  SelectedItem="{Binding ScripCodeSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding ScripCodeList}"  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsPanel="{StaticResource VSP}" MaxDropDownHeight="100" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ScripCodeSelectionChange}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ComboBox.Style>
+                <Style TargetType="{x:Type ComboBox}">
+                    <Style.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Foreground" Value="Blue" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+        </ComboBox>
+        <s:ClickSelectTextBox VerticalContentAlignment="Top" Padding="0,-1" Background="{Binding WindowColour}" IsReadOnly="True" IsTabStop="False" x:Name="IntrmentNameDerv" HorizontalAlignment="Left" Height="22" Margin="392,88,0,0" TextWrapping="Wrap" Visibility="{Binding DerivStackVisi}" VerticalAlignment="Top" Width="318" Text="{Binding InstrumentName,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <CheckBox  x:Name="chkBox5L" IsChecked="{Binding isFiveLacSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="369,93,0,0" VerticalAlignment="Top"/>
+        <!--<Label Content="5L" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="365,70,0,0" Height="29"/>-->
+        <Label Content="5L" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="365,70,0,0" Height="24"/>
+
+
+        <Button  x:Name="btnSearchCorpAction" HorizontalAlignment="Left" Height="22" Margin="715,87,0,0" VerticalAlignment="Top" Width="25"  Command="{Binding searchButtonClick}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source ="/Images/Search_Icon_CMW_5.png" Width="20" Height="20" Name="searchIcon"/>
+            </StackPanel>
+
+        </Button>
+        <s:ClickSelectTextBox  x:Name="textBox2" Text="{Binding ClientName}" MaxLength="12" HorizontalAlignment="Left" Height="23" Margin="258,185,0,0" TextWrapping="Wrap"   VerticalAlignment="Top" Width="127" IsReadOnly="{Binding IsClientIDCpCdEnabled,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <s:ClickSelectTextBox.Style>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="BorderBrush" Value="#7a8392" />
+                    <Setter Property="BorderThickness" Value="2 2 0.5 0.5" />
+                    <Style.Triggers>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter Property="Background" Value="{Binding WindowColour}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </s:ClickSelectTextBox.Style>
+        </s:ClickSelectTextBox>
+        <!--<Button x:Name="button1" HorizontalAlignment="Left" Height="21" Margin="11,88,0,0" VerticalAlignment="Top" Width="22">
+            <StackPanel Orientation="Horizontal">
+                <Image Source ="/Images/closeimage.jpg" Width="20" Height="20"/>
+            </StackPanel>
+        </Button>-->
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="77" Margin="584,179,0,0" VerticalAlignment="Top" Width="83">
+            <Label x:Name="label12" Content="NetPosition" HorizontalAlignment="Left" Height="25" Margin="-1,-4,-6,0" VerticalAlignment="Top" Width="88"/>
+
+        </Border>
+        <Label Content="@" Height="15" Width="15" Padding="0,0,0,0" Name="lblNetPosition" Margin="616,175,110,15" RenderTransformOrigin="2.033,0.383"/>
+        <!--<s:ClickSelectTextBox Background="{Binding WindowColour}" FontWeight="Bold" TextAlignment="Left" BorderThickness="0" IsEnabled="False" TabIndex="-1" Height="23" HorizontalAlignment="Left" x:Name="TxtNetPositionNetQty" VerticalAlignment="Top" Width="30" Text="{Binding NetPositionNetQty,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Margin="586,203,0,0" RenderTransformOrigin="2.033,0.383">
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>-->
+        <Label Background="{Binding WindowColour}" FontWeight="Bold" VerticalContentAlignment="Top" IsTabStop="False" BorderThickness="0" TabIndex="-1" Height="30" x:Name="TxtNetPositionNetQty" Width="35" Content="{Binding NetPositionNetQty,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Margin="460,162,0,0" RenderTransformOrigin="2.033,0.383">
+            <!--<i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>-->
+        </Label>
+
+        <!--<s:ClickSelectTextBox Background="{Binding WindowColour}" FontWeight="Bold" TextAlignment="Left" BorderThickness="0" IsEnabled="False" TabIndex="-1" Height="23" HorizontalAlignment="Left" x:Name="TxtNetPositionNetValue" VerticalAlignment="Top" Width="80" Text="{Binding NetPositionNetValue,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Margin="586,234,0,0" RenderTransformOrigin="2.033,0.383">
+            <i:Interaction.Behaviors>
+                <Commmon:NumericTextBoxBehaviour AllowDecimal="False"/>
+            </i:Interaction.Behaviors>
+        </s:ClickSelectTextBox>-->
+        <Label Background="{Binding WindowColour}" FontWeight="Bold"  VerticalContentAlignment="Top" BorderThickness="0" IsTabStop="False" TabIndex="-1" Height="30" HorizontalAlignment="Left" x:Name="TxtNetPositionNetValue" Width="67" Content="{Binding NetPositionNetValue,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Margin="587,220,0,18">
+        </Label>
+    </Grid>
+
+</Commmon:TitleBarHelperClass>

@@ -1,0 +1,214 @@
+﻿<Window x:Class="CommonFrontEnd.View.BestFiveMarketPicture"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:controls="clr-namespace:CommonFrontEnd.View.UserControls"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View"
+        mc:Ignorable="d"
+        Title="{Binding TitleTWSBestFiveWindow}" Height="332.179" Style="{DynamicResource DefaultFont}" Width="904.533" ShowInTaskbar="False"  ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+            </Style>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding Escape_ShortCut}" CommandParameter="{Binding ElementName=myWindow}"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="49"/>
+            <RowDefinition Height="217"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="449"/>
+            <ColumnDefinition Width="52"/>
+            <ColumnDefinition Width="96"/>
+            <ColumnDefinition Width="51"/>
+            <ColumnDefinition Width="103"/>
+            <ColumnDefinition Width="53"/>
+            <ColumnDefinition Width="103"/>
+        </Grid.ColumnDefinitions>
+        <controls:OrderEntryUC Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" Height="49" Margin="10,0" Width="880" x:Name="OrderEntryUC"></controls:OrderEntryUC>
+        <Separator Margin="0,32,15,190" Grid.RowSpan="2" Grid.ColumnSpan="7" Width="899" ></Separator>
+        <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" GridLinesVisibility="None" Visibility="Visible" CanUserResizeRows="False" CanUserResizeColumns="False"
+                 ItemsSource="{Binding BstFiveCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling" AutoGenerateColumns="False" 
+                   IsReadOnly="True" EnableRowVirtualization="True" Foreground="#FFD402D4"
+                      BorderThickness="0" IsTextSearchEnabled="True" CanUserSortColumns="False"  Grid.Column="0" Grid.Row="1" RowHeight="25" Margin="-6,5,51,41" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" x:Name="DataGridBestFive" Height="171" Grid.ColumnSpan="2">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="IsTabStop" Value="False"/>
+                    <!--<Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True">
+                                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>-->
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding NoofBidBuy,UpdateSourceTrigger=PropertyChanged, StringFormat=0;0;#}" Header="NBO" MinWidth="50" Width="Auto" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+
+                <DataGridTextColumn Binding="{Binding BuyQualtity,UpdateSourceTrigger=PropertyChanged, StringFormat=0;0;#}" Header="BQty" Width="Auto" MinWidth="70" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+
+
+                <!--<DataGridTextColumn Binding="{Binding BuyRate,UpdateSourceTrigger=PropertyChanged, StringFormat=0.0000}"  Header="BRate" Width="Auto" MinWidth="87" Visibility="{Binding DeciVisiDev}" ElementStyle="{StaticResource CellRightAlign}"/>-->
+                <DataGridTextColumn Binding="{Binding BuyRate,UpdateSourceTrigger=PropertyChanged, StringFormat=.00;.00;#}"  Header="BRate" Width="Auto" MinWidth="87"  ElementStyle="{StaticResource CellRightAlign}"/>
+
+
+                <!--<DataGridTextColumn Binding="{Binding OfferRate,UpdateSourceTrigger=PropertyChanged, StringFormat=0.0000}" Header="ORate" MinWidth="87" Width="Auto" Visibility="{Binding DeciVisiDev}" ElementStyle="{StaticResource CellRightAlign}"/>-->
+                <DataGridTextColumn Binding="{Binding OfferRate,UpdateSourceTrigger=PropertyChanged}" Header="ORate" MinWidth="87" Width="Auto"  ElementStyle="{StaticResource CellRightAlign}"/>
+
+                <DataGridTextColumn Binding="{Binding OfferQty,UpdateSourceTrigger=PropertyChanged, StringFormat=0;0;#}" Header="OQty" MinWidth="79" Width="Auto" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+
+                <DataGridTextColumn Binding="{Binding NoOfSellOrder,UpdateSourceTrigger=PropertyChanged, StringFormat=0;0;#}" Header="NSO" MinWidth="54" Width="Auto" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Content="Total BQty: " Margin="10,182,360,-1" Grid.Row="1"/>
+        <Label Content="Total SQty: " Margin="168,182,203,-1" Grid.Row="1"/>
+        <Label Content="{Binding TotalBuyQty}" Margin="86,182,281,-1" Grid.Row="1" ContentStringFormat="0;;#"/>
+        <Label Content="{Binding TotalSellQty}" Margin="246,182,110,-1" Grid.Row="1" ContentStringFormat="0;;#"/>
+        <Label VerticalAlignment="Top" Content="NetPos" Grid.Row="1" Width="60" Height="40" HorizontalAlignment="Left" Margin="29,205,0,0" RenderTransformOrigin="0.482,-0.007" Grid.RowSpan="2"/>
+        <Label VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="60" Margin="86,205,303,0" Height="40" Grid.Row="1" Content="{Binding NetPositionNetQty,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" Grid.RowSpan="2"></Label>
+        <Label VerticalAlignment="Top" Grid.Row="1" FontWeight="Bold" Height="30" Width="30" Margin="138,204,281,0" Grid.RowSpan="2">@</Label>
+        <Label VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="60" Margin="168,204,221,0" Height="40" Grid.Row="1" Content="{Binding NetPositionNetValue,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" RenderTransformOrigin="0.361,1.297" Grid.RowSpan="2"></Label>
+        <ListBox KeyboardNavigation.TabNavigation="None" Grid.Column="1" BorderThickness="0.5" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 HorizontalContentAlignment="Left" Margin="1,5,0,29" SelectionMode="Multiple" Name="lstbstfivedata" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.RowSpan="2">
+
+            <StackPanel Height="231" KeyboardNavigation.TabNavigation="None" Width="40">
+
+                <Label  Content="LTP" Height="26"/>
+                <Label Padding="4,2,0,0" Height="26" Content="LTQ"/>
+                <Label Padding="4,2,0,0" Height="26" Content="LTT"/>
+                <Label Padding="4,2,0,0" Height="26" Content="CHG"/>
+                <Label Padding="4,2,0,0" Height="26" Content="WAP"/>
+                <Label Padding="4,2,0,0"  Height="26" Content="VOL"/>
+                <Label Padding="4,2,0,0" Height="26" Content="VAL"/>
+                <Label  Padding="4,2,0,0" Height="26" Content="BRP"/>
+
+            </StackPanel>
+        </ListBox>
+        <ListBox KeyboardNavigation.TabNavigation="None" Grid.Column="2" ItemsSource="{Binding OtherDetails,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Name="lstbstfivedata1"
+                 BorderThickness="0.5" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,5,0,29" HorizontalContentAlignment="Right" Grid.RowSpan="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Stretch" Width="Auto" Height="226" KeyboardNavigation.TabNavigation="None">
+
+                        <!--<Label Content="{Binding LastTradePrice,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding DeciVisiDev}" ContentStringFormat="0.0000" HorizontalAlignment="Right"/>
+                            <Label Content="{Binding LastTradePrice,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding DeciVisiEq}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+
+                            <Label Content="{Binding LastTradeQuantity, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                            <Label Content="{Binding LastTradeTime, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                        
+                            <Label Content="{Binding ChangePercentage, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+
+
+                        <Label Content="{Binding WtAvgPrice, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding DeciVisiDev}" ContentStringFormat="0.0000" HorizontalAlignment="Right"/>
+                        <Label Content="{Binding WtAvgPrice, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Visibility="{Binding DeciVisiEq}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+
+                            <Label Content="{Binding TradeVolume, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                            <Label Content="{Binding TradeValue, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+                            <Label Content="{Binding BRP, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>-->
+                        <ListBoxItem Padding="0,6,0,0" Height="26" Content="{Binding LastTradePrice,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <ListBoxItem Height="26" Content="{Binding LastTradeQuantity, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0;;#" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <ListBoxItem  Height="26" Content="{Binding LastTradeTime, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0;;#" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <ListBoxItem  Height="26" Content="{Binding ChangePercentage, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <ListBoxItem  Height="26" Content="{Binding WtAvgPrice, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <ListBoxItem  Height="26" Content="{Binding TradeVolume, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <ListBoxItem  Height="26" Content="{Binding TradeValue, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <ListBoxItem  Height="26" Content="{Binding BRP, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox KeyboardNavigation.TabNavigation="None" Grid.Column="3" BorderThickness="0.5" Grid.Row="1" Name="lstbstfivedata2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,5,0,29" Grid.RowSpan="2">
+            <StackPanel Height="226" KeyboardNavigation.TabNavigation="None">
+                <Label Padding="4,6,0,0"  Height="26" Content="OP"/>
+                <Label Padding="4,2,0,0" Height="26" Content="HI"/>
+                <Label Padding="4,2,0,0" Height="26" Content="LO"/>
+                <Label Padding="4,2,0,0" Height="26" Content="CL"/>
+                <Label Padding="4,2,0,0" Height="26" Content="LC"/>
+                <Label Padding="4,2,0,0" Height="26" Content="UC"/>
+                <Label Padding="4,2,0,0" Height="26" Content="Trd"/>
+                <Label Padding="4,2,0,0" Height="26" Content=""/>
+            </StackPanel>
+        </ListBox>
+        <ListBox Grid.Column="4"  KeyboardNavigation.TabNavigation="None" ItemsSource="{Binding OtherDetails,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Name="lstbstfivedata3"  BorderThickness="0.5" Grid.Row="1"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,5,0,29" HorizontalContentAlignment="Right" Grid.RowSpan="2" HorizontalAlignment="Left" Width="103">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Stretch" Width="Auto" Height="226" KeyboardNavigation.TabNavigation="None">
+                        <!--<Label Content="{Binding OpenRate}" Visibility="{Binding DeciVisiDev}" ContentStringFormat="0.0000" HorizontalAlignment="Right"/>-->
+                        <ListBoxItem Padding="0,6,5,0" Height="26" Content="{Binding OpenRate}"  HorizontalAlignment="Right"/>
+
+                        <!--<Label Content="{Binding HighRate}" Visibility="{Binding DeciVisiDev}" ContentStringFormat="0.0000" HorizontalAlignment="Right"/>-->
+                        <ListBoxItem  Height="26" Content="{Binding HighRate}"  ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+
+                        <!--<Label Content="{Binding LowRate}" Visibility="{Binding DeciVisiDev}" ContentStringFormat="0.0000" HorizontalAlignment="Right"/>-->
+                        <ListBoxItem  Height="26" Content="{Binding LowRate}"  HorizontalAlignment="Right"/>
+
+                        <!--<Label Content="{Binding CloseRate}" Visibility="{Binding DeciVisiDev}" ContentStringFormat="0.0000" HorizontalAlignment="Right"/>-->
+                        <ListBoxItem  Height="26" Content="{Binding CloseRate}"  ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+
+                        <!--<Label Content="{Binding LowerCtLmt}" Visibility="{Binding DeciVisiDev}" ContentStringFormat="0.0000" HorizontalAlignment="Right"/>-->
+                        <ListBoxItem  Height="26" Content="{Binding LowerCtLmt}"  ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+
+                        <!--<Label Content="{Binding UpperCtLmt}" Visibility="{Binding DeciVisiDev}" ContentStringFormat="0.0000" HorizontalAlignment="Right"/>-->
+                        <ListBoxItem  Height="26" Content="{Binding UpperCtLmt}"  ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+                        <ListBoxItem  Height="26" Content="{Binding NoOfTrds}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                        <ListBoxItem  Height="26" Content="" HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Grid.Column="5" BorderThickness="0.5" Grid.Row="1" KeyboardNavigation.TabNavigation="None" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="lstbstfivedat4"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0,5,0,29" Grid.RowSpan="2">
+            <StackPanel Height="226" KeyboardNavigation.TabNavigation="None">
+                <Label Height="26" Content="IP" />
+                <Label Padding="4,2,0,0" Height="26" Content="IQ" />
+                <Label Padding="4,2,0,0" Height="26" Content="Yld"/>
+                <Label Padding="4,2,0,0" Height="26" Content="OI" />
+                <Label Padding="4,2,0,0" Height="26" Content="52H"/>
+                <Label Padding="4,2,0,0" Height="26" Content="Dt :"/>
+                <Label Padding="4,2,0,0" Height="26" Content="52L"/>
+                <Label Padding="4,2,0,0" Height="26" Content="Dt :"/>
+            </StackPanel>
+        </ListBox>
+        <ListBox Grid.Column="6" ItemsSource="{Binding OtherDetails,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyboardNavigation.TabNavigation="None" BorderThickness="0.5" Grid.Row="1"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Name="lstbstfivedata5" Margin="0,5,10,29" HorizontalContentAlignment="Right" Grid.RowSpan="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Stretch" Width="Auto" Height="226" KeyboardNavigation.TabNavigation="None">
+                        <ListBoxItem Padding="0,6,0,0" Height="26" Content="{Binding IndEqPrice}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                        <ListBoxItem  Height="26" Content="{Binding IndEqQty}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                        <ListBoxItem  Height="26" Content="{Binding Yield}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                        <ListBoxItem  Height="26" Content="{Binding OI}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                        <ListBoxItem  Height="26" Content="{Binding FiftyTwoHigh}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+                        <ListBoxItem  Height="26" Content="{Binding FiftyTwoHighDate}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                        <ListBoxItem  Height="26" Content="{Binding FiftyTwoLow}" ContentStringFormat="0.00;0.00;#" HorizontalAlignment="Right"/>
+                        <ListBoxItem  Height="26" Content="{Binding FiftyTwoLowDate}" ContentStringFormat="0;;#" HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Separator Margin="0,288,15,189" Grid.ColumnSpan="7" Width="892" Grid.RowSpan="2"/>
+    </Grid>
+</Window>

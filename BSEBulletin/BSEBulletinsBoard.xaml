@@ -1,0 +1,112 @@
+﻿<Window x:Class="CommonFrontEnd.View.BSEBulletin.BSEBulletinsBoard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"  
+        xmlns:local="clr-namespace:CommonFrontEnd.View.BSEBulletin" ShowInTaskbar="False"
+        mc:Ignorable="d" ResizeMode="CanResizeWithGrip"
+        Title="BSE Bulletins Board" SizeToContent="WidthAndHeight" MaxHeight="470" MaxWidth="500" Style="{DynamicResource DefaultFont}">
+    <Window.Resources>
+        <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+    </Window.Resources>
+    
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseWindowsOnEscape}" />
+    </Window.InputBindings>
+    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBox Name="TextArea" Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Auto" FontSize="12" FontWeight="Medium" Text="{Binding textReadData}" Width="380" Height="280" IsReadOnly="True" Background="LightCyan"></TextBox>
+        <Grid Width="Auto" Grid.Row="2" Margin="0,5,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="30"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image Height="23" Width="30" Grid.Row="0" Grid.Column="1">
+                <Image.Source>
+                    <BitmapImage UriSource="/Images/Pin.bmp" />
+                </Image.Source>
+            </Image>
+
+           
+
+            <Image Height="23" Width="30" Grid.Row="2" Grid.Column="1">
+                <Image.Source>
+                    <BitmapImage UriSource="/Images/Pin.bmp" />
+                </Image.Source>
+            </Image>
+            <Image Height="23" Width="30" Grid.Row="4" Grid.Column="1">
+                <Image.Source>
+                    <BitmapImage UriSource="/Images/Pin.bmp" />
+                </Image.Source>
+            </Image>
+            <Image Height="23" Width="30" Grid.Row="6" Grid.Column="1">
+                <Image.Source>
+                    <BitmapImage UriSource="/Images/TwsHelp.bmp" />
+                </Image.Source>
+            </Image>
+
+            <!--<Label Target="{Binding ElementName=TextArea}" Grid.Row="0" Grid.Column="3">
+                    <Hyperlink MouseDown="{Binding mouseClick}">-->
+                <Label Content="{Binding lblLink1}"  Margin="0" Grid.Row="0" Grid.Column="3">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown" >
+                            <cmd:EventToCommand Command="{Binding Path=mouseClick}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Label>
+                <!--</Hyperlink>
+            </Label>-->
+            <!--<Label Target="{Binding ElementName=TextArea}" Grid.Row="2" Grid.Column="3">
+                <Hyperlink>-->
+                <Label Content="{Binding lblLink2}"  Margin="0" Grid.Row="2" Grid.Column="3">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown" >
+                            <cmd:EventToCommand Command="{Binding Path=mouseClickLinkTwo}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Label>
+                
+                <!--</Hyperlink>
+            </Label>-->
+                <Label Content="{Binding lblLink3}"  Margin="0" Grid.Row="4" Grid.Column="3">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown" >
+                            <cmd:EventToCommand Command="{Binding Path=mouseClickLinkThree}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Label>
+                <!--<Label Target="{Binding ElementName=TextArea}" Grid.Row="4" Grid.Column="3">
+                <Hyperlink>
+                    <Label Content="{Binding lblLink3}"  Margin="-6"></Label>
+                </Hyperlink>
+            </Label>-->
+            <Label Target="{Binding ElementName=TextArea}" Grid.Row="6" Grid.Column="3">
+                    <Hyperlink Command="{Binding TwsHelp}">
+                    <Label Content="TWS Help Content" Margin="-6"></Label>
+                </Hyperlink>
+            </Label>
+
+
+        </Grid>
+        
+    </Grid>
+    </ScrollViewer>
+</Window>

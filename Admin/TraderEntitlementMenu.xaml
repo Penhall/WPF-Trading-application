@@ -1,0 +1,56 @@
+﻿<Window x:Class="CommonFrontEnd.View.Admin.TraderEntitlementMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.Admin"
+        mc:Ignorable="d"
+        Title="Trader Entitlement and Client Master" Height="380" Width="420" ResizeMode="NoResize">
+    <Grid>
+        <Button x:Name="button" Content="Help" HorizontalAlignment="Left" Margin="305,14,0,0" VerticalAlignment="Top" Width="75" Height="30"/>
+        <Button x:Name="button1" Content="Next >>" HorizontalAlignment="Left" Margin="307,283,0,0" VerticalAlignment="Top" Width="75" Height="30" Command="{Binding TraderRightsWindow}"/>
+
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="10,62,0,0" VerticalAlignment="Top" Width="48">
+            <Label x:Name="label_Copy" Content="Steps" Margin="2,6,1,161"/>
+        </Border>
+
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="58,62,0,0" VerticalAlignment="Top" Width="245">
+            <Label x:Name="label_Copy1" Content="Activity" Margin="58,6,53,161"/>
+        </Border>
+
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="200" Margin="303,62,0,0" VerticalAlignment="Top" Width="84">
+            <Label x:Name="label_Copy2" Content="No of Records" Margin="0,6,-4,161"/>
+        </Border>
+
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="160" Margin="10,102,0,0" VerticalAlignment="Top" Width="377">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48*" ></ColumnDefinition>
+                    <ColumnDefinition Width="243*" ></ColumnDefinition>
+                    <ColumnDefinition Width="85*" ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="button2" Content="Trader Rights (Add/Modify)" Grid.Column="1" HorizontalAlignment="Left" Margin="10,8,0,0" Grid.Row="0" VerticalAlignment="Top" Width="225" Height="27" Command="{Binding TraderRightsWindow}"/>
+                <Button x:Name="button3" Content="Client Master (Add/Modify/Delete)" Grid.Column="1" HorizontalAlignment="Left" Margin="10,8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="225" Height="27" Command="{Binding ClientMasterWindow}"/>
+                <Button x:Name="button4" Content="Scrip Block / Unblock" Grid.Column="1" HorizontalAlignment="Left" Margin="10,8,0,0" Grid.Row="2" VerticalAlignment="Top" Width="225" Height="27" Command="{Binding ScripBlockUnblock}"/>
+                <Button x:Name="button5" Content="Data Upload on Extranet" Grid.Column="1" HorizontalAlignment="Left" Margin="10,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="225" Height="27" Command="{Binding UploadGenerate}"/>
+                <TextBox x:Name="textBox" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="59" Grid.Row="0" IsReadOnly="True"/>
+                <TextBox x:Name="textBox_Copy" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="59" Grid.Row="1" IsReadOnly="True"/>
+                <TextBox x:Name="textBox_Copy1" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="59" Grid.Row="2" IsReadOnly="True"/>
+                <Label x:Name="label" Content="1*" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="28" Grid.Row="0" Grid.Column="0"/>
+                <Label x:Name="label2" Content="2" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="28" Grid.Row="1" Grid.Column="0"/>
+                <Label x:Name="label3" Content="3" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="28" Grid.Row="2" Grid.Column="0"/>
+                <Label x:Name="label4" Content="4**" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="28" Grid.Row="3" Grid.Column="0"/>
+            </Grid>
+        </Border>
+        <Label x:Name="label1" Content="* Atleast one time entry required" HorizontalAlignment="Left" Margin="10,281,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1_Copy" Content="** Mandatory Activity" HorizontalAlignment="Left" Margin="10,311,0,0" VerticalAlignment="Top"/>
+
+
+    </Grid>
+</Window>

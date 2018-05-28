@@ -1,0 +1,72 @@
+﻿<Window x:Class="CommonFrontEnd.View.VarPercentageBroadcast"
+        x:Name="VarPerBrdCast"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View" ShowInTaskbar="False"
+        mc:Ignorable="d"
+        Title="VarPercentageBroadcast" Height="348" Width="700">
+    
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding ShortCut_Escape}" CommandParameter="{Binding ElementName=VarPerBrdCast}"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" HorizontalAlignment="Right"  Width="75" Command="{Binding FetchFreshVar}">Refresh</Button>
+        <DataGrid  Grid.Row="1" HorizontalAlignment="Left" Name="VarPercentageBroadcastDataGrid" SelectionUnit="FullRow" AutoGenerateColumns="False" VerticalAlignment="Top" CanUserDeleteRows="False"
+                    HorizontalContentAlignment="Stretch" Width="693"  ItemsSource="{Binding ObjVarPercentageBroadcastCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" GridLinesVisibility="All"
+                               SelectionMode="Extended" AlternationCount="2" CanUserAddRows="false" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                              CanUserSortColumns="True" IsReadOnly="True" VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.VerticalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                
+                <DataGridTemplateColumn  Header="Instrument Code" IsReadOnly="True" MinWidth="85" SortMemberPath="InstrumentCode">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding InstrumentCode,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="ScripName" IsReadOnly="True" MinWidth="85" SortMemberPath="ScripName">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripName,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="ScripID" IsReadOnly="True" MinWidth="85" SortMemberPath="ScripID">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ScripID,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="VAR/IM %" IsReadOnly="True" MinWidth="85" SortMemberPath="VARIMPercetage">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding VARIMPercetage,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="ELM %" IsReadOnly="True" MinWidth="85" SortMemberPath="ELMVARPercentage">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ELMVARPercentage,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="Segment" IsReadOnly="True" MinWidth="85" SortMemberPath="Identifier">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Identifier,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay,StringFormat='{}{0:#}'}" TextAlignment="Right" TextWrapping="NoWrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+</Grid>
+</Window>

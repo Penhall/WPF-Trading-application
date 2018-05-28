@@ -1,0 +1,163 @@
+﻿<Window x:Class="CommonFrontEnd.View.PersonalDownload.PersonalDownload"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.PersonalDownload"
+        xmlns:controls="clr-namespace:NMT.Wpf.Controls;assembly=WindowsProgressRing"
+        mc:Ignorable="d"
+        Title="Personal Download" ShowInTaskbar="False" MaxHeight="500" MaxWidth="450" SizeToContent="WidthAndHeight">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseWindowsOnEscape}" />
+    </Window.InputBindings>
+    
+    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Content="Personal Download Status" FontWeight="Bold" Grid.Row="0"></Label>
+        <Separator Grid.Row="0" HorizontalAlignment="Left" Height="0" FontWeight="Bold" Margin="0,30,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="Auto"/>
+        <Grid Grid.Row="1" Background="SkyBlue" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Content="Equity" FontWeight="Bold" Grid.Row="0" Grid.Column="2"></Label>
+            <Label Content="Derivative" FontWeight="Bold" Grid.Row="0" Grid.Column="3"></Label>
+            <Label Content="Currency" FontWeight="Bold" Grid.Row="0" Grid.Column="4"></Label>
+            <Label Content="Odd Lot" FontWeight="Bold" Grid.Row="0" Grid.Column="5"></Label>
+
+            <Label Content="Orders" Grid.Row="1" Grid.Column="0"></Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Width="50" Height="20" Margin="5,0,5,0" Text="{Binding NormalOrdersCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+            <Image Source="../../Images/close_red.png" Grid.Row="1" Grid.Column="2" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossOrdEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="1" Grid.Column="2" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksOrdEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="1" Grid.Column="3" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingOrdDerVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="1" Grid.Column="3" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossOrdDerVisibility, Mode =TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="1" Grid.Column="3" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksOrdDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="1" Grid.Column="4" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingOrdCurVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="1" Grid.Column="4" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossOrdCurVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="1" Grid.Column="4" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksOrdCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="1" Grid.Column="5" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingOrdOLVisibility}" Items="4"/>-->
+            <!--<Image Source="../../Images/close_red.png" Grid.Row="1" Grid.Column="5" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossOrdOLVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="1" Grid.Column="5" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding  RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksOrdOLVisibility, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>-->
+   
+            <Label Content="Trades" Grid.Row="5" Grid.Column="0"></Label>
+            <TextBox Grid.Row="5" Grid.Column="1" Width="50" Height="20" Margin="5,0,5,0" IsEnabled="False" Text="{Binding TradeDownloadCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="5" Grid.Column="2" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingTrdEqVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="5" Grid.Column="2" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossTrdEqVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="5" Grid.Column="2" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksTrdEqVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="5" Grid.Column="3" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingTrdDerVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="5" Grid.Column="3" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossTrdDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="5" Grid.Column="3" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksTrdDerVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="5" Grid.Column="4" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingTrdCurVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="5" Grid.Column="4" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossTrdCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="5" Grid.Column="4" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksTrdCurVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="5" Grid.Column="5" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingTrdOLVisibility}" Items="4"/>-->
+            <!--<Image Source="../../Images/close_red.png" Grid.Row="5" Grid.Column="5" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossTrdOLVisibility,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="5" Grid.Column="5" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksTrdOLVisibility,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>-->
+
+            <Label Content="SL Orders" Grid.Row="3" Grid.Column="0"></Label>
+            <TextBox Grid.Row="3" Grid.Column="1" Width="50" Height="20" Margin="5,0,5,0" Text="{Binding StopLossOrdersCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+            <!--<controls:WindowsProgressRing Grid.Row="3" Grid.Column="2" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingSLOrdEqVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="3" Grid.Column="2" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossSLOrdEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="3" Grid.Column="2" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksSLOrdEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="3" Grid.Column="3" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingSLOrdDrVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="3" Grid.Column="3" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossSLOrdDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="3" Grid.Column="3" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksSLOrdDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="3" Grid.Column="4" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingSLOrdCurVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="3" Grid.Column="4" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossSLOrdCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="3" Grid.Column="4" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksSLOrdCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="3" Grid.Column="5" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingSLOrdOdLtVisibility}" Items="4"/>-->
+            <!--<Image Source="../../Images/close_red.png" Grid.Row="3" Grid.Column="5" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossSLOrdOdLtVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="3" Grid.Column="5" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksSLOrdOdLtVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+
+            <Label Content="Ret. Orders" Grid.Row="2" Grid.Column="0"></Label>
+            <TextBox Grid.Row="2" Grid.Column="1" Width="50" Height="20" Margin="5,0,5,0" Text="{Binding ReturnOrdersCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+            <!--<controls:WindowsProgressRing Grid.Row="2" Grid.Column="2" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingRtOrdEqVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="2" Grid.Column="2" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossRtOrdEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="2" Grid.Column="2" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksRtOrdEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="2" Grid.Column="3" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingRtOrdDerVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="2" Grid.Column="3" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossRtOrdDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="2" Grid.Column="3" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksRtOrdDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="2" Grid.Column="4" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingRtOrdCurVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="2" Grid.Column="4" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossRtOrdCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="2" Grid.Column="4" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksRtOrdCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="2" Grid.Column="5" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingRtOrdOLVisibility}" Items="4"/>-->
+            <!--<Image Source="../../Images/close_red.png" Grid.Row="2" Grid.Column="5" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding imgticksRtOrdOLVisibility}"/>-->
+            <!--<Image Source="../../Images/tick_grren.png" Grid.Row="2" Grid.Column="5" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding imgCrossRtOrdOLVisibility}"/>-->
+
+            <Label Content="Ret. SL Orders" Grid.Row="4" Grid.Column="0"></Label>
+            <TextBox Grid.Row="4" Grid.Column="1" Width="50" Height="20" Margin="5,0,5,0" Text="{Binding ReturnStopLossOrdersCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+            <!--<controls:WindowsProgressRing Grid.Row="5" Grid.Column="2" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingRtSLOrdEqVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="4" Grid.Column="2" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossRtSLOrdEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="4" Grid.Column="2" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksRtSLOrdEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="4" Grid.Column="3" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingRtSLOrdDerVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="4" Grid.Column="3" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossRtSLOrdDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="4" Grid.Column="3" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksRtSLOrdDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="5" Grid.Column="4" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingRtSLOrdCurVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="4" Grid.Column="4" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossRtSLOrdCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="4" Grid.Column="4" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksRtSLOrdCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="5" Grid.Column="4" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingRtSLOrdOdLtVisibility}" Items="4"/>-->
+            <!--<Image Source="../../Images/close_red.png" Grid.Row="4" Grid.Column="5" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding imgticksRtSLOrdOdLtVisibility}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="4" Grid.Column="5" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding imgCrossRtSLOrdOdLtVisibility}"/>-->
+
+            <Label Content="Group Wise Limits" Grid.Row="7" Grid.Column="0"></Label>
+            <TextBox Grid.Row="7" Grid.Column="1" Width="50" Height="20" Margin="5,0,5,0" IsEnabled="False" Text="{Binding GroupWiseLimitCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+            <!--<controls:WindowsProgressRing Grid.Row="7" Grid.Column="2" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingGrpLmtEqVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="7" Grid.Column="2" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossGrpLmtEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="7" Grid.Column="2" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksGrpLmtEqVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="7" Grid.Column="3" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingGrpLmtDerVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="7" Grid.Column="3" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossGrpLmtDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="7" Grid.Column="3" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksGrpLmtDerVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="7" Grid.Column="4" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingGrpLmtCurVisibility}" Items="4"/>--> 
+            <Image Source="../../Images/close_red.png" Grid.Row="7" Grid.Column="4" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgCrossGrpLmtCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="7" Grid.Column="4" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path = DataContext.imgticksGrpLmtCurVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="7" Grid.Column="5" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingGrpLmtOdLtVisibility}" Items="4"/>
+            <Image Source="../../Images/close_red.png" Grid.Row="7" Grid.Column="5" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding imgticksGrpLmtOdLtVisibility}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="7" Grid.Column="5" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding imgCrossGrpLmtOdLtVisibility}"/>-->
+
+            <Label Content="Trade Limits" Grid.Row="6" Grid.Column="0"></Label>
+            <TextBox Grid.Row="6" Grid.Column="1" Width="50" Height="20" Margin="5,0,5,0" IsEnabled="False" Text="{Binding TradeWiseLimitCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="6" Grid.Column="2" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingTrdLmtEqVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="6" Grid.Column="2" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding imgCrossTrdLmtEqVisibility}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="6" Grid.Column="2" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding imgticksTrdLmtEqVisibility}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="6" Grid.Column="3" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingTrdLmtDrVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="6" Grid.Column="3" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding imgCrossTrdLmtDerVisibility}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="6" Grid.Column="3" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding imgticksTrdLmtDerVisibility}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="6" Grid.Column="4" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingTrdLmtCurVisibility}" Items="4"/>-->
+            <Image Source="../../Images/close_red.png" Grid.Row="6" Grid.Column="4" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding imgCrossTrdLmtCurVisibility}"/>
+            <Image Source="../../Images/tick_grren.png" Grid.Row="6" Grid.Column="4" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding imgticksTrdLmtCurVisibility}"/>
+            <!--<controls:WindowsProgressRing Grid.Row="6" Grid.Column="5" Foreground="DeepSkyBlue" Speed="0:0:1.5" Margin="0,3,0,3"  Visibility="{Binding imgRingTrdLmtOdLtVisibility}" Items="4"/>-->
+            <!--<Image Source="../../Images/close_red.png" Grid.Row="6" Grid.Column="5" Height="20" Width="20" Margin="0,0,0,0" Visibility="{Binding imgticksTrdLmtOdLtVisibility}"/>-->
+            <!--<Image Source="../../Images/tick_grren.png" Grid.Row="6" Grid.Column="5" Height="20" Width="19" Margin="0,0,0,0" Visibility="{Binding imgCrossTrdLmtOdLtVisibility}"/>-->
+        </Grid>
+        <Separator Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,30,0,30" Grid.RowSpan="2"  Width="Auto"/>
+        <TextBox Grid.Row="3"  Width="380" Margin="0,50,0,0" IsEnabled="False" Text="{Binding ReplyMessageTxt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold"/>
+        <Label Content="Message of the Day" FontWeight="Bold" Grid.Row="4"></Label>
+        <TextBox Grid.Row="5" MinLines="3"  Width="380" Text="Welcome to BOLTPro" IsEnabled="False" FontWeight="Bold"/>
+        <Button x:Name="btnOk" IsDefault="True" Grid.Row="6" Content="OK" FontWeight="Bold" Margin="0,5,15,0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="50" Height="25" Command="{Binding btnClickOk}"/>
+    </Grid>
+    </ScrollViewer>
+</Window>

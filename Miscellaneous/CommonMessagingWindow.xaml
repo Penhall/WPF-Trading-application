@@ -1,0 +1,199 @@
+﻿<Window x:Class="CommonFrontEnd.View.CommonMessagingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:locals="clr-namespace:CommonFrontEnd.Common.DataGridHelperClasses"
+        xmlns:local="clr-namespace:CommonFrontEnd.View"
+        xmlns:convertor="clr-namespace:CommonFrontEnd.Common"
+        mc:Ignorable="d" SizeToContent="Width"
+        Title="CommonMessagingWindow"  
+        Top="600" Height="150"
+        Left="0" MinHeight="150" MinWidth="150" 
+        Focusable="False" Name="CommonMessagingWindows"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        WindowStyle="None" AllowsTransparency="False"  ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" MaxWidth="700">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <CollectionViewSource x:Key="MyItemsViewSource" Source="{Binding CollectionCMW, UpdateSourceTrigger=PropertyChanged}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="MessageTime" Direction="Descending"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+        </ResourceDictionary>
+        <!--<convertor:MyValueConverter x:Key="NameToBrushConverter"/>-->
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="135*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Height="7" Background="Gray" Grid.Row="0" Margin="0,0,1,0"/>
+        <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Top" Visibility="Visible" HorizontalContentAlignment="Stretch" VerticalScrollBarVisibility="Auto" 
+        		ItemsSource="{Binding Source={StaticResource MyItemsViewSource},UpdateSourceTrigger=PropertyChanged}" Padding="0" HorizontalScrollBarVisibility="Auto"
+        		 VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" AutoGenerateColumns="False"
+        		FontStyle="Normal" IsReadOnly="True" EnableRowVirtualization="True" BorderThickness="0" Height="auto" x:Name="CMWDataGrid" HeadersVisibility="Column" 
+                  GridLinesVisibility="Vertical" EnableColumnVirtualization="True" Grid.Row="1">
+
+            <DataGrid.Resources>
+                <Style x:Key="{x:Type DataGridColumnHeadersPresenter}" TargetType="{x:Type DataGridColumnHeadersPresenter}">
+                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridColumnHeadersPresenter}">
+                                <Grid>
+                                    <DataGridColumnHeader IsHitTestVisible="False" Name="PART_FillerColumnHeader"/>
+                                    <ItemsPresenter/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn  Binding="{Binding MessageTime, UpdateSourceTrigger=PropertyChanged}" Header="MessageTime" Width="60" Visibility="Collapsed"/>
+
+                <DataGridTemplateColumn Header="Time" CanUserSort="True" Width="Auto" Visibility="Visible" SortMemberPath="Time" MinWidth="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Time, StringFormat=0;;#, UpdateSourceTrigger=PropertyChanged}"  Foreground="Black"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn CanUserSort="True" Width="Auto" Visibility="Visible" SortMemberPath="Time" MinWidth="50">
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Cat" />
+                            <Button Name="btnCountryFilter" Margin="3,0,0,0" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.btnCountryFilter_Click}">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="/Images/filter.png" Width="12" Height="12"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Category, StringFormat=0;;#, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Background="{Binding CatBackGroundColor}" TextWrapping="Wrap" TextAlignment="Left"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!--<DataGridTemplateColumn Header="Cat" Visibility="Visible" SortMemberPath="Category" MinWidth="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Category, StringFormat=0;;#, UpdateSourceTrigger=PropertyChanged}" Background="{Binding CatColor}"  Foreground="Black" TextAlignment="Left" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+
+
+                <DataGridTemplateColumn Width="Auto" Visibility="Visible" SortMemberPath="Message" MinWidth="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Message, StringFormat=0;;#, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding ColorChange}" TextWrapping="Wrap" TextAlignment="Left"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                    <!--Modify the header to add the filter-->
+                    <!--<DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ColorChange,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="B">
+                                    <Setter Property="Foreground" Value="Blue"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ColorChange,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="Blac">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>-->
+                    <!--<DataGridTextColumn.ElementStyle>
+                        -->
+                    <!--<Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ColorChange,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay, Converter={StaticResource convertor}}"/>
+                        </Style>-->
+                    <!--
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ColorChange,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="B">
+                                    <Setter Property="Foreground" Value="Blue"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ColorChange,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Value="Blac">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>-->
+
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Message"/>
+                            <TextBox Name="SearchTxtBox" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.SearchBoxTxt,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="5,0,0,0" Width="465" 
+                                     Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.SearchBoxVisibility ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                            <Button Name="btnSearchClick" Width="20" Height="20" Margin="0,0,20,0" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.btnSearchClick}">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Image Source="/Images/Search_Icon_CMW_5.png" Width="20" Height="20"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+                </DataGridTemplateColumn>
+
+                <!--<DataGridTemplateColumn Header="Message" Width="*" Visibility="Visible" SortMemberPath="Message" MinWidth="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Message, StringFormat=0;;#, UpdateSourceTrigger=PropertyChanged}" Foreground="{Binding ColorChange}" TextWrapping="Wrap" TextAlignment="Left"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--Add the popup that appears when the filter is clicked-->
+        <Popup Name="popCountry" Placement="Bottom" PlacementTarget="{Binding ElementName=btnCountryFilter}" StaysOpen="False" Width="200" Margin="232,0" Grid.RowSpan="2">
+            <Border Background="White" BorderBrush="Gray" BorderThickness="1,1,1,1">
+                <StackPanel Margin="5,5,5,15">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Button Margin="0,0,0,0" Name="btnSelectAll" Command="{Binding btnSelectAll_Click}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <TextBlock Text="{Binding FilterSelectContent,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="Blue" Cursor="Hand" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <!--<Button Margin="10,0,0,0" Name="btnUnselectAll" Command="{Binding btnUnselectAll_Click}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <TextBlock Text="Select None" Foreground="Blue" Cursor="Hand" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>-->
+                    </StackPanel>
+
+                    <ListBox x:Name="lstCountries" BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Item}" Checked="ApplyFilters" Unchecked="ApplyFilters" />
+                                <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked" >
+                                        <i:InvokeCommandAction Command="{Binding Path=RCreateCommand,UpdateSourceTrigger=PropertyChanged}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>-->
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</Window>

@@ -1,0 +1,72 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.Order.ReturnedStopLossOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.Order"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"
+       Style="{DynamicResource DefaultFont}"
+           mc:Ignorable="d" ShowInTaskbar="False"
+        Title="Returned Stop Loss Order" Height="300" Width="778">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    <Common:TitleBarHelperClass.MenuItems>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcel}" Header="Save Returned Stop Loss Orders" Id="1"/>
+    </Common:TitleBarHelperClass.MenuItems>
+
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseWindowsOnEscape}" />
+    </Window.InputBindings>
+    <Grid>
+        <DataGrid x:Name="dataGrid" Margin="10,0,10,10"   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" SelectionUnit="FullRow" AutoGenerateColumns="False" AlternationCount="2" GridLinesVisibility="All" AlternatingRowBackground="#f7f7f7"
+                  SelectionMode="Extended"  VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" IsReadOnly="True" ScrollViewer.IsDeferredScrollingEnabled="True" EnableRowVirtualization="True" EnableColumnVirtualization="True"
+                  ItemsSource="{Binding ReturnedStopLossOrderCollection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BuySell}" Value="B">
+                            <Setter Property="Foreground" Value="#0937ef"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BuySell}" Value="S">
+                            <Setter Property="Foreground" Value="#f40000"/>
+                        </DataTrigger>
+                       
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding BuySell,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="B/S" MinWidth="32" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                <DataGridTextColumn Binding="{Binding ScripID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Scrip" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding SCode,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="SCode" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding TotalQty,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Qty" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding RevQty,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="RevQty" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding LimitRateString,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="LmtRate" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding TriggertRateString,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="TrgRate" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding ClientID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Client" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding Time,UpdateSourceTrigger=PropertyChanged, StringFormat=HH:mm:ss}" Header="Time" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                <DataGridTextColumn Binding="{Binding OrdID,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="Ord ID" MinWidth="120" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding ClientType,UpdateSourceTrigger=PropertyChanged, StringFormat=0;;#}" Header="CltType" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Common:TitleBarHelperClass>

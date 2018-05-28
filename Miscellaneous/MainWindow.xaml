@@ -1,0 +1,1006 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"  
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"  
+        Title="{Binding TitleTWSMainWindow}"
+        WindowState="Maximized" Width="1400"
+         Icon="../Images/TWS-icon.ico" Style="{DynamicResource DefaultFont}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <!--<Window.Background>
+        <ImageBrush ImageSource="{Binding RandomBackGround,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+    </Window.Background>-->
+    <Common:TitleBarHelperClass.MenuItems>
+        <Common:SystemMenuItem Command="{Binding OpenLockScreenWindowClick}" Header="Lock WorkStation (Alt + Space + L)" Id="105"/>
+    </Common:TitleBarHelperClass.MenuItems>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseWindowsOnEscape}" />
+    </Window.InputBindings>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing" >
+            <cmd:EventToCommand Command="{Binding Path=Window_Closing}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Path=LoadCMW}"/>
+            <i:InvokeCommandAction Command="{Binding Path=LoadLoginWindow}"/>
+
+            <!--<i:InvokeCommandAction Command="{Binding Path=LoadNPProgressBarWindow}"/>-->
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Menu Height="23" HorizontalAlignment="Stretch" Name="MenuBar" VerticalAlignment="Top" >
+            <MenuItem Name="GetStarted" Header="Get Started"  Visibility="{Binding MenuVisibilityBeforeLogin}">
+                <MenuItem Name="LoginTxt" Header="{Binding ttLogin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding LoginScreenMenuClick}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Logon.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="Bulletintxt" Header="Bulletin (Alt + F11)" Command="{Binding Bulletin}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Pin.bmp" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem Name="ChangePswdTxt" Header="Change Password(Admin) (Ctrl + F9)" Command="{Binding ChangePasswordMenuClick}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/PassWord.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <!--<MenuItem Name="AboutTxt" Header="About" Command="{Binding AboutMenuClick}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Aboutus.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="ContactUs" Header="Contact Us">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/ContactUS.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Name="TwsHelptxt" Header="Help (Ctrl + F10)" Command="{Binding TwsHelp}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/TwsHelp.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+            </MenuItem>
+
+            <MenuItem Name="Market" Header="Market" Visibility="{Binding MenuVisibilityBeforeLogin}">
+                <MenuItem Name="MarketStrip" Header="Market" >
+                    <MenuItem.Icon>
+                        <Image Source="../Images/MarketEye.png" Height="27" Width="25"/>
+                    </MenuItem.Icon>
+                    <MenuItem Name="TouchlineToolStrip" Header="{Binding ttTouchline, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding MenuTouchline}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/touchline01.png" Height="27" Width="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <!--<MenuItem Name="Formula" Header="Formula   " Command="{Binding MenuFormula}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/Formula.png" Height="27" Width="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>-->
+                    <!--<MenuItem Name="ScripProfilingtxt" Header="{Binding ttScripProfiling, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Settings}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/ScripProf.bmp"/>
+                        </MenuItem.Icon>
+                    </MenuItem>-->
+                </MenuItem>
+                <!--<MenuItem Name="MarketMovers" Header="Market Movers" >
+                    <MenuItem.Icon>
+                        <Image  Height="27" Width="25"/>
+                    </MenuItem.Icon>
+                    <MenuItem Name="TopGainer" Header="Top Gainers (Ctrl+F11)" Command="{Binding MenuTopGainer}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/TopGainers.png" Height="27" Width="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="TopLoser" Header="Top Loser (Ctrl+F12)" Command="{Binding MenuTopLoser}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/TopLoosers.png" Height="27" Width="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="TopVolume" Header="Top Volume" Command="{Binding MenuTopVolume}">
+                        <MenuItem.Icon>
+                            <Image />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="TopTurnOver" Header="Top TurnOver" Command="{Binding MenuTurnOver}">
+                        <MenuItem.Icon>
+                            <Image />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Name="MarketMovement" Header="Market Movement" Command="{Binding MenuMarketMovement}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/MarketMovement.png" Height="27" Width="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Name="Index" Header="Index" >
+                    <MenuItem Name="IndexDetailstxt" Header="{Binding ttIndexDetails, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding IndexDetails}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/Index.bmp"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <!--<MenuItem Name="IndexMovement" Header="Index Movement" Command="{Binding IndexMovementDetails}">
+
+                    </MenuItem>-->
+                </MenuItem>
+                <!--<MenuItem Name="txt52WeekHighLow" Header="52 Week High Low" Command="{Binding Menu52WeekHighLow}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/52Week.png" Height="27" Width="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <!--<MenuItem Name="ActionWatch" Header="Action Watch" Command="{Binding MenuActionWatch}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Action.png" Height="27" Width="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="HourlyStatistics" Header="HourlyStatistics/market Statistics (F12)" Command="{Binding MenuHourlyStatistics}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/MarketStatistics.png" Height="27" Width="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator></Separator>-->
+                <!--<MenuItem >                    
+                </MenuItem>-->
+                <MenuItem Name="BestFiveMarketPicture" Header="Market Picture /Market By Price(MBP) (F6)" Command="{Binding MenuMarketPicture}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/MarketPicture.ico" Height="27" Width="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="Alerttxt" Header="Alert" IsEnabled="False">
+                    <MenuItem Name="AlertCatchertxt" Header="Alert Catcher (Alt + F5)" Command="{Binding AlertCatcher}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/Alert.bmp"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <!--<MenuItem Name="AlertSettingtxt" Header="Alert Setting" Command="{Binding MenuAlertSetting}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/Alert.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>-->
+                </MenuItem>
+                <MenuItem Name="Newstxt" Header="News/News plus (Shift + F6)" Command="{Binding News}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/News.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="OpenInteresttxt" Header="{Binding ttOpenInterest, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding OpenInterest}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/OI.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="DerivativeChaintxt" Header="Derivative Chain (Ctrl + Shift + F4)" Command="{Binding DerivativeChain}" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/DerivativeChain.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="MarketReportstxt" Header="{Binding ttMarketReports, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding MarketReportsV}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/BSELINK.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="TimeandSaletxt" Header="Time Sale Report (Shift + Z)" Command="{Binding TimeandSale}" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/TIMENSALE.bmp" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem Name="Charts" Header="Charts" Command="{Binding MenuCharts}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Charts.png" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="BSECharts" Header="BSE Charts" Command="{Binding MenuBSECharts}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/TIMENSALE.bmp" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+
+            </MenuItem>
+            <MenuItem Name="Order" Header="Order" Visibility="{Binding MenuVisibilityAfterLogin}">
+                <MenuItem Name="OrderEntryToolStrip" Header="{Binding OrderEntryShortKeyBuy,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding OrderEntryBuyWindow}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/OrderEntry.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="OrderEntrySelltxt" Header="{Binding OrderEntryShortKeySell,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding OrderEntrySellWindow}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/OrderEntrySell.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="StopLossEntrytxt" Header="Stop-Loss Entry (Ctrl + F11)" Command="{Binding StopLossEntry}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/stoplossentry01.png" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="BatchOrderstxt" Header="Batch Orders (Shift + F2)" Command="{Binding BatchOrders}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/BatUpld.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="Baskettxt" Header="Basket" IsEnabled="False">
+                    <MenuItem Name="BasketEntrytxt" Header="Basket Entry (F11)" Command="{Binding BasketEntry}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/basketprofile01.png" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="BasketProfile" Header="Basket Profile (F10)" Command="{Binding BasketEntry}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/BsktEntry.bmp"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Name="MultiLeggedtxt" Header="Multi-Legged (Alt + F8)" Command="{Binding MultiLegged}" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/MultiLeg.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="Quotetxt" Header="Quote" Command="{Binding MenuQuote}" IsEnabled="False">
+
+                </MenuItem>
+                <Separator></Separator>
+                <!--<MenuItem ></MenuItem>-->
+                <MenuItem Name="PendingOrdertxt" Header="{Binding PendingOrderHeader,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding PendingOrder}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/pending.png" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="ReturnedOrdertxt" Header="{Binding ttReturnedOrder}" Command="{Binding ReturnedOrder}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/RetOrdr.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="FullyExecutedOrdertxt" Header="Fully Executed Order (F9)" Command="{Binding FullyExecutedOrder}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/FullyExecuted.png" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Name="RetStopLossOrdertxt" Header="Returned StopLoss Order (Ctrl + F12)" Command="{Binding RetStopLossOrder}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/RetStpLossOrdr.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem Name="ActivityLog" Header="Activity Log" Command="{Binding MenuActivityLog}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/ActivityLog.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+
+            </MenuItem>
+            <MenuItem Name="TradesnPos" Header="Trades-NPos" Visibility="{Binding MenuVisibilityAfterLogin}">
+                <MenuItem Name="Saudastxt" Header="{Binding ttSaudas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Saudas}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Saudas.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="NetPositionScripWise" Header="{Binding ttNetposScripWise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding NetposScripWiseMenu}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/NetPosScrWs.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="NetPositionClientWise" Header="{Binding ttNetposClientWise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding NetposClientWiseMenu}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/NetPosCltWs.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Name="Auction" Header="Auction" Visibility="{Binding MenuVisibilityAfterLogin}">
+                <MenuItem Name="AuctionBSE" Header="AuctionBSE" IsEnabled="False">
+                    <MenuItem Name="AuctionMarketWatch" Header="Auction MarketWatch" Command="{Binding AuctionMarketWatch}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/MarketWatch.png" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="AuctionOfferEntrytxt" Header="Auction Offer Entry (Ctrl + F3)" Command="{Binding AuctionOfferEntry}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/OffEntry.bmp" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="AuctionPendingEntrytxt" Header="Auction Pending Offers (Ctrl + F4)" Command="{Binding AuctionPendingEntry}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/PendOffer.bmp" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="AuctionBatchEntrytxt" Header="Auction Batch Offer Entry (Ctrl + F5)" Command="{Binding AuctionBatchEntry}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/BatchOffer.bmp" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="AuctionTradetxt" Header="Auction Trade (Ctrl + Shift + F1)" Command="{Binding AuctionTrade}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/AUCTIONTRADE.bmp" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Name="AuctionNSE" Header="AuctionNSE" Visibility="{Binding VisibileToBow}">
+                </MenuItem>
+                <MenuItem Name="GrabOddLottxt" Header="Grab Odd Lots (Ctrl + F7)" Command="{Binding GrabOddLot}" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/graboddlot01.png" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <!--<MenuItem Name="OrderForSale" Header="Order For Sale        Shift,O" Command="{Binding MenuOrderForSale}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/ofs.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Name="SLB" Header="SLB" Visibility="{Binding VisibileToBow}">
+                    <MenuItem Name="SLBEntry" Header="SLBEntry" Command="{Binding MenuSLBEntry}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/MarketWatch.png" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="SLBTrade" Header="SLBTrade" Command="{Binding MenuSLBTrade}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/TradeBook.png" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="SLBOpenInterest" Header="SLB Open Interest" Command="{Binding MenuSLBOpenInterest}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/Exercise.png" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Name="Info" Header="Info" Visibility="{Binding MenuVisibilityBeforeLogin}">
+                <!--<MenuItem Name="CorporateActionAnalysistxt" Header="Corporate Action Analysis" Command="{Binding MenuCorporateActionAnalysis}" >
+                    <MenuItem.Icon>
+                        <Image Source="../Images/CorpinfoAnalysis.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Name="CorporateActiontxt" Header="{Binding ttCorporateAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding CorporateActionW}" >
+                    <MenuItem.Icon>
+                        <Image Source="../Images/ca.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="ScripHelptxt" Header="{Binding ttScripHelp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ScripHelp}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/ScripHlp.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="ClientMaster" Header="Client Master (Ctrl + Shift + F6)" Command="{Binding TrdEntitlement}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/ClientMas.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="TradeLimit" Header="{Binding ttTradeLimits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding TradeLimits}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/TradeLimit.png" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem Name="MessageLog" Header="Message Log" >
+                    <MenuItem.Icon>
+                        <Image Source="../Images/MessageLog.png" Height="25"/>
+                    </MenuItem.Icon>
+                    <MenuItem Name="BroadcastMessages" Header="Broadcast Messages (Ctrl+ M)" Command="{Binding MenuBroadcastMessages}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/BroadCast.png" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="AdminMessages" Header="Admin Messages  " Command="{Binding MenuAdminMessages}">
+                        <MenuItem.Icon>
+                            <Image Source="../Images/BroadCast.png" Height="25"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Name="UserStockHolding" Header="User Stock" Command="{Binding MenuUserstock}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/PNBStock.png" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="ClientReport" Header="Client Report" Command="{Binding MenuClientReport}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/ClientReport.png" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                --><!--<MenuItem Name="SpanMargin" Header="Span Margin" Command="{Binding MenuSpanMargin}">
+                   
+                </MenuItem>--><!--
+                <MenuItem Name="TimeZone" Header="Time Zone" Command="{Binding MenuTimeZone}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Time.png" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+
+            </MenuItem>
+
+            <MenuItem Name="Preferences" Header="Preferences" Visibility="{Binding MenuVisibilityBeforeLogin}">
+                <MenuItem Name="IPSettings" Header="IP Settings" Command="{Binding MenuIPSettings}">
+
+                </MenuItem>
+                <MenuItem Name="ApplicationProfiling" Header="Application Profiling (Alt + F12)"  Command="{Binding Settings}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/ScripProf.bmp"/>
+                    </MenuItem.Icon>
+                    <!--<MenuItem Name="Theme" Header="Theme"  Command="{Binding MenuTheme}"></MenuItem>-->
+                    <MenuItem Name="Column" Header="Column"  Command="{Binding MenuColumn}"></MenuItem>
+                    <MenuItem Name="Colors" Header="Colors"  Command="{Binding MenuColors}"></MenuItem>
+                    <!--<MenuItem Name="Font" Header="Font"  Command="{Binding MenuFont}"></MenuItem>-->
+                </MenuItem>
+                <MenuItem Name="FunctionKeys" Header="FunctionKeys\Key Mapping" Command="{Binding MenuFunctionKeys}"></MenuItem>
+                <MenuItem Name="Email" Header="Email Profiling" Command="{Binding MenuEmail}"></MenuItem>
+                <MenuItem Name="OrderProfiling" Header="Order Profiling (Shift + F8)" Command="{Binding MenuOrder}"></MenuItem>
+                <MenuItem Name="Scrip" Header="Scrip Profiling (Shift + F12)"  Command="{Binding Settings}"></MenuItem>
+                <MenuItem Name="ClientMasters" Header="Client Master (Ctrl + Shift + F6)" Command="{Binding TrdEntitlement}" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/ClientMas.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem Name="Alert" Header="Alert Profiling" Command="{Binding MenuScrip}"></MenuItem>
+                <MenuItem Name="UserSetting" Header="User Setting" Command="{Binding MenuUserSetting}"></MenuItem>-->
+                <MenuItem Name="WorkSpace" Header="Save WorkSpace           Ctrl + Alt + W" Command="{Binding SaveWorkspace}" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/WORKSPACE.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+
+            </MenuItem>
+
+            <MenuItem Name="Miscellaneous" Header="Miscellaneous" Visibility="{Binding MenuVisibilityBeforeLogin}">
+                <!--<MenuItem Name="OnlinePrintingtxt" Header="Online Printing (Shift + F11)" Command="{Binding OnlinePrinting}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/OnlinePrint01.jpg" Height="25"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+
+                <!--<MenuItem Name="BrokerQuerytxt" Header="Broker Query" Command="{Binding BrokerQuery}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/BrkrQry.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Name="WebAppstxt" Header="{Binding ttWebApps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Webapps}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/webapp.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem Name="TransferFunds" Header="Transfer Funds" Command="{Binding MenuTransferFunds}" Visibility="{Binding VisibileToBow}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/FundTransfer.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="Downloads" Header="Downloads" Visibility="{Binding VisibileToBow}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/Open_16x16.png"/>
+                    </MenuItem.Icon>
+                    <MenuItem Name="Trades" Header="Trades" >
+                        <MenuItem.Icon>
+                            <Image Source="../Images/Download.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="OrderDownload" Header="Order" ToolTip="Downlaod Orders" Command="{Binding DownloadOrders}" >
+                        <MenuItem.Icon>
+                            <Image Source="../Images/Download.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="ClientMasterDownload" Header="Client Master" >
+                        <MenuItem.Icon>
+                            <Image Source="../Images/Download.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>-->
+            </MenuItem>
+
+
+
+
+
+
+
+            <MenuItem Name="Tools" Header="Tools" Visibility="{Binding MenuVisibilityAfterLogin}">
+                <MenuItem Name="OptionCalctxt" Header="Option Calculator (Ctrl + Shift + F5)" Command="{Binding OptionCalc}" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/OPTCALC.bmp"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+
+        </Menu>
+
+        <Expander Margin="0,23,0,-23" VerticalAlignment="Top" Width="25" HorizontalAlignment="Left" 
+                  IsExpanded="True" Height="24" ToolTip="Hide/UnHide Menu">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Expanded" >
+                    <i:InvokeCommandAction Command="{Binding Path=DownMenu}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Collapsed" >
+                    <i:InvokeCommandAction Command="{Binding Path=UpMenu}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+        </Expander>
+
+        <Menu Height="35" HorizontalAlignment="Stretch" Name="MenuBarIcon" Background="Black"
+              VerticalAlignment="Top" Margin="25,24,0,0"  Visibility="{Binding MenuVisibility_Expander}">
+
+            <!--<MenuItem Name="UpMenu" ToolTip="UpMenu" Width="25">
+                <MenuItem.Icon>
+                    -->
+            <!--<Image>
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/Up_Menu.png" />
+                        </Image.Source>
+                    </Image>-->
+            <!--
+                    <ToggleButton Content="Hide" Foreground="Black" Command="{Binding UpMenu}"></ToggleButton>
+                </MenuItem.Icon>
+            </MenuItem>-->
+
+            <MenuItem Name="Login" ToolTip="{Binding ttLogin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Command="{Binding LoginScreenMenuClick}" Width="34" Height="33">
+                <MenuItem.Icon>
+                    <Image Height="22" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/Logon.bmp" />-->
+                            <BitmapImage UriSource="/Images/Logon.bmp"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="Bulletin" ToolTip="Bulletin (Alt + F11)" Command="{Binding Bulletin}" Width="32" Height="34" Background="Transparent">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30"  Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/Pin.bmp" />-->
+                            <BitmapImage UriSource="/Images/Pin.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="OrderEntryBuy" ToolTip="{Binding ttOrderEntryShortKeyBuy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Command="{Binding OrderEntryBuyWindow}" Width="32" Height="34" CommandParameter="Buy">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/OrderEntry.bmp" />-->
+                            <BitmapImage UriSource="/Images/OrderEntry.bmp"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="OrderEntrySell" ToolTip="{Binding ttOrderEntryShortKeySell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding OrderEntrySellWindow}" Width="34" CommandParameter="Sell">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/OrderEntrySell.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="PendingOrder" ToolTip="{Binding ttPendingOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding PendingOrder}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/PendOrdr.bmp" />-->
+                            <BitmapImage UriSource="../Images/pending.png"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="TouchLine" ToolTip="{Binding ttTouchline, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Command="{Binding MenuTouchline}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30"  Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/TouchLine.bmp" />-->
+                            <BitmapImage UriSource="../Images/touchline01.png"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="AlertCatcher" ToolTip="Alert Catcher (Alt + F5)" Background="Transparent" Command="{Binding AlertCatcher}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30"  Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/Alert.bmp" />-->
+                            <BitmapImage UriSource="/Images/Alert.bmp"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="ReturnedOrder" ToolTip="{Binding ttReturnedOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ReturnedOrder}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/RetOrdr.bmp" />-->
+                            <BitmapImage UriSource="/Images/RetOrdr.bmp"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="FullyExecutedOrder" ToolTip="Fully Executed Order (F9)" Command="{Binding FullyExecutedOrder}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/FullExeOrdr.bmp" />-->
+                            <BitmapImage UriSource="../Images/FullyExecuted.png"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="StopLossEntry" ToolTip="Stop-Loss Entry (Ctrl + F11)" Command="{Binding StopLossEntry}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/StopLossEntry.bmp" />-->
+                            <BitmapImage UriSource="../Images/stoplossentry01.png"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="RetStopLossOrder" ToolTip="Returned StopLoss Order (Ctrl + F12)" Command="{Binding RetStopLossOrder}" Width="32">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/RetStpLossOrdr.bmp" />-->
+                            <BitmapImage UriSource="/Images/RetStpLossOrdr.bmp"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="Saudas" ToolTip="{Binding ttSaudas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Saudas}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/Saudas.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="BatchOrders" Background="Transparent" ToolTip="Batch Orders (Shift + F2)" Height="35" Command="{Binding BatchOrders}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="25" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/BatUpld.bmp" />-->
+                            <BitmapImage UriSource="/Images/BatUpld.bmp"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="News" ToolTip="{Binding ttNews, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding News}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/News.bmp" />-->
+                            <BitmapImage UriSource="/Images/News.bmp" DecodePixelHeight="25"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Background="Transparent" Name="IndexDetails" ToolTip="{Binding ttIndexDetails, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding IndexDetails}" Width="34">
+                <MenuItem.Icon >
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/Index.bmp" />-->
+                            <BitmapImage UriSource="/Images/Index.bmp"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="NetposScripWise" ToolTip="{Binding ttNetposScripWise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding NetposScripWiseMenu}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/NetPosScrWs.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="NetposClientWise" ToolTip="{Binding ttNetposClientWise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding NetposClientWiseMenu}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/NetPosCltWs.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="OnlinePrinting" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/OnLinePrn.bmp" />-->
+                            <BitmapImage UriSource="../Images/OnlinePrint01.jpg"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Background="Transparent" x:Name="SessionBroadcast" ToolTip="{Binding ttSessionBroadcast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding SessionBroadcast}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/OnLinePrn.bmp" />-->
+                            <BitmapImage UriSource="../Images/Session_Broadcast.png"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="ScripProfiling" ToolTip="{Binding ttScripProfiling, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Settings}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/ScripProf.bmp" />-->
+                            <BitmapImage UriSource="/Images/ScripProf.bmp"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="ScripHelp" ToolTip="{Binding ttScripHelp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ScripHelp}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/ScripHlp.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="AuctionOfferEntry" ToolTip="Auction Offer Entry (Ctrl + F3)" Command="{Binding AuctionOfferEntry}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/OffEntry.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="AuctionPendingEntry" ToolTip="Auction Pending Entry (Ctrl + F4)" Command="{Binding AuctionPendingEntry}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/PendOffer.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="AuctionBatchEntry" ToolTip="Auction Batch Offer Entry (Ctrl + F5)" Command="{Binding AuctionBatchEntry}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/BatchOffer.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="AuctionTrade" ToolTip="Auction Trade (Ctrl + Shift +F1)" Command="{Binding AuctionTrade}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/AUCTIONTRADE.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="GrabOddLot" ToolTip="Grab Odd Lot (Ctrl + F7)" Command="{Binding GrabOddLot}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/GrbOddLot.bmp" />-->
+                            <BitmapImage UriSource="../Images/graboddlot01.png"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="BasketEntry" ToolTip="Basket Entry (F11)" Command="{Binding BasketEntry}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/BsktEntry.bmp" />-->
+                            <BitmapImage UriSource="../Images/basketprofile01.png" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="TradeLimits" ToolTip="{Binding ttTradeLimits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding TradeLimits}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/TradesLt.bmp" />-->
+                            <BitmapImage UriSource="../Images/TradeLimit.png"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="MultiLegged" ToolTip="Multi-Legged (Alt + F8)" Command="{Binding MultiLegged}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/MultiLeg.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="OpenInterest" ToolTip="{Binding ttOpenInterest, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding OpenInterest}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/OI.bmp" />-->
+                            <BitmapImage UriSource="/Images/OI.bmp" DecodePixelHeight="25"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="DerivativeChain" ToolTip="Derivative Chain (Ctrl + Shift + F4)" Command="{Binding RBIReferanceRateClick}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/DerivativeChain.bmp" />-->
+                            <BitmapImage UriSource="/Images/DerivativeChain.bmp" DecodePixelHeight="25"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="MarketReports" ToolTip="{Binding ttMarketReports, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding MarketReportsV}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/BSELINK.bmp" />-->
+                            <BitmapImage UriSource="/Images/BSELINK.bmp" DecodePixelHeight="25"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="TimeandSale" ToolTip="Time Sale Report(Shift + Z)" Command="{Binding TimeandSale}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/TIMENSALE.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <!--<MenuItem Name="BrokerQuery" ToolTip="BrokerQuery" Command="{Binding BrokerQuery}" Width="34">
+                <MenuItem.Icon>
+                    <Image>
+                        <Image.Source>
+                            -->
+            <!--<BitmapImage UriSource="../Images/BrkrQry.bmp" />-->
+            <!--
+                            <BitmapImage UriSource="../Images/BrokerQuery.png"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>-->
+
+            <MenuItem Name="TwsHelp" ToolTip="Tws Help (Ctrl + F10)" Command="{Binding TwsHelp}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/TwsHelp.BMP" />-->
+                            <BitmapImage UriSource="/Images/TwsHelp.bmp"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="OptionCalc" Background="Transparent" ToolTip="Option Calculator (Ctrl + Shift + F5)" Command="{Binding OptionCalc}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30"  Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/OPTCALC.bmp" />-->
+                            <BitmapImage UriSource="/Images/OPTCALC.bmp" DecodePixelHeight="25"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="WebApps" Background="Transparent" ToolTip="{Binding ttWebApps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding Webapps}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/webUtilityLoginDetails.GETInstance.bmp" />-->
+                            <BitmapImage UriSource="/Images/webapp.bmp" DecodePixelHeight="25"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Name="VAR" ToolTip="{Binding ttVARPercetage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding VARPercetage}" Width="34" Background="Transparent">
+                <MenuItem.Icon >
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6" >
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/webUtilityLoginDetails.GETInstance.bmp" />-->
+                            <BitmapImage UriSource="/Images/VAR.PNG" DecodePixelHeight="25"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Name="BasketProfiling" ToolTip="Basket Profiling (F10)" Command="{Binding BasketProfiling}" Height="25" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/BsktProf.bmp" />-->
+                            <BitmapImage UriSource="/Images/BsktEntry.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="SaveWorkspace" ToolTip="Save Workspace (Ctrl + Alt + W)" Command="{Binding SaveWorkspace}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <!--<BitmapImage UriSource="../Images/WORKSPACE.bmp" />-->
+                            <BitmapImage UriSource="/Images/WORKSPACE.bmp" DecodePixelHeight="25"/>
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="CorporateAction" ToolTip="{Binding ttCorporateAction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding CorporateActionW}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/ca.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Name="TrdEntitlement" ToolTip="Trade Entitlement And ClientMaster (Ctrl + Shift + F6)" Command="{Binding TrdEntitlement}" Width="34">
+                <MenuItem.Icon>
+                    <Image Height="23" Width="30" Margin="0,0,-8,-6">
+                        <Image.Source>
+                            <BitmapImage UriSource="../Images/ClientMas.bmp" />
+                        </Image.Source>
+                    </Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+        </Menu>
+
+        <Border BorderThickness="4" BorderBrush="LightGray" CornerRadius="2" Margin="{Binding sensexMargin,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <StackPanel Background="Black" Orientation="Horizontal">
+                <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.FixedSensexTxtBlock,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="Yellow" FontWeight="Bold" HorizontalAlignment="Center" Style="{StaticResource CellLeftAlign}" VerticalAlignment="Center"/>
+                <TextBlock Margin="20,0,0,0" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}, Path=DataContext.CurrentValueTxtBlock, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Foreground="Yellow" FontWeight="Bold" HorizontalAlignment="Center" Style="{StaticResource CellRightAlign}" VerticalAlignment="Center"/>
+                <Image Margin="5,0,0,0" x:Name="trendImg" Height="15" Width="10"/>
+                <TextBlock Margin="5,0,0,0" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}, Path=DataContext.ChangeInValueTxtBlock, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Foreground="Yellow" FontWeight="Bold" HorizontalAlignment="Center" Style="{StaticResource CellRightAlign}" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        
+    </Grid>
+</Common:TitleBarHelperClass>

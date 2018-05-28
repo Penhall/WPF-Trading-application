@@ -1,0 +1,96 @@
+﻿<Common:TitleBarHelperClass x:Class="CommonFrontEnd.View.Order.FullyExecutedOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonFrontEnd.View.Order"
+        xmlns:Common="clr-namespace:CommonFrontEnd.Common"  
+        mc:Ignorable="d" ShowInTaskbar="False"
+         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        Title="Fully Executed Order" Height="300" Width="778" ResizeMode="CanResizeWithGrip" Style="{DynamicResource DefaultFont}">
+    <Common:TitleBarHelperClass.MenuItems>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcel}" Header="Save Equity Orders in CSV" Id="1"/>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcel}" Header="Save Derivative Orders in CSV" Id="2"/>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcel}" Header="Save Currency Orders in CSV" Id="3"/>
+        <Common:SystemMenuItem Command="{Binding Path=ExportExcel}" Header="Save All Orders in CSV" Id="-1"/>
+    </Common:TitleBarHelperClass.MenuItems>
+
+    <Window.Resources>
+        <ResourceDictionary>
+
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellRightAlign">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Control.Margin" Value="2,0,4,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellLeftAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Left" />
+                <Setter Property="Control.Margin" Value="4,0,2,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellCenterAlign">
+                <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            </Style>
+            <!--<Style TargetType="{x:Type TextBlock}" x:Key="CellPaddingRight">
+                <Setter Property="Control.Padding" Value="0,0,5,0"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" x:Key="CellPaddingLeft">
+                <Setter Property="Control.Padding" Value="5,0,0,0"/>
+            </Style>-->
+            <CollectionViewSource x:Key="MyItemsViewSource" Source="{Binding FullyExecutedOrderCollection, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="Time" Direction="Descending"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DefaultFont.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseWindowsOnEscape}" />
+    </Window.InputBindings>
+    <Grid Margin="0,0,2,0">
+
+        <DataGrid x:Name="dataGrid" Margin="10,0,10,10" HorizontalScrollBarVisibility="Auto" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"  AlternatingRowBackground="#f7f7f7" SelectionUnit="FullRow" 
+                  AutoGenerateColumns="False" AlternationCount="2" GridLinesVisibility="All"  CanUserResizeRows="False"
+                  SelectionMode="Extended"  VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  IsReadOnly="True" ScrollViewer.IsDeferredScrollingEnabled="True" EnableRowVirtualization="True" EnableColumnVirtualization="True" 
+                  ItemsSource="{Binding Source={StaticResource MyItemsViewSource},UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding BuySell}" Value="B">
+                            <Setter Property="Foreground" Value="#0937ef"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BuySell}" Value="S">
+                            <Setter Property="Foreground" Value="#f40000"/>
+                        </DataTrigger>
+                        <Trigger Property="IsSelected" Value="true">
+
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding BuySell,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=0;;#}" Header="B/S" MinWidth="32" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                <DataGridTextColumn Binding="{Binding ScripID,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=0;;#}" Header="Scrip" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding Qty,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=0;;#}" Header="Qty" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding AvgRate,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=0.00;0.00;0.00}" Header="AvgRate" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <DataGridTextColumn Binding="{Binding ClientID,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=0;;#}" Header="Client" MinWidth="70" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellLeftAlign}"/>
+                <DataGridTextColumn Binding="{Binding Time,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=HH:mm:ss}"  Header="Time" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+                <!--<DataGridTextColumn Binding="{Binding OrdID,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=0;;#}" Header="Ord ID" MinWidth="70" Width="SizeToCells" Visibility="Visible"/>-->
+                <DataGridTextColumn Header="Ord ID" MinWidth="120"  Width="SizeToCells" ElementStyle="{StaticResource CellRightAlign}">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0}{1}">
+                            <Binding Path="OrdID" UpdateSourceTrigger="PropertyChanged"/>
+                            <Binding Path="OrdType" UpdateSourceTrigger="PropertyChanged" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding ClientType,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=0;;#}" Header="CltType" MinWidth="60" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellCenterAlign}"/>
+                <DataGridTextColumn Binding="{Binding AvgDirtyPrice,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat=0;;#}" Header="AvgDirtyPrice" MinWidth="100" Width="SizeToCells" Visibility="Visible" ElementStyle="{StaticResource CellRightAlign}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Common:TitleBarHelperClass>
